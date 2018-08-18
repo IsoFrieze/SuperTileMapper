@@ -47,6 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data.cs" />
+    <Compile Include="ImportData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportData.Designer.cs">
+      <DependentUpon>ImportData.cs</DependentUpon>
+    </Compile>
     <Compile Include="SuperTileMapper.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,6 +67,9 @@
     <Compile Include="VRAMEditor.Designer.cs">
       <DependentUpon>VRAMEditor.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ImportData.resx">
+      <DependentUpon>ImportData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SuperTileMapper.resx">
       <DependentUpon>SuperTileMapper.cs</DependentUpon>
     </EmbeddedResource>

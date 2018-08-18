@@ -8,3 +8,4 @@ C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debu
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.pdb
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.SuperTileMapper.resources
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.VRAMEditor.resources
+C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.ImportData.resources

@@ -27,7 +27,8 @@ namespace SuperTileMapper
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            vram = new VRAMEditor();
+            vram.Hide();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -37,14 +38,11 @@ namespace SuperTileMapper
 
         private void vRAMEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (vram == null || vram.IsDisposed)
+            if (vram.IsDisposed)
             {
                 vram = new VRAMEditor();
-                vram.Show();
-            } else
-            {
-                //vram.Close();
             }
+            vram.Show();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -56,6 +54,13 @@ namespace SuperTileMapper
             {
                 Application.Exit();
             }
+        }
+
+        private void SuperTileMapper_Resize(object sender, EventArgs e)
+        {
+            bool vis = (WindowState != FormWindowState.Minimized);
+            if (!vram.IsDisposed && vis) vram.Show();
+            if (!vram.IsDisposed && !vis) vram.Hide();
         }
     }
 }

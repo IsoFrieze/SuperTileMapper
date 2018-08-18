@@ -24,7 +24,8 @@ namespace SuperTileMapper
 
         private void importDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            ImportData import = new ImportData("VRAM", Data.VRAM);
+            import.Show();
         }
 
         private void exportDataToolStripMenuItem_Click(object sender, EventArgs e)

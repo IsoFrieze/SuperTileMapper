@@ -118,8 +118,10 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(528, 575);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(528, 575);
             this.Name = "VRAMEditor";
+            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "VRAM Viewer";
             this.Load += new System.EventHandler(this.VRAMEditor_Load);
