@@ -14,6 +14,8 @@ namespace SuperTileMapper
     {
         bool changes = false;
         VRAMEditor vram;
+        CGRAMEditor cgram;
+        OAMEditor oam;
 
         public SuperTileMapper()
         {
@@ -29,6 +31,10 @@ namespace SuperTileMapper
         {
             vram = new VRAMEditor();
             vram.Hide();
+            cgram = new CGRAMEditor();
+            cgram.Hide();
+            oam = new OAMEditor();
+            oam.Hide();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -43,6 +49,24 @@ namespace SuperTileMapper
                 vram = new VRAMEditor();
             }
             vram.Show();
+        }
+
+        private void cGRAMEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (cgram.IsDisposed)
+            {
+                cgram = new CGRAMEditor();
+            }
+            cgram.Show();
+        }
+
+        private void oAMEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (cgram.IsDisposed)
+            {
+                oam = new OAMEditor();
+            }
+            oam.Show();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -61,6 +85,16 @@ namespace SuperTileMapper
             bool vis = (WindowState != FormWindowState.Minimized);
             if (!vram.IsDisposed && vis) vram.Show();
             if (!vram.IsDisposed && !vis) vram.Hide();
+            if (!cgram.IsDisposed && vis) cgram.Show();
+            if (!cgram.IsDisposed && !vis) cgram.Hide();
+            if (!oam.IsDisposed && vis) oam.Show();
+            if (!oam.IsDisposed && !vis) oam.Hide();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About about = new About();
+            about.ShowDialog();
         }
     }
 }

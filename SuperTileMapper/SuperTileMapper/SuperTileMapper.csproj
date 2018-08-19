@@ -46,12 +46,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CGRAMEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CGRAMEditor.Designer.cs">
+      <DependentUpon>CGRAMEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data.cs" />
+    <Compile Include="ExportData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExportData.Designer.cs">
+      <DependentUpon>ExportData.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImportData.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ImportData.Designer.cs">
       <DependentUpon>ImportData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OAMEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OAMEditor.Designer.cs">
+      <DependentUpon>OAMEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="SuperTileMapper.cs">
       <SubType>Form</SubType>
@@ -68,8 +92,20 @@
     <Compile Include="VRAMEditor.Designer.cs">
       <DependentUpon>VRAMEditor.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CGRAMEditor.resx">
+      <DependentUpon>CGRAMEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExportData.resx">
+      <DependentUpon>ExportData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ImportData.resx">
       <DependentUpon>ImportData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OAMEditor.resx">
+      <DependentUpon>OAMEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SuperTileMapper.resx">
       <DependentUpon>SuperTileMapper.cs</DependentUpon>

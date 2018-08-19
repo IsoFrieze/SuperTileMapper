@@ -10,51 +10,44 @@ using System.Windows.Forms;
 
 namespace SuperTileMapper
 {
-    public partial class VRAMEditor : Form
+    public partial class CGRAMEditor : Form
     {
-        public VRAMEditor()
+        public CGRAMEditor()
         {
             InitializeComponent();
             Redraw();
         }
 
-        private void VRAMEditor_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void importDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ImportData import = new ImportData("VRAM", Data.VRAM);
+            ImportData import = new ImportData("CGRAM", Data.CGRAM);
             DialogResult result = import.ShowDialog();
             if (result == DialogResult.OK) Redraw();
         }
 
         private void exportDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ExportData export = new ExportData("VRAM", Data.VRAM);
+            ExportData export = new ExportData("CGRAM", Data.CGRAM);
             DialogResult result = export.ShowDialog();
             if (result == DialogResult.OK) Redraw();
         }
 
         private void Redraw()
         {
-            // TODO
-            Color[] colors = new Color[] { Color.Gray, Color.Black, Color.Green, Color.Cyan };
-            Bitmap img = new Bitmap(512, 512);
-            for (int ty = 0; ty < 64; ty++)
+            Bitmap img = new Bitmap(256, 256);
+            for (int cy = 0; cy < 16; cy++)
             {
-                for (int tx = 0; tx < 64; tx++)
+                for (int cx = 0; cx < 16; cx++)
                 {
-                    for (int py = 0; py < 8; py++)
+                    for (int py = 0; py < 16; py++)
                     {
-                        for (int px = 0; px < 8; px++)
+                        for (int px = 0; px < 16; px++)
                         {
-                            int i = 0x400 * ty + 0x10 * tx + 2 * py;
-                            int b0 = 0x01 & Data.VRAM[i] >> (7 - px);
-                            int b1 = 0x01 & Data.VRAM[i + 1] >> (7 - px);
-                            int x = b0 + 2 * b1;
-                            img.SetPixel(8 * tx + px, 8 * ty + py, colors[x]);
+                            int i = 2 * (cy * 0x10 + cx);
+                            int r = (Data.CGRAM[i] & 0x1F) << 3;
+                            int g = ((Data.CGRAM[i] & 0xE0) >> 2) | ((Data.CGRAM[i+1] & 0x03) << 6);
+                            int b = (Data.CGRAM[i+1] & 0x7C) << 1;
+                            img.SetPixel(16 * cx + px, 16 * cy + py, Color.FromArgb(r, g, b));
                         }
                     }
                 }

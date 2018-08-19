@@ -66,7 +66,7 @@ namespace SuperTileMapper
 
                 for (int i = 0; i < len; i++)
                 {
-                    destination[destOffset + i] = source[srcOffset + i + Util.Endianness[comboBox4.SelectedIndex, i % 2]];
+                    destination[(destOffset + i) % destination.Length] = source[srcOffset + i + Util.Endianness[comboBox4.SelectedIndex, i % 2]];
                 }
 
                 this.DialogResult = DialogResult.OK;
@@ -86,7 +86,7 @@ namespace SuperTileMapper
                 try
                 {
                     source = File.ReadAllBytes(file);
-                    len = source.Length >= 0x10000 ? 0x10000 : source.Length;
+                    len = source.Length >= destination.Length ? destination.Length : source.Length;
 
                     textBox1.Text = file;
                     textBox2.Text = len.ToString();

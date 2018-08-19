@@ -50,6 +50,7 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.importDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oBJEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -150,7 +151,8 @@
             this.oAMEditorToolStripMenuItem,
             this.pPURegistersToolStripMenuItem,
             this.toolStripSeparator2,
-            this.tilemapEditorToolStripMenuItem});
+            this.tilemapEditorToolStripMenuItem,
+            this.oBJEditorToolStripMenuItem});
             this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
             this.windowToolStripMenuItem.ShowShortcutKeys = false;
             this.windowToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
@@ -165,17 +167,17 @@
             // 
             // cGRAMEditorToolStripMenuItem
             // 
-            this.cGRAMEditorToolStripMenuItem.Enabled = false;
             this.cGRAMEditorToolStripMenuItem.Name = "cGRAMEditorToolStripMenuItem";
-            this.cGRAMEditorToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.cGRAMEditorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.cGRAMEditorToolStripMenuItem.Text = "CGRAM";
+            this.cGRAMEditorToolStripMenuItem.Click += new System.EventHandler(this.cGRAMEditorToolStripMenuItem_Click);
             // 
             // oAMEditorToolStripMenuItem
             // 
-            this.oAMEditorToolStripMenuItem.Enabled = false;
             this.oAMEditorToolStripMenuItem.Name = "oAMEditorToolStripMenuItem";
-            this.oAMEditorToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.oAMEditorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.oAMEditorToolStripMenuItem.Text = "OAM";
+            this.oAMEditorToolStripMenuItem.Click += new System.EventHandler(this.oAMEditorToolStripMenuItem_Click);
             // 
             // pPURegistersToolStripMenuItem
             // 
@@ -207,10 +209,10 @@
             // 
             // aboutToolStripMenuItem
             // 
-            this.aboutToolStripMenuItem.Enabled = false;
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // pictureBox1
             // 
@@ -228,6 +230,13 @@
             this.importDataToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
             this.importDataToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.importDataToolStripMenuItem.Text = "Import Data...";
+            // 
+            // oBJEditorToolStripMenuItem
+            // 
+            this.oBJEditorToolStripMenuItem.Enabled = false;
+            this.oBJEditorToolStripMenuItem.Name = "oBJEditorToolStripMenuItem";
+            this.oBJEditorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.oBJEditorToolStripMenuItem.Text = "OBJ Editor";
             // 
             // SuperTileMapper
             // 
@@ -276,6 +285,7 @@
         private System.Windows.Forms.ToolStripMenuItem saveProjectAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem noneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem oBJEditorToolStripMenuItem;
     }
 }
 
