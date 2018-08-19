@@ -264,6 +264,7 @@
             this.MinimumSize = new System.Drawing.Size(370, 250);
             this.Name = "ImportData";
             this.RightToLeftLayout = true;
+            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Import Data";

@@ -16,6 +16,7 @@ namespace SuperTileMapper
         VRAMEditor vram;
         CGRAMEditor cgram;
         OAMEditor oam;
+        PPURegEditor ppu;
 
         public SuperTileMapper()
         {
@@ -30,11 +31,17 @@ namespace SuperTileMapper
         private void Form1_Load(object sender, EventArgs e)
         {
             vram = new VRAMEditor();
-            vram.Hide();
+            vram.Close();
             cgram = new CGRAMEditor();
-            cgram.Hide();
+            cgram.Close();
             oam = new OAMEditor();
-            oam.Hide();
+            oam.Close();
+            ppu = new PPURegEditor();
+            ppu.Close();
+            Data.PPURegs[0x00] = 0x0F;
+            Data.PPURegs[0x1B] = 0x100;
+            Data.PPURegs[0x1E] = 0x100;
+            Data.PPURegs[0x30] = 0x30;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -62,11 +69,20 @@ namespace SuperTileMapper
 
         private void oAMEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (cgram.IsDisposed)
+            if (oam.IsDisposed)
             {
                 oam = new OAMEditor();
             }
             oam.Show();
+        }
+
+        private void pPURegistersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ppu.IsDisposed)
+            {
+                ppu = new PPURegEditor();
+            }
+            ppu.Show();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -89,6 +105,8 @@ namespace SuperTileMapper
             if (!cgram.IsDisposed && !vis) cgram.Hide();
             if (!oam.IsDisposed && vis) oam.Show();
             if (!oam.IsDisposed && !vis) oam.Hide();
+            if (!ppu.IsDisposed && vis) ppu.Show();
+            if (!ppu.IsDisposed && !vis) ppu.Hide();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)

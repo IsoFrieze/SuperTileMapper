@@ -13,3 +13,4 @@ C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debu
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.CGRAMEditor.resources
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.About.resources
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.OAMEditor.resources
+C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.PPURegEditor.resources

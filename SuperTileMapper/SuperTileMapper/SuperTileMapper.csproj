@@ -77,6 +77,12 @@
     <Compile Include="OAMEditor.Designer.cs">
       <DependentUpon>OAMEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="PPURegEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PPURegEditor.Designer.cs">
+      <DependentUpon>PPURegEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="SuperTileMapper.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,6 +113,9 @@
     <EmbeddedResource Include="OAMEditor.resx">
       <DependentUpon>OAMEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PPURegEditor.resx">
+      <DependentUpon>PPURegEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SuperTileMapper.resx">
       <DependentUpon>SuperTileMapper.cs</DependentUpon>
     </EmbeddedResource>
@@ -122,6 +131,7 @@
     <EmbeddedResource Include="VRAMEditor.resx">
       <DependentUpon>VRAMEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\Data.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

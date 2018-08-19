@@ -77,7 +77,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(256, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(512, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -181,10 +181,10 @@
             // 
             // pPURegistersToolStripMenuItem
             // 
-            this.pPURegistersToolStripMenuItem.Enabled = false;
             this.pPURegistersToolStripMenuItem.Name = "pPURegistersToolStripMenuItem";
-            this.pPURegistersToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.pPURegistersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.pPURegistersToolStripMenuItem.Text = "PPU Registers";
+            this.pPURegistersToolStripMenuItem.Click += new System.EventHandler(this.pPURegistersToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -219,7 +219,7 @@
             this.pictureBox1.Location = new System.Drawing.Point(0, 24);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(256, 239);
+            this.pictureBox1.Size = new System.Drawing.Size(512, 478);
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             // 
@@ -242,13 +242,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(256, 263);
+            this.ClientSize = new System.Drawing.Size(512, 502);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(272, 302);
-            this.MinimumSize = new System.Drawing.Size(272, 302);
+            this.MaximumSize = new System.Drawing.Size(528, 541);
+            this.MinimumSize = new System.Drawing.Size(528, 541);
             this.Name = "SuperTileMapper";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Super Tile Mapper";

@@ -43,16 +43,17 @@ namespace SuperTileMapper
                     {
                         for (int px = 0; px < 16; px++)
                         {
-                            int i = 2 * (cy * 0x10 + cx);
-                            int r = (Data.CGRAM[i] & 0x1F) << 3;
-                            int g = ((Data.CGRAM[i] & 0xE0) >> 2) | ((Data.CGRAM[i+1] & 0x03) << 6);
-                            int b = (Data.CGRAM[i+1] & 0x7C) << 1;
-                            img.SetPixel(16 * cx + px, 16 * cy + py, Color.FromArgb(r, g, b));
+                            img.SetPixel(16 * cx + px, 16 * cy + py, Data.GetCGRAMColor(cy * 0x10 + cx));
                         }
                     }
                 }
             }
             pictureBox1.Image = img;
+        }
+
+        private void CGRAMEditor_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

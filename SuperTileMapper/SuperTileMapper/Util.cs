@@ -34,9 +34,16 @@ namespace SuperTileMapper
             }
         }
 
-        public static string DecToHex(int val)
+        public static string DecToHex(int val, int digits)
         {
-            return val.ToString("X");
+            string hex = (val & (digits == 4 ? 0xFFFF : 0xFF)).ToString("X");
+            int idx = digits - hex.Length;
+            return "00000000".Substring(0, idx < 0 ? 0 : idx) + hex;
+        }
+
+        public static int clamp(int val, int min, int max)
+        {
+            return (val < min ? min : (val > max ? max : val));
         }
     }
 }
