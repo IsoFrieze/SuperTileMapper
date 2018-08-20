@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,15 +13,35 @@ namespace SuperTileMapper
 {
     public partial class SuperTileMapper : Form
     {
-        bool changes = false;
-        VRAMEditor vram;
-        CGRAMEditor cgram;
-        OAMEditor oam;
-        PPURegEditor ppu;
+        public static bool changes = false;
+        public static VRAMEditor vram;
+        public static CGRAMEditor cgram;
+        public static OAMEditor oam;
+        public static PPURegEditor ppu;
 
         public SuperTileMapper()
         {
             InitializeComponent();
+            try
+            {
+                byte[] cgram = File.ReadAllBytes("C:\\Users\\Alex\\Documents\\SuperTileMapper\\testdata\\cgram.bin");
+                byte[] vram = File.ReadAllBytes("C:\\Users\\Alex\\Documents\\SuperTileMapper\\testdata\\vram.bin");
+                byte[] oam = File.ReadAllBytes("C:\\Users\\Alex\\Documents\\SuperTileMapper\\testdata\\oam.bin");
+                byte[] ppu = File.ReadAllBytes("C:\\Users\\Alex\\Documents\\SuperTileMapper\\testdata\\ppuregs.bin");
+
+                for (int i = 0; i < cgram.Length; i++)
+                    Data.CGRAM[i] = cgram[i];
+                for (int i = 0; i < vram.Length; i++)
+                    Data.VRAM[i] = vram[i];
+                for (int i = 0; i < oam.Length; i++)
+                    Data.OAM[i] = oam[i];
+                for (int i = 0; i < ppu.Length; i+=2)
+                    Data.PPURegs[i/2] = (short)(ppu[i] | (ppu[i+1]<<8));
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -38,10 +59,10 @@ namespace SuperTileMapper
             oam.Close();
             ppu = new PPURegEditor();
             ppu.Close();
-            Data.PPURegs[0x00] = 0x0F;
-            Data.PPURegs[0x1B] = 0x100;
-            Data.PPURegs[0x1E] = 0x100;
-            Data.PPURegs[0x30] = 0x30;
+            //Data.PPURegs[0x00] = 0x0F;
+            //Data.PPURegs[0x1B] = 0x100;
+            //Data.PPURegs[0x1E] = 0x100;
+            //Data.PPURegs[0x30] = 0x30;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)

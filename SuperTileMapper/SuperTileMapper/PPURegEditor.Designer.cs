@@ -216,14 +216,14 @@
             this.reg2128 = new System.Windows.Forms.TextBox();
             this.groupBox34 = new System.Windows.Forms.GroupBox();
             this.label47 = new System.Windows.Forms.Label();
+            this.label50 = new System.Windows.Forms.Label();
             this.label48 = new System.Windows.Forms.Label();
+            this.bg4winlog = new System.Windows.Forms.TextBox();
             this.bg3winlog = new System.Windows.Forms.TextBox();
             this.reg212A = new System.Windows.Forms.TextBox();
             this.label49 = new System.Windows.Forms.Label();
             this.bg1winlog = new System.Windows.Forms.TextBox();
             this.bg2winlog = new System.Windows.Forms.TextBox();
-            this.label50 = new System.Windows.Forms.Label();
-            this.bg4winlog = new System.Windows.Forms.TextBox();
             this.groupBox35 = new System.Windows.Forms.GroupBox();
             this.label51 = new System.Windows.Forms.Label();
             this.objwinlog = new System.Windows.Forms.TextBox();
@@ -231,12 +231,12 @@
             this.label53 = new System.Windows.Forms.Label();
             this.colorwinlog = new System.Windows.Forms.TextBox();
             this.groupBox36 = new System.Windows.Forms.GroupBox();
-            this.reg212C = new System.Windows.Forms.TextBox();
+            this.objtm = new System.Windows.Forms.CheckBox();
             this.bg1tm = new System.Windows.Forms.CheckBox();
             this.bg2tm = new System.Windows.Forms.CheckBox();
+            this.reg212C = new System.Windows.Forms.TextBox();
             this.bg3tm = new System.Windows.Forms.CheckBox();
             this.bg4tm = new System.Windows.Forms.CheckBox();
-            this.objtm = new System.Windows.Forms.CheckBox();
             this.groupBox37 = new System.Windows.Forms.GroupBox();
             this.objts = new System.Windows.Forms.CheckBox();
             this.bg1ts = new System.Windows.Forms.CheckBox();
@@ -259,14 +259,14 @@
             this.bg3tmw = new System.Windows.Forms.CheckBox();
             this.bg4tmw = new System.Windows.Forms.CheckBox();
             this.groupBox40 = new System.Windows.Forms.GroupBox();
+            this.label55 = new System.Windows.Forms.Label();
+            this.colorwinmain = new System.Windows.Forms.TextBox();
             this.label52 = new System.Windows.Forms.Label();
             this.directcolor = new System.Windows.Forms.CheckBox();
             this.label54 = new System.Windows.Forms.Label();
             this.colorwinsub = new System.Windows.Forms.TextBox();
             this.reg2130 = new System.Windows.Forms.TextBox();
             this.addsubfixed = new System.Windows.Forms.CheckBox();
-            this.label55 = new System.Windows.Forms.Label();
-            this.colorwinmain = new System.Windows.Forms.TextBox();
             this.groupBox41 = new System.Windows.Forms.GroupBox();
             this.objaddsuben = new System.Windows.Forms.CheckBox();
             this.backaddsuben = new System.Windows.Forms.CheckBox();
@@ -278,6 +278,7 @@
             this.bg3addsuben = new System.Windows.Forms.CheckBox();
             this.bg4addsuben = new System.Windows.Forms.CheckBox();
             this.groupBox42 = new System.Windows.Forms.GroupBox();
+            this.reg2132 = new System.Windows.Forms.TextBox();
             this.label56 = new System.Windows.Forms.Label();
             this.label57 = new System.Windows.Forms.Label();
             this.fixedred = new System.Windows.Forms.TextBox();
@@ -292,7 +293,6 @@
             this.interlace = new System.Windows.Forms.CheckBox();
             this.reg2133 = new System.Windows.Forms.TextBox();
             this.objvdisp = new System.Windows.Forms.CheckBox();
-            this.reg2132 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -2414,6 +2414,15 @@
             this.label47.TabIndex = 5;
             this.label47.Text = "BG3";
             // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(257, 20);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(28, 13);
+            this.label50.TabIndex = 11;
+            this.label50.Text = "BG4";
+            // 
             // label48
             // 
             this.label48.AutoSize = true;
@@ -2422,6 +2431,17 @@
             this.label48.Size = new System.Drawing.Size(28, 13);
             this.label48.TabIndex = 7;
             this.label48.Text = "BG1";
+            // 
+            // bg4winlog
+            // 
+            this.bg4winlog.Location = new System.Drawing.Point(227, 17);
+            this.bg4winlog.MaxLength = 3;
+            this.bg4winlog.Name = "bg4winlog";
+            this.bg4winlog.Size = new System.Drawing.Size(28, 20);
+            this.bg4winlog.TabIndex = 112;
+            this.bg4winlog.Text = "0";
+            this.bg4winlog.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.bg4winlog.TextChanged += new System.EventHandler(this.bg4winlog_TextChanged);
             // 
             // bg3winlog
             // 
@@ -2475,26 +2495,6 @@
             this.bg2winlog.Text = "0";
             this.bg2winlog.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.bg2winlog.TextChanged += new System.EventHandler(this.bg2winlog_TextChanged);
-            // 
-            // label50
-            // 
-            this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(257, 20);
-            this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(28, 13);
-            this.label50.TabIndex = 11;
-            this.label50.Text = "BG4";
-            // 
-            // bg4winlog
-            // 
-            this.bg4winlog.Location = new System.Drawing.Point(227, 17);
-            this.bg4winlog.MaxLength = 3;
-            this.bg4winlog.Name = "bg4winlog";
-            this.bg4winlog.Size = new System.Drawing.Size(28, 20);
-            this.bg4winlog.TabIndex = 112;
-            this.bg4winlog.Text = "0";
-            this.bg4winlog.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.bg4winlog.TextChanged += new System.EventHandler(this.bg4winlog_TextChanged);
             // 
             // groupBox35
             // 
@@ -2576,16 +2576,16 @@
             this.groupBox36.TabStop = false;
             this.groupBox36.Text = "$212C - TM";
             // 
-            // reg212C
+            // objtm
             // 
-            this.reg212C.Location = new System.Drawing.Point(6, 17);
-            this.reg212C.MaxLength = 3;
-            this.reg212C.Name = "reg212C";
-            this.reg212C.ReadOnly = true;
-            this.reg212C.Size = new System.Drawing.Size(28, 20);
-            this.reg212C.TabIndex = 116;
-            this.reg212C.Text = "$00";
-            this.reg212C.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.objtm.AutoSize = true;
+            this.objtm.Location = new System.Drawing.Point(53, 19);
+            this.objtm.Name = "objtm";
+            this.objtm.Size = new System.Drawing.Size(46, 17);
+            this.objtm.TabIndex = 117;
+            this.objtm.Text = "OBJ";
+            this.objtm.UseVisualStyleBackColor = true;
+            this.objtm.CheckedChanged += new System.EventHandler(this.objtm_CheckedChanged);
             // 
             // bg1tm
             // 
@@ -2609,6 +2609,17 @@
             this.bg2tm.UseVisualStyleBackColor = true;
             this.bg2tm.CheckedChanged += new System.EventHandler(this.bg2tm_CheckedChanged);
             // 
+            // reg212C
+            // 
+            this.reg212C.Location = new System.Drawing.Point(6, 17);
+            this.reg212C.MaxLength = 3;
+            this.reg212C.Name = "reg212C";
+            this.reg212C.ReadOnly = true;
+            this.reg212C.Size = new System.Drawing.Size(28, 20);
+            this.reg212C.TabIndex = 116;
+            this.reg212C.Text = "$00";
+            this.reg212C.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
             // bg3tm
             // 
             this.bg3tm.AutoSize = true;
@@ -2630,17 +2641,6 @@
             this.bg4tm.Text = "BG4";
             this.bg4tm.UseVisualStyleBackColor = true;
             this.bg4tm.CheckedChanged += new System.EventHandler(this.bg4tm_CheckedChanged);
-            // 
-            // objtm
-            // 
-            this.objtm.AutoSize = true;
-            this.objtm.Location = new System.Drawing.Point(53, 19);
-            this.objtm.Name = "objtm";
-            this.objtm.Size = new System.Drawing.Size(46, 17);
-            this.objtm.TabIndex = 117;
-            this.objtm.Text = "OBJ";
-            this.objtm.UseVisualStyleBackColor = true;
-            this.objtm.CheckedChanged += new System.EventHandler(this.objtm_CheckedChanged);
             // 
             // groupBox37
             // 
@@ -2902,6 +2902,26 @@
             this.groupBox40.TabStop = false;
             this.groupBox40.Text = "$2130 - CGSWSEL";
             // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(197, 20);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(30, 13);
+            this.label55.TabIndex = 16;
+            this.label55.Text = "Main";
+            // 
+            // colorwinmain
+            // 
+            this.colorwinmain.Location = new System.Drawing.Point(167, 17);
+            this.colorwinmain.MaxLength = 3;
+            this.colorwinmain.Name = "colorwinmain";
+            this.colorwinmain.Size = new System.Drawing.Size(27, 20);
+            this.colorwinmain.TabIndex = 141;
+            this.colorwinmain.Text = "0";
+            this.colorwinmain.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.colorwinmain.TextChanged += new System.EventHandler(this.colorwinmain_TextChanged);
+            // 
             // label52
             // 
             this.label52.AutoSize = true;
@@ -2915,6 +2935,7 @@
             // directcolor
             // 
             this.directcolor.AutoSize = true;
+            this.directcolor.Enabled = false;
             this.directcolor.Location = new System.Drawing.Point(206, 44);
             this.directcolor.Name = "directcolor";
             this.directcolor.Size = new System.Drawing.Size(81, 17);
@@ -2964,26 +2985,6 @@
             this.addsubfixed.Text = "Fixed / Subscreen";
             this.addsubfixed.UseVisualStyleBackColor = true;
             this.addsubfixed.CheckedChanged += new System.EventHandler(this.addsubfixed_CheckedChanged);
-            // 
-            // label55
-            // 
-            this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(197, 20);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(30, 13);
-            this.label55.TabIndex = 16;
-            this.label55.Text = "Main";
-            // 
-            // colorwinmain
-            // 
-            this.colorwinmain.Location = new System.Drawing.Point(167, 17);
-            this.colorwinmain.MaxLength = 3;
-            this.colorwinmain.Name = "colorwinmain";
-            this.colorwinmain.Size = new System.Drawing.Size(27, 20);
-            this.colorwinmain.TabIndex = 141;
-            this.colorwinmain.Text = "0";
-            this.colorwinmain.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.colorwinmain.TextChanged += new System.EventHandler(this.colorwinmain_TextChanged);
             // 
             // groupBox41
             // 
@@ -3117,6 +3118,17 @@
             this.groupBox42.TabIndex = 10;
             this.groupBox42.TabStop = false;
             this.groupBox42.Text = "$2132 - COLDATA";
+            // 
+            // reg2132
+            // 
+            this.reg2132.Location = new System.Drawing.Point(6, 17);
+            this.reg2132.MaxLength = 5;
+            this.reg2132.Name = "reg2132";
+            this.reg2132.ReadOnly = true;
+            this.reg2132.Size = new System.Drawing.Size(40, 20);
+            this.reg2132.TabIndex = 154;
+            this.reg2132.Text = "$0000";
+            this.reg2132.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label56
             // 
@@ -3275,17 +3287,6 @@
             this.objvdisp.Text = "OBJ VDisp";
             this.objvdisp.UseVisualStyleBackColor = true;
             this.objvdisp.CheckedChanged += new System.EventHandler(this.objvdisp_CheckedChanged);
-            // 
-            // reg2132
-            // 
-            this.reg2132.Location = new System.Drawing.Point(6, 17);
-            this.reg2132.MaxLength = 5;
-            this.reg2132.Name = "reg2132";
-            this.reg2132.ReadOnly = true;
-            this.reg2132.Size = new System.Drawing.Size(40, 20);
-            this.reg2132.TabIndex = 154;
-            this.reg2132.Text = "$0000";
-            this.reg2132.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // PPURegEditor
             // 

@@ -32,7 +32,7 @@ namespace SuperTileMapper
             if (result == DialogResult.OK) Redraw();
         }
 
-        private void Redraw()
+        public void Redraw()
         {
             Bitmap img = new Bitmap(256, 256);
             for (int cy = 0; cy < 16; cy++)
