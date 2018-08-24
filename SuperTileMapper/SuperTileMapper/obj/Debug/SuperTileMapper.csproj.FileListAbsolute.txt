@@ -1,7 +1,6 @@
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\bin\Debug\SuperTileMapper.exe.config
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\bin\Debug\SuperTileMapper.exe
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\bin\Debug\SuperTileMapper.pdb
-C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.csprojResolveAssemblyReference.cache
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.Properties.Resources.resources
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.csproj.GenerateResource.Cache
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.exe
@@ -14,3 +13,6 @@ C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debu
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.About.resources
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.OAMEditor.resources
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.PPURegEditor.resources
+C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\Be.Windows.Forms.HexBox.resources
+C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.Be.Windows.Forms.HexBox.Properties.Resources.resources
+C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.TilemapEditor.resources
