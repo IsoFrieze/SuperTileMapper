@@ -34,6 +34,7 @@ namespace SuperTileMapper
                 RedrawAll();
                 if (showDetails >= 0) UpdateDetails();
                 UpdateHexEditor(0);
+                SuperTileMapper.oam.RedrawAll();
             }
         }
 
@@ -75,6 +76,7 @@ namespace SuperTileMapper
         public void RedrawAll()
         {
             for (int i = 0; i < 0x100; i++) Redraw(i);
+            if (showDetails >= 0) UpdateDetails();
         }
 
         public void Redraw(int color)
@@ -158,6 +160,7 @@ namespace SuperTileMapper
                 Data.CGRAM[2 * showDetails + 1] = (byte)((cg & 0x7F00) >> 8);
                 UpdateDetails();
                 Redraw(showDetails);
+                SuperTileMapper.oam.RedrawAll();
             }
         }
 
@@ -173,12 +176,10 @@ namespace SuperTileMapper
                     UpdateDetails();
                     Redraw(showDetails);
                     UpdateHexEditor(showDetails);
+                    SuperTileMapper.oam.RedrawAll();
                 } else if (e.KeyCode == Keys.Escape)
                 {
-                    updatingDetails = true;
-                    int oldVal = (Data.CGRAM[2 * showDetails] | (Data.CGRAM[2 * showDetails + 1] << 8));
-                    textBox1.Text = "$" + Util.DecToHex(oldVal, 4);
-                    updatingDetails = false;
+                    textBox1_Leave(sender, e);
                 }
             }
         }
@@ -194,13 +195,11 @@ namespace SuperTileMapper
                     UpdateDetails();
                     Redraw(showDetails);
                     UpdateHexEditor(showDetails);
+                    SuperTileMapper.oam.RedrawAll();
                 }
                 else if (e.KeyCode == Keys.Escape)
                 {
-                    updatingDetails = true;
-                    int oldVal = Data.CGRAM[2 * showDetails] & 0x1F;
-                    textBox2.Text = "$" + Util.DecToHex(oldVal, 2);
-                    updatingDetails = false;
+                    textBox2_Leave(sender, e);
                 }
             }
         }
@@ -217,13 +216,11 @@ namespace SuperTileMapper
                     UpdateDetails();
                     Redraw(showDetails);
                     UpdateHexEditor(showDetails);
+                    SuperTileMapper.oam.RedrawAll();
                 }
                 else if (e.KeyCode == Keys.Escape)
                 {
-                    updatingDetails = true;
-                    int oldVal = (((Data.CGRAM[2 * showDetails] & 0xE0) >> 5) | ((Data.CGRAM[2 * showDetails + 1] & 0x03) << 3));
-                    textBox3.Text = "$" + Util.DecToHex(oldVal, 2);
-                    updatingDetails = false;
+                    textBox3_Leave(sender, e);
                 }
             }
         }
@@ -239,13 +236,11 @@ namespace SuperTileMapper
                     UpdateDetails();
                     Redraw(showDetails);
                     UpdateHexEditor(showDetails);
+                    SuperTileMapper.oam.RedrawAll();
                 }
                 else if (e.KeyCode == Keys.Escape)
                 {
-                    updatingDetails = true;
-                    int oldVal = (Data.CGRAM[2 * showDetails + 1] & 0x7C) >> 2;
-                    textBox4.Text = "$" + Util.DecToHex(oldVal, 2);
-                    updatingDetails = false;
+                    textBox4_Leave(sender, e);
                 }
             }
         }
@@ -284,16 +279,19 @@ namespace SuperTileMapper
         private void trackBar3_MouseUp(object sender, MouseEventArgs e)
         {
             UpdateHexEditor(showDetails);
+            SuperTileMapper.oam.RedrawAll();
         }
 
         private void trackBar1_MouseUp(object sender, MouseEventArgs e)
         {
             UpdateHexEditor(showDetails);
+            SuperTileMapper.oam.RedrawAll();
         }
 
         private void trackBar2_MouseUp(object sender, MouseEventArgs e)
         {
             UpdateHexEditor(showDetails);
+            SuperTileMapper.oam.RedrawAll();
         }
 
         private void hexBox1_KeyDown(object sender, KeyEventArgs e)
@@ -310,6 +308,39 @@ namespace SuperTileMapper
             {
                 UpdateDetails();
             }
+            if (SuperTileMapper.oam != null) SuperTileMapper.oam.RedrawAll();
+        }
+
+        private void textBox1_Leave(object sender, EventArgs e)
+        {
+            updatingDetails = true;
+            int oldVal = (Data.CGRAM[2 * showDetails] | (Data.CGRAM[2 * showDetails + 1] << 8));
+            textBox1.Text = "$" + Util.DecToHex(oldVal, 4);
+            updatingDetails = false;
+        }
+
+        private void textBox2_Leave(object sender, EventArgs e)
+        {
+            updatingDetails = true;
+            int oldVal = Data.CGRAM[2 * showDetails] & 0x1F;
+            textBox2.Text = "$" + Util.DecToHex(oldVal, 2);
+            updatingDetails = false;
+        }
+
+        private void textBox3_Leave(object sender, EventArgs e)
+        {
+            updatingDetails = true;
+            int oldVal = (((Data.CGRAM[2 * showDetails] & 0xE0) >> 5) | ((Data.CGRAM[2 * showDetails + 1] & 0x03) << 3));
+            textBox3.Text = "$" + Util.DecToHex(oldVal, 2);
+            updatingDetails = false;
+        }
+
+        private void textBox4_Leave(object sender, EventArgs e)
+        {
+            updatingDetails = true;
+            int oldVal = (Data.CGRAM[2 * showDetails + 1] & 0x7C) >> 2;
+            textBox4.Text = "$" + Util.DecToHex(oldVal, 2);
+            updatingDetails = false;
         }
     }
 }

@@ -36,7 +36,7 @@ namespace SuperTileMapper
 
         public static string DecToHex(int val, int digits)
         {
-            string hex = (val & (digits == 4 ? 0xFFFF : 0xFF)).ToString("X");
+            string hex = (val & (digits == 4 ? 0xFFFF : (digits == 3 ? 0xFFF : 0xFF))).ToString("X");
             int idx = digits - hex.Length;
             return "00000000".Substring(0, idx < 0 ? 0 : idx) + hex;
         }

@@ -264,19 +264,19 @@ namespace SuperTileMapper
         private void objsize_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x01, reg2101, 2, objsize, 0xE0);
-            SuperTileMapper.oam.Redraw();
+            SuperTileMapper.oam.RedrawAll();
         }
 
         private void objselect_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x01, reg2101, 2, objselect, 0x18);
-            SuperTileMapper.oam.Redraw();
+            SuperTileMapper.oam.RedrawAll();
         }
 
         private void objbase_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x01, reg2101, 2, objbase, 0x07);
-            SuperTileMapper.oam.Redraw();
+            SuperTileMapper.oam.RedrawAll();
         }
 
         private void objpriority_TextChanged(object sender, EventArgs e)

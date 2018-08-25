@@ -152,7 +152,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(96, 76);
+            this.label4.Location = new System.Drawing.Point(125, 76);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(14, 13);
             this.label4.TabIndex = 11;
@@ -161,7 +161,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(96, 47);
+            this.label3.Location = new System.Drawing.Point(125, 47);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(15, 13);
             this.label3.TabIndex = 10;
@@ -170,7 +170,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(96, 18);
+            this.label2.Location = new System.Drawing.Point(125, 18);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(15, 13);
             this.label2.TabIndex = 9;
@@ -178,7 +178,7 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(111, 73);
+            this.textBox4.Location = new System.Drawing.Point(97, 73);
             this.textBox4.MaxLength = 3;
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(27, 20);
@@ -186,10 +186,11 @@
             this.textBox4.Text = "$00";
             this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.textBox4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox4_KeyDown);
+            this.textBox4.Leave += new System.EventHandler(this.textBox4_Leave);
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(111, 44);
+            this.textBox3.Location = new System.Drawing.Point(97, 44);
             this.textBox3.MaxLength = 3;
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(27, 20);
@@ -197,10 +198,11 @@
             this.textBox3.Text = "$00";
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.textBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox3_KeyDown);
+            this.textBox3.Leave += new System.EventHandler(this.textBox3_Leave);
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(111, 15);
+            this.textBox2.Location = new System.Drawing.Point(97, 15);
             this.textBox2.MaxLength = 3;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(27, 20);
@@ -208,6 +210,7 @@
             this.textBox2.Text = "$00";
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
+            this.textBox2.Leave += new System.EventHandler(this.textBox2_Leave);
             // 
             // textBox1
             // 
@@ -219,6 +222,7 @@
             this.textBox1.Text = "$0000";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
+            this.textBox1.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
             // trackBar2
             // 
