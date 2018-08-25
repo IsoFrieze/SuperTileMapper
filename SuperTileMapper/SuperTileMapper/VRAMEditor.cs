@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Be.Windows.Forms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +13,10 @@ namespace SuperTileMapper
 {
     public partial class VRAMEditor : Form
     {
+        bool showHexEditor = false;
+        int showDetails = -1;
+        bool updatingDetails = false;
+
         int bpp = 0;
         int pal = 0;
         int zoom = 1;
@@ -19,7 +24,10 @@ namespace SuperTileMapper
         public VRAMEditor()
         {
             InitializeComponent();
-            Redraw();
+            RedrawAll();
+            ResizeMe();
+            hexBox1.ByteProvider = new DynamicByteProvider(Data.VRAM);
+            pictureBox2.Image = new Bitmap(64, 64);
         }
 
         private void VRAMEditor_Load(object sender, EventArgs e)
@@ -31,55 +39,124 @@ namespace SuperTileMapper
         {
             ImportData import = new ImportData("VRAM", Data.VRAM);
             DialogResult result = import.ShowDialog();
-            if (result == DialogResult.OK) Redraw();
+            if (result == DialogResult.OK)
+            {
+                RedrawAll();
+                if (showDetails >= 0) UpdateDetails();
+                UpdateHexEditor(0);
+            }
         }
 
         private void exportDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ExportData export = new ExportData("VRAM", Data.VRAM);
             DialogResult result = export.ShowDialog();
-            if (result == DialogResult.OK) Redraw();
         }
 
-        public void Redraw()
+        private void SetSize(Size s)
         {
-            Bitmap img = new Bitmap((bpp == 0 ? 512 : 256) * zoom, (bpp < 2 ? 512 : 256) * zoom);
-            for (int ty = 0; ty < (bpp < 2 ? 0x40 : 0x20); ty++)
+            this.MaximumSize = s;
+            this.MinimumSize = s;
+            this.Size = s;
+        }
+        public void ResizeMe()
+        {
+            hexEditorToolStripMenuItem.Checked = showHexEditor;
+            tileDetailsToolStripMenuItem.Checked = (showDetails >= 0);
+            if (showHexEditor && (showDetails >= 0))
             {
-                for (int tx = 0; tx < (bpp == 0 ? 0x40 : 0x20); tx++)
+                SetSize(new Size(956, 675));
+                hexBox1.Height = 612;
+            }
+            else if (showHexEditor)
+            {
+                SetSize(new Size(956, 575));
+                hexBox1.Height = 512;
+            }
+            else if ((showDetails >= 0))
+            {
+                SetSize(new Size(528, 675));
+            }
+            else
+            {
+                SetSize(new Size(528, 575));
+            }
+            hexBox1.Visible = showHexEditor;
+            panel2.Visible = (showDetails >= 0);
+        }
+
+        public void RedrawAll()
+        {
+            if (pictureBox1.Image != null) pictureBox1.Image.Dispose();
+            Bitmap img = new Bitmap(512 * zoom, (bpp == 0 ? 512 : (bpp == 1 ? 256 : 128)) * zoom);
+            pictureBox1.Image = img;
+
+            for (int i = 0; i < (bpp == 0 ? 0x1000 : (bpp == 1 ? 0x800 : 0x400)); i++) Redraw(i);
+
+            pictureBox1.Width = img.Width;
+            pictureBox1.Height = img.Height;
+
+            if (showDetails >= 0) UpdateDetails();
+        }
+
+        public void Redraw(int tile)
+        {
+            Bitmap img = (Bitmap)pictureBox1.Image;
+            DrawTile(tile, img, 8*(tile % 0x40), 8*(tile/0x40), zoom);
+            pictureBox1.Image = img;
+        }
+
+        private void DrawTile(int tile, Bitmap img, int x, int y, int zoom)
+        {
+            for (int py = 0; py < 8; py++)
+            {
+                for (int px = 0; px < 8; px++)
                 {
-                    int tile = (bpp == 0 ? 0x40 : 0x20) * ty + tx;
-                    for (int py = 0; py < 8; py++)
+                    int i = ((0x10 * tile) * (bpp == 0 ? 1 : (bpp == 1 ? 2 : 4))) + 2 * py;
+                    int b0 = 0x01 & Data.VRAM[(0x00 + i + 0) % Data.VRAM.Length] >> (7 - px);
+                    int b1 = 0x01 & Data.VRAM[(0x00 + i + 1) % Data.VRAM.Length] >> (7 - px);
+                    int b2 = 0x01 & Data.VRAM[(0x10 + i + 0) % Data.VRAM.Length] >> (7 - px);
+                    int b3 = 0x01 & Data.VRAM[(0x10 + i + 1) % Data.VRAM.Length] >> (7 - px);
+                    int b4 = 0x01 & Data.VRAM[(0x20 + i + 0) % Data.VRAM.Length] >> (7 - px);
+                    int b5 = 0x01 & Data.VRAM[(0x20 + i + 1) % Data.VRAM.Length] >> (7 - px);
+                    int b6 = 0x01 & Data.VRAM[(0x30 + i + 0) % Data.VRAM.Length] >> (7 - px);
+                    int b7 = 0x01 & Data.VRAM[(0x30 + i + 1) % Data.VRAM.Length] >> (7 - px);
+                    int xx = b0 + 2 * b1;
+                    if (bpp > 0) xx += 4 * b2 + 8 * b3;
+                    if (bpp > 1) xx += 0x10 * b4 + 0x20 * b5 + 0x40 * b6 + 0x80 * b7;
+                    int c = pal * (bpp == 0 ? 4 : 0x10);
+                    for (int zy = 0; zy < zoom; zy++)
                     {
-                        for (int px = 0; px < 8; px++)
+                        for (int zx = 0; zx < zoom; zx++)
                         {
-                            int i = ((0x10 * tile) * (bpp == 0 ? 1 : (bpp == 1 ? 2 : 4))) + 2 * py;
-                            int b0 = 0x01 & Data.VRAM[(0x00 + i + 0) % Data.VRAM.Length] >> (7 - px);
-                            int b1 = 0x01 & Data.VRAM[(0x00 + i + 1) % Data.VRAM.Length] >> (7 - px);
-                            int b2 = 0x01 & Data.VRAM[(0x10 + i + 0) % Data.VRAM.Length] >> (7 - px);
-                            int b3 = 0x01 & Data.VRAM[(0x10 + i + 1) % Data.VRAM.Length] >> (7 - px);
-                            int b4 = 0x01 & Data.VRAM[(0x20 + i + 0) % Data.VRAM.Length] >> (7 - px);
-                            int b5 = 0x01 & Data.VRAM[(0x20 + i + 1) % Data.VRAM.Length] >> (7 - px);
-                            int b6 = 0x01 & Data.VRAM[(0x30 + i + 0) % Data.VRAM.Length] >> (7 - px);
-                            int b7 = 0x01 & Data.VRAM[(0x30 + i + 1) % Data.VRAM.Length] >> (7 - px);
-                            int x = b0 + 2 * b1;
-                            if (bpp > 0) x += 4 * b2 + 8 * b3;
-                            if (bpp > 1) x += 0x10 * b4 + 0x20 * b5 + 0x40 * b6 + 0x80 * b7;
-                            int c = pal * (bpp == 0 ? 4 : 0x10);
-                            for (int zy = 0; zy < zoom; zy++)
-                            {
-                                for (int zx = 0; zx < zoom; zx++)
-                                {
-                                    img.SetPixel((8 * tx + px) * zoom + zx, (8 * ty + py) * zoom + zy, Data.GetCGRAMColor(c + x));
-                                }
-                            }
+                            img.SetPixel(
+                                (x + px) * zoom + zx,
+                                (y + py) * zoom + zy,
+                                Data.GetCGRAMColor(c + xx));
                         }
                     }
                 }
             }
-            pictureBox1.Image = img;
-            pictureBox1.Width = img.Width;
-            pictureBox1.Height = img.Height;
+        }
+
+        private void UpdateDetails()
+        {
+            updatingDetails = true;
+            label1.Text = "Tile $" + Util.DecToHex(showDetails, 3);
+
+            Bitmap img = (Bitmap)pictureBox2.Image;
+            DrawTile(showDetails, img, 0, 0, 8);
+            pictureBox2.Image = img;
+
+            updatingDetails = false;
+        }
+
+        private void UpdateHexEditor(int tile)
+        {
+            int b = bpp == 0 ? 0x10 : (bpp == 1 ? 0x20 : 0x40);
+            hexBox1.ByteProvider = new DynamicByteProvider(Data.VRAM);
+            hexBox1.SelectionStart = b * tile;
+            hexBox1.SelectionLength = b;
         }
 
         private void updateCheckboxes()
@@ -124,7 +201,12 @@ namespace SuperTileMapper
             toolStripMenuItem2.Checked = (zoom == 2);
             toolStripMenuItem3.Checked = (zoom == 3);
             toolStripMenuItem4.Checked = (zoom == 4);
-            Redraw();
+            RedrawAll();
+            if (showDetails >= 0)
+            {
+                showDetails = Util.clamp(showDetails, 0, bpp == 0 ? 0x1000 : (bpp == 1 ? 0x800 : 0x400));
+                UpdateDetails();
+            }
         }
 
         private void bPPToolStripMenuItem_Click(object sender, EventArgs e)
@@ -384,6 +466,45 @@ namespace SuperTileMapper
         {
             zoom = 4;
             updateCheckboxes();
+        }
+
+        private void hexEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showHexEditor = !showHexEditor;
+            ResizeMe();
+        }
+
+        private void tileDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showDetails = showDetails >= 0 ? -1 : 0;
+            if (showDetails >= 0) UpdateDetails();
+            ResizeMe();
+        }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            int tx = e.X / (8 * zoom);
+            int ty = e.Y / (8 * zoom);
+            int tile = tx + 0x40 * ty;
+            if (showDetails >= 0)
+            {
+                showDetails = tile;
+                UpdateDetails();
+            }
+            UpdateHexEditor(tile);
+        }
+
+        private void hexBox1_CurrentPositionInLineChanged(object sender, EventArgs e)
+        {
+            int i = Util.clamp((int)hexBox1.SelectionStart - 1, 0, Data.VRAM.Length - 1);
+            Data.VRAM[i] = hexBox1.ByteProvider.ReadByte(i);
+            
+            int b = bpp == 0 ? 0x10 : (bpp == 1 ? 0x20 : 0x40);
+            Redraw(i / b);
+            if (showDetails == i / b) UpdateDetails();
+
+            // TODO: this can be reduced to only redraw when an oam-used tile is modified
+            if (SuperTileMapper.oam != null) SuperTileMapper.oam.RedrawAll();
         }
     }
 }

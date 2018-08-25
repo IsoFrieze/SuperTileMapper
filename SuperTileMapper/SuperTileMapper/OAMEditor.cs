@@ -96,8 +96,6 @@ namespace SuperTileMapper
             Bitmap img = new Bitmap(zoom * 8 * objw, zoom * 16 * objh);
             pictureBox1.Image = img;
 
-            Console.WriteLine(pictureBox1.Image.Size);
-
             for (int i = 0; i < 0x80; i++) Redraw(i);
 
             pictureBox1.Width = img.Width;
@@ -253,10 +251,7 @@ namespace SuperTileMapper
         private void oBJDetailsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             showDetails = showDetails >= 0 ? -1 : 0;
-            if (showDetails >= 0)
-            {
-                UpdateDetails();
-            }
+            if (showDetails >= 0) UpdateDetails();
             ResizeMe();
         }
 

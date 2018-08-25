@@ -35,6 +35,7 @@ namespace SuperTileMapper
                 if (showDetails >= 0) UpdateDetails();
                 UpdateHexEditor(0);
                 SuperTileMapper.oam.RedrawAll();
+                SuperTileMapper.vram.RedrawAll();
             }
         }
 
@@ -130,10 +131,7 @@ namespace SuperTileMapper
         private void colorPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             showDetails = showDetails >= 0 ? -1 : 0;
-            if (showDetails >= 0)
-            {
-                UpdateDetails();
-            }
+            if (showDetails >= 0) UpdateDetails();
             ResizeMe();
         }
 
@@ -161,6 +159,7 @@ namespace SuperTileMapper
                 UpdateDetails();
                 Redraw(showDetails);
                 SuperTileMapper.oam.RedrawAll();
+                SuperTileMapper.vram.RedrawAll();
             }
         }
 
@@ -177,6 +176,7 @@ namespace SuperTileMapper
                     Redraw(showDetails);
                     UpdateHexEditor(showDetails);
                     SuperTileMapper.oam.RedrawAll();
+                    SuperTileMapper.vram.RedrawAll();
                 } else if (e.KeyCode == Keys.Escape)
                 {
                     textBox1_Leave(sender, e);
@@ -196,6 +196,7 @@ namespace SuperTileMapper
                     Redraw(showDetails);
                     UpdateHexEditor(showDetails);
                     SuperTileMapper.oam.RedrawAll();
+                    SuperTileMapper.vram.RedrawAll();
                 }
                 else if (e.KeyCode == Keys.Escape)
                 {
@@ -217,6 +218,7 @@ namespace SuperTileMapper
                     Redraw(showDetails);
                     UpdateHexEditor(showDetails);
                     SuperTileMapper.oam.RedrawAll();
+                    SuperTileMapper.vram.RedrawAll();
                 }
                 else if (e.KeyCode == Keys.Escape)
                 {
@@ -237,6 +239,7 @@ namespace SuperTileMapper
                     Redraw(showDetails);
                     UpdateHexEditor(showDetails);
                     SuperTileMapper.oam.RedrawAll();
+                    SuperTileMapper.vram.RedrawAll();
                 }
                 else if (e.KeyCode == Keys.Escape)
                 {
@@ -280,18 +283,21 @@ namespace SuperTileMapper
         {
             UpdateHexEditor(showDetails);
             SuperTileMapper.oam.RedrawAll();
+            SuperTileMapper.vram.RedrawAll();
         }
 
         private void trackBar1_MouseUp(object sender, MouseEventArgs e)
         {
             UpdateHexEditor(showDetails);
             SuperTileMapper.oam.RedrawAll();
+            SuperTileMapper.vram.RedrawAll();
         }
 
         private void trackBar2_MouseUp(object sender, MouseEventArgs e)
         {
             UpdateHexEditor(showDetails);
             SuperTileMapper.oam.RedrawAll();
+            SuperTileMapper.vram.RedrawAll();
         }
 
         private void hexBox1_KeyDown(object sender, KeyEventArgs e)
@@ -309,6 +315,7 @@ namespace SuperTileMapper
                 UpdateDetails();
             }
             if (SuperTileMapper.oam != null) SuperTileMapper.oam.RedrawAll();
+            if (SuperTileMapper.vram != null) SuperTileMapper.vram.RedrawAll();
         }
 
         private void textBox1_Leave(object sender, EventArgs e)

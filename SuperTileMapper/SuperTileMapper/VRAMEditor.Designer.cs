@@ -86,9 +86,15 @@
             this.palette1EToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.palette1FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.hexBox1 = new Be.Windows.Forms.HexBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -99,6 +105,7 @@
             this.pictureBox1.Size = new System.Drawing.Size(512, 512);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             // 
             // menuStrip1
             // 
@@ -107,7 +114,7 @@
             this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(512, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(940, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -198,17 +205,17 @@
             // 
             // hexEditorToolStripMenuItem
             // 
-            this.hexEditorToolStripMenuItem.Enabled = false;
             this.hexEditorToolStripMenuItem.Name = "hexEditorToolStripMenuItem";
             this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.hexEditorToolStripMenuItem.Text = "Hex Editor";
+            this.hexEditorToolStripMenuItem.Click += new System.EventHandler(this.hexEditorToolStripMenuItem_Click);
             // 
             // tileDetailsToolStripMenuItem
             // 
-            this.tileDetailsToolStripMenuItem.Enabled = false;
             this.tileDetailsToolStripMenuItem.Name = "tileDetailsToolStripMenuItem";
             this.tileDetailsToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.tileDetailsToolStripMenuItem.Text = "Tile Details";
+            this.tileDetailsToolStripMenuItem.Click += new System.EventHandler(this.tileDetailsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -251,6 +258,7 @@
             // 
             // mode78BPPToolStripMenuItem
             // 
+            this.mode78BPPToolStripMenuItem.Enabled = false;
             this.mode78BPPToolStripMenuItem.Name = "mode78BPPToolStripMenuItem";
             this.mode78BPPToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.mode78BPPToolStripMenuItem.Text = "Mode 7 8BPP";
@@ -563,16 +571,60 @@
             this.panel1.Size = new System.Drawing.Size(512, 512);
             this.panel1.TabIndex = 2;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.pictureBox2);
+            this.panel2.Location = new System.Drawing.Point(0, 536);
+            this.panel2.Margin = new System.Windows.Forms.Padding(0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(512, 100);
+            this.panel2.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(51, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Tile $000";
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Location = new System.Drawing.Point(9, 27);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox2.TabIndex = 0;
+            this.pictureBox2.TabStop = false;
+            // 
+            // hexBox1
+            // 
+            this.hexBox1.ColumnInfoVisible = true;
+            this.hexBox1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.hexBox1.LineInfoVisible = true;
+            this.hexBox1.Location = new System.Drawing.Point(512, 24);
+            this.hexBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.hexBox1.Name = "hexBox1";
+            this.hexBox1.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            this.hexBox1.ShadowSelectionColor = System.Drawing.Color.LightSlateGray;
+            this.hexBox1.Size = new System.Drawing.Size(428, 612);
+            this.hexBox1.TabIndex = 3;
+            this.hexBox1.VScrollBarVisible = true;
+            this.hexBox1.CurrentPositionInLineChanged += new System.EventHandler(this.hexBox1_CurrentPositionInLineChanged);
+            // 
             // VRAMEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(512, 536);
+            this.ClientSize = new System.Drawing.Size(940, 636);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.hexBox1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(528, 575);
+            this.MaximumSize = new System.Drawing.Size(956, 675);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(528, 575);
             this.Name = "VRAMEditor";
@@ -584,6 +636,9 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -649,5 +704,9 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.Panel panel1;
+        private Be.Windows.Forms.HexBox hexBox1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }
