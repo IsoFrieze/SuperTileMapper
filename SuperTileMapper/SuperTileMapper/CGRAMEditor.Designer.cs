@@ -36,7 +36,6 @@
             this.hexEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -54,7 +53,6 @@
             this.hexBox1 = new Be.Windows.Forms.HexBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -68,7 +66,7 @@
             this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(656, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(684, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -130,16 +128,6 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.SystemColors.Control;
-            this.panel1.Controls.Add(this.hexBox1);
-            this.panel1.Location = new System.Drawing.Point(256, 24);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(400, 356);
-            this.panel1.TabIndex = 2;
-            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.Control;
@@ -197,6 +185,7 @@
             this.textBox4.TabIndex = 8;
             this.textBox4.Text = "$00";
             this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox4_KeyDown);
             // 
             // textBox3
             // 
@@ -207,6 +196,7 @@
             this.textBox3.TabIndex = 7;
             this.textBox3.Text = "$00";
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox3_KeyDown);
             // 
             // textBox2
             // 
@@ -217,6 +207,7 @@
             this.textBox2.TabIndex = 6;
             this.textBox2.Text = "$00";
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
             // 
             // textBox1
             // 
@@ -227,6 +218,7 @@
             this.textBox1.TabIndex = 2;
             this.textBox1.Text = "$0000";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
             // 
             // trackBar2
             // 
@@ -237,6 +229,8 @@
             this.trackBar2.Size = new System.Drawing.Size(120, 45);
             this.trackBar2.TabIndex = 4;
             this.trackBar2.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
+            this.trackBar2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBar2_MouseUp);
             // 
             // trackBar1
             // 
@@ -247,6 +241,8 @@
             this.trackBar1.Size = new System.Drawing.Size(120, 45);
             this.trackBar1.TabIndex = 3;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            this.trackBar1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBar1_MouseUp);
             // 
             // trackBar3
             // 
@@ -257,6 +253,8 @@
             this.trackBar3.Size = new System.Drawing.Size(120, 45);
             this.trackBar3.TabIndex = 5;
             this.trackBar3.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            this.trackBar3.Scroll += new System.EventHandler(this.trackBar3_Scroll);
+            this.trackBar3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBar3_MouseUp);
             // 
             // label1
             // 
@@ -278,25 +276,33 @@
             // 
             // hexBox1
             // 
-            this.hexBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.hexBox1.Location = new System.Drawing.Point(23, 20);
+            this.hexBox1.ColumnInfoVisible = true;
+            this.hexBox1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.hexBox1.LineInfoVisible = true;
+            this.hexBox1.Location = new System.Drawing.Point(256, 24);
+            this.hexBox1.Margin = new System.Windows.Forms.Padding(0);
             this.hexBox1.Name = "hexBox1";
-            this.hexBox1.ShadowSelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(60)))), ((int)(((byte)(188)))), ((int)(((byte)(255)))));
-            this.hexBox1.Size = new System.Drawing.Size(355, 316);
+            this.hexBox1.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            this.hexBox1.ShadowSelectionColor = System.Drawing.Color.LightSlateGray;
+            this.hexBox1.Size = new System.Drawing.Size(428, 356);
             this.hexBox1.TabIndex = 0;
+            this.hexBox1.UseFixedBytesPerLine = true;
+            this.hexBox1.VScrollBarVisible = true;
+            this.hexBox1.CurrentPositionInLineChanged += new System.EventHandler(this.hexBox1_CurrentPositionInLineChanged);
+            this.hexBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.hexBox1_KeyDown);
             // 
             // CGRAMEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(656, 380);
+            this.ClientSize = new System.Drawing.Size(684, 380);
+            this.Controls.Add(this.hexBox1);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(672, 419);
+            this.MaximumSize = new System.Drawing.Size(700, 419);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(272, 319);
             this.Name = "CGRAMEditor";
@@ -307,7 +313,6 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
@@ -328,7 +333,6 @@
         private System.Windows.Forms.ToolStripMenuItem importDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportDataToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;

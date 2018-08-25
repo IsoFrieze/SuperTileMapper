@@ -16,3 +16,4 @@ C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debu
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\Be.Windows.Forms.HexBox.resources
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.Be.Windows.Forms.HexBox.Properties.Resources.resources
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.TilemapEditor.resources
+C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.csprojResolveAssemblyReference.cache
