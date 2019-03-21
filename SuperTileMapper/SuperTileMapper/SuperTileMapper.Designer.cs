@@ -35,6 +35,7 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveProjectAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -46,11 +47,10 @@
             this.pPURegistersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tilemapEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oBJEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.importDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.oBJEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -113,6 +113,14 @@
             this.openToolStripMenuItem.Text = "Open Project...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
+            // importDataToolStripMenuItem
+            // 
+            this.importDataToolStripMenuItem.Enabled = false;
+            this.importDataToolStripMenuItem.Name = "importDataToolStripMenuItem";
+            this.importDataToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.importDataToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.importDataToolStripMenuItem.Text = "Import Data...";
+            // 
             // saveProjectToolStripMenuItem
             // 
             this.saveProjectToolStripMenuItem.Enabled = false;
@@ -161,42 +169,49 @@
             // vRAMEditorToolStripMenuItem
             // 
             this.vRAMEditorToolStripMenuItem.Name = "vRAMEditorToolStripMenuItem";
-            this.vRAMEditorToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.vRAMEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.vRAMEditorToolStripMenuItem.Text = "VRAM";
             this.vRAMEditorToolStripMenuItem.Click += new System.EventHandler(this.vRAMEditorToolStripMenuItem_Click);
             // 
             // cGRAMEditorToolStripMenuItem
             // 
             this.cGRAMEditorToolStripMenuItem.Name = "cGRAMEditorToolStripMenuItem";
-            this.cGRAMEditorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cGRAMEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cGRAMEditorToolStripMenuItem.Text = "CGRAM";
             this.cGRAMEditorToolStripMenuItem.Click += new System.EventHandler(this.cGRAMEditorToolStripMenuItem_Click);
             // 
             // oAMEditorToolStripMenuItem
             // 
             this.oAMEditorToolStripMenuItem.Name = "oAMEditorToolStripMenuItem";
-            this.oAMEditorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.oAMEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.oAMEditorToolStripMenuItem.Text = "OAM";
             this.oAMEditorToolStripMenuItem.Click += new System.EventHandler(this.oAMEditorToolStripMenuItem_Click);
             // 
             // pPURegistersToolStripMenuItem
             // 
             this.pPURegistersToolStripMenuItem.Name = "pPURegistersToolStripMenuItem";
-            this.pPURegistersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pPURegistersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pPURegistersToolStripMenuItem.Text = "PPU Registers";
             this.pPURegistersToolStripMenuItem.Click += new System.EventHandler(this.pPURegistersToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(148, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // tilemapEditorToolStripMenuItem
             // 
-            this.tilemapEditorToolStripMenuItem.Enabled = false;
             this.tilemapEditorToolStripMenuItem.Name = "tilemapEditorToolStripMenuItem";
-            this.tilemapEditorToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.tilemapEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tilemapEditorToolStripMenuItem.Text = "Tilemap Editor";
+            this.tilemapEditorToolStripMenuItem.Click += new System.EventHandler(this.tilemapEditorToolStripMenuItem_Click);
+            // 
+            // oBJEditorToolStripMenuItem
+            // 
+            this.oBJEditorToolStripMenuItem.Enabled = false;
+            this.oBJEditorToolStripMenuItem.Name = "oBJEditorToolStripMenuItem";
+            this.oBJEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.oBJEditorToolStripMenuItem.Text = "OBJ Editor";
             // 
             // helpToolStripMenuItem
             // 
@@ -210,7 +225,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -222,21 +237,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(512, 478);
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
-            // 
-            // importDataToolStripMenuItem
-            // 
-            this.importDataToolStripMenuItem.Enabled = false;
-            this.importDataToolStripMenuItem.Name = "importDataToolStripMenuItem";
-            this.importDataToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.importDataToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
-            this.importDataToolStripMenuItem.Text = "Import Data...";
-            // 
-            // oBJEditorToolStripMenuItem
-            // 
-            this.oBJEditorToolStripMenuItem.Enabled = false;
-            this.oBJEditorToolStripMenuItem.Name = "oBJEditorToolStripMenuItem";
-            this.oBJEditorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.oBJEditorToolStripMenuItem.Text = "OBJ Editor";
             // 
             // SuperTileMapper
             // 

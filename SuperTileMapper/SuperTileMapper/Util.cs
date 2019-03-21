@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,6 +45,39 @@ namespace SuperTileMapper
         public static int clamp(int val, int min, int max)
         {
             return (val < min ? min : (val > max ? max : val));
+        }
+
+        public static void Draw8x8Tile(int vram, int bpp, bool h, bool v, int cgram, Bitmap img, int x, int y, int zoom)
+        {
+            for (int py = 0; py < 8; py++)
+            {
+                for (int px = 0; px < 8; px++)
+                {
+                    int b0 = 0x01 & Data.VRAM[(2 * py + 0x00 + vram + 0) % Data.VRAM.Length] >> (7 - px);
+                    int b1 = 0x01 & Data.VRAM[(2 * py + 0x00 + vram + 1) % Data.VRAM.Length] >> (7 - px);
+                    int b2 = 0x01 & Data.VRAM[(2 * py + 0x10 + vram + 0) % Data.VRAM.Length] >> (7 - px);
+                    int b3 = 0x01 & Data.VRAM[(2 * py + 0x10 + vram + 1) % Data.VRAM.Length] >> (7 - px);
+                    int b4 = 0x01 & Data.VRAM[(2 * py + 0x20 + vram + 0) % Data.VRAM.Length] >> (7 - px);
+                    int b5 = 0x01 & Data.VRAM[(2 * py + 0x20 + vram + 1) % Data.VRAM.Length] >> (7 - px);
+                    int b6 = 0x01 & Data.VRAM[(2 * py + 0x30 + vram + 0) % Data.VRAM.Length] >> (7 - px);
+                    int b7 = 0x01 & Data.VRAM[(2 * py + 0x30 + vram + 1) % Data.VRAM.Length] >> (7 - px);
+
+                    int xx = b0 + 2 * b1;
+                    if (bpp > 0) xx += 4 * b2 + 8 * b3;
+                    if (bpp > 1) xx += 0x10 * b4 + 0x20 * b5 + 0x40 * b6 + 0x80 * b7;
+
+                    for (int zy = 0; zy < zoom; zy++)
+                    {
+                        for (int zx = 0; zx < zoom; zx++)
+                        {
+                            img.SetPixel(
+                                (x + (h ? 7 - px : px)) * zoom + zx,
+                                (y + (v ? 7 - py : py)) * zoom + zy,
+                                Data.GetCGRAMColor(cgram + xx));
+                        }
+                    }
+                }
+            }
         }
     }
 }

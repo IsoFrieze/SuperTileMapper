@@ -18,16 +18,19 @@ namespace SuperTileMapper
         public static CGRAMEditor cgram;
         public static OAMEditor oam;
         public static PPURegEditor ppu;
+        public static TilemapEditor tmap;
 
         public SuperTileMapper()
         {
             InitializeComponent();
             try
             {
-                byte[] cgram = File.ReadAllBytes("C:\\Users\\Alex\\Documents\\SuperTileMapper\\testdata\\cgram.bin");
-                byte[] vram = File.ReadAllBytes("C:\\Users\\Alex\\Documents\\SuperTileMapper\\testdata\\vram.bin");
-                byte[] oam = File.ReadAllBytes("C:\\Users\\Alex\\Documents\\SuperTileMapper\\testdata\\oam.bin");
-                byte[] ppu = File.ReadAllBytes("C:\\Users\\Alex\\Documents\\SuperTileMapper\\testdata\\ppuregs.bin");
+                string testdata = "C:\\Users\\Alex\\Documents\\Visual Studio 2017\\SuperTileMapper\\testdata\\tetrisattack\\";
+
+                byte[] cgram = File.ReadAllBytes(testdata + "cgram.bin");
+                byte[] vram = File.ReadAllBytes(testdata + "vram.bin");
+                byte[] oam = File.ReadAllBytes(testdata + "oam.bin");
+                byte[] ppu = File.ReadAllBytes(testdata + "ppuregs.bin");
 
                 for (int i = 0; i < cgram.Length; i++)
                     Data.CGRAM[i] = cgram[i];
@@ -51,6 +54,8 @@ namespace SuperTileMapper
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            tmap = new TilemapEditor();
+            tmap.Close();
             vram = new VRAMEditor();
             vram.Close();
             cgram = new CGRAMEditor();
@@ -106,6 +111,15 @@ namespace SuperTileMapper
             ppu.Show();
         }
 
+        private void tilemapEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (tmap.IsDisposed)
+            {
+                tmap = new TilemapEditor();
+            }
+            tmap.Show();
+        }
+
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (changes)
@@ -128,6 +142,8 @@ namespace SuperTileMapper
             if (!oam.IsDisposed && !vis) oam.Hide();
             if (!ppu.IsDisposed && vis) ppu.Show();
             if (!ppu.IsDisposed && !vis) ppu.Hide();
+            if (!tmap.IsDisposed && vis) tmap.Show();
+            if (!tmap.IsDisposed && !vis) tmap.Hide();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)

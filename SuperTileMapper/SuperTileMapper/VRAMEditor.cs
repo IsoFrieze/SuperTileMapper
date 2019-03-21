@@ -20,6 +20,7 @@ namespace SuperTileMapper
         int bpp = 0;
         int pal = 0;
         int zoom = 1;
+        int across = 0x40;
 
         public VRAMEditor()
         {
@@ -88,7 +89,7 @@ namespace SuperTileMapper
         public void RedrawAll()
         {
             if (pictureBox1.Image != null) pictureBox1.Image.Dispose();
-            Bitmap img = new Bitmap(512 * zoom, (bpp == 0 ? 512 : (bpp == 1 ? 256 : 128)) * zoom);
+            Bitmap img = new Bitmap(8 * across * zoom, 8 * (bpp == 0 ? 0x1000 / across : (bpp == 1 ? 0x800 / across : 0x400 / across)) * zoom);
             pictureBox1.Image = img;
 
             for (int i = 0; i < (bpp == 0 ? 0x1000 : (bpp == 1 ? 0x800 : 0x400)); i++) Redraw(i);
@@ -102,41 +103,15 @@ namespace SuperTileMapper
         public void Redraw(int tile)
         {
             Bitmap img = (Bitmap)pictureBox1.Image;
-            DrawTile(tile, img, 8*(tile % 0x40), 8*(tile/0x40), zoom);
+            DrawTile(tile, img, 8 * (tile % across), 8 * (tile / across), zoom);
             pictureBox1.Image = img;
         }
 
         private void DrawTile(int tile, Bitmap img, int x, int y, int zoom)
         {
-            for (int py = 0; py < 8; py++)
-            {
-                for (int px = 0; px < 8; px++)
-                {
-                    int i = ((0x10 * tile) * (bpp == 0 ? 1 : (bpp == 1 ? 2 : 4))) + 2 * py;
-                    int b0 = 0x01 & Data.VRAM[(0x00 + i + 0) % Data.VRAM.Length] >> (7 - px);
-                    int b1 = 0x01 & Data.VRAM[(0x00 + i + 1) % Data.VRAM.Length] >> (7 - px);
-                    int b2 = 0x01 & Data.VRAM[(0x10 + i + 0) % Data.VRAM.Length] >> (7 - px);
-                    int b3 = 0x01 & Data.VRAM[(0x10 + i + 1) % Data.VRAM.Length] >> (7 - px);
-                    int b4 = 0x01 & Data.VRAM[(0x20 + i + 0) % Data.VRAM.Length] >> (7 - px);
-                    int b5 = 0x01 & Data.VRAM[(0x20 + i + 1) % Data.VRAM.Length] >> (7 - px);
-                    int b6 = 0x01 & Data.VRAM[(0x30 + i + 0) % Data.VRAM.Length] >> (7 - px);
-                    int b7 = 0x01 & Data.VRAM[(0x30 + i + 1) % Data.VRAM.Length] >> (7 - px);
-                    int xx = b0 + 2 * b1;
-                    if (bpp > 0) xx += 4 * b2 + 8 * b3;
-                    if (bpp > 1) xx += 0x10 * b4 + 0x20 * b5 + 0x40 * b6 + 0x80 * b7;
-                    int c = pal * (bpp == 0 ? 4 : 0x10);
-                    for (int zy = 0; zy < zoom; zy++)
-                    {
-                        for (int zx = 0; zx < zoom; zx++)
-                        {
-                            img.SetPixel(
-                                (x + px) * zoom + zx,
-                                (y + py) * zoom + zy,
-                                Data.GetCGRAMColor(c + xx));
-                        }
-                    }
-                }
-            }
+            int vram = ((0x10 * tile) * (bpp == 0 ? 1 : (bpp == 1 ? 2 : 4)));
+            int cgram = pal * (bpp == 0 ? 4 : 0x10);
+            Util.Draw8x8Tile(vram, bpp, false, false, cgram, img, x, y, zoom);
         }
 
         private void UpdateDetails()
@@ -201,6 +176,9 @@ namespace SuperTileMapper
             toolStripMenuItem2.Checked = (zoom == 2);
             toolStripMenuItem3.Checked = (zoom == 3);
             toolStripMenuItem4.Checked = (zoom == 4);
+            tilesToolStripMenuItem.Checked = (across == 0x40);
+            tilesToolStripMenuItem1.Checked = (across == 0x20);
+            tilesToolStripMenuItem2.Checked = (across == 0x10);
             RedrawAll();
             if (showDetails >= 0)
             {
@@ -468,6 +446,24 @@ namespace SuperTileMapper
             updateCheckboxes();
         }
 
+        private void tilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            across = 0x40;
+            updateCheckboxes();
+        }
+
+        private void tilesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            across = 0x20;
+            updateCheckboxes();
+        }
+
+        private void tilesToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            across = 0x10;
+            updateCheckboxes();
+        }
+
         private void hexEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             showHexEditor = !showHexEditor;
@@ -485,7 +481,7 @@ namespace SuperTileMapper
         {
             int tx = e.X / (8 * zoom);
             int ty = e.Y / (8 * zoom);
-            int tile = tx + 0x40 * ty;
+            int tile = tx + across * ty;
             if (showDetails >= 0)
             {
                 showDetails = tile;

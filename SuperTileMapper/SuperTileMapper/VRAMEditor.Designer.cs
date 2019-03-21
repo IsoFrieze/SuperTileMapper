@@ -39,6 +39,10 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.widthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tilesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tilesToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.hexEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tileDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -147,6 +151,7 @@
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.zoomToolStripMenuItem,
+            this.widthToolStripMenuItem,
             this.toolStripSeparator2,
             this.hexEditorToolStripMenuItem,
             this.tileDetailsToolStripMenuItem,
@@ -197,6 +202,39 @@
             this.toolStripMenuItem4.Size = new System.Drawing.Size(102, 22);
             this.toolStripMenuItem4.Text = "400%";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
+            // 
+            // widthToolStripMenuItem
+            // 
+            this.widthToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tilesToolStripMenuItem,
+            this.tilesToolStripMenuItem1,
+            this.tilesToolStripMenuItem2});
+            this.widthToolStripMenuItem.Name = "widthToolStripMenuItem";
+            this.widthToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.widthToolStripMenuItem.Text = "Width";
+            // 
+            // tilesToolStripMenuItem
+            // 
+            this.tilesToolStripMenuItem.Checked = true;
+            this.tilesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tilesToolStripMenuItem.Name = "tilesToolStripMenuItem";
+            this.tilesToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.tilesToolStripMenuItem.Text = "64 ($40) Tiles";
+            this.tilesToolStripMenuItem.Click += new System.EventHandler(this.tilesToolStripMenuItem_Click);
+            // 
+            // tilesToolStripMenuItem1
+            // 
+            this.tilesToolStripMenuItem1.Name = "tilesToolStripMenuItem1";
+            this.tilesToolStripMenuItem1.Size = new System.Drawing.Size(142, 22);
+            this.tilesToolStripMenuItem1.Text = "32 ($20) Tiles";
+            this.tilesToolStripMenuItem1.Click += new System.EventHandler(this.tilesToolStripMenuItem1_Click);
+            // 
+            // tilesToolStripMenuItem2
+            // 
+            this.tilesToolStripMenuItem2.Name = "tilesToolStripMenuItem2";
+            this.tilesToolStripMenuItem2.Size = new System.Drawing.Size(142, 22);
+            this.tilesToolStripMenuItem2.Text = "16 ($10) Tiles";
+            this.tilesToolStripMenuItem2.Click += new System.EventHandler(this.tilesToolStripMenuItem2_Click);
             // 
             // toolStripSeparator2
             // 
@@ -708,5 +746,9 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.ToolStripMenuItem widthToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tilesToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem tilesToolStripMenuItem2;
     }
 }

@@ -17,3 +17,24 @@ C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debu
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.Be.Windows.Forms.HexBox.Properties.Resources.resources
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.TilemapEditor.resources
 C:\Users\Alex\Documents\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.csprojResolveAssemblyReference.cache
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\bin\Debug\SuperTileMapper.exe.config
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\bin\Debug\SuperTileMapper.exe
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\bin\Debug\SuperTileMapper.pdb
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.csprojAssemblyReference.cache
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.About.resources
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\Be.Windows.Forms.HexBox.resources
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.Be.Windows.Forms.HexBox.Properties.Resources.resources
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.CGRAMEditor.resources
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.ExportData.resources
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.ImportData.resources
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.OAMEditor.resources
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.OBJEditor.resources
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.PPURegEditor.resources
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.SuperTileMapper.resources
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.Properties.Resources.resources
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.TilemapEditor.resources
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.VRAMEditor.resources
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.csproj.GenerateResource.cache
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.csproj.CoreCompileInputs.cache
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.exe
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.pdb

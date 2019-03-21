@@ -292,26 +292,31 @@ namespace SuperTileMapper
         private void bgmode_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x05, reg2105, 2, bgmode, 0x07);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void bg1chrsize_CheckedChanged(object sender, EventArgs e)
         {
             setRegBit(0x05, reg2105, 2, bg1chrsize, 0x10);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void bg2chrsize_CheckedChanged(object sender, EventArgs e)
         {
             setRegBit(0x05, reg2105, 2, bg2chrsize, 0x20);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void bg3chrsize_CheckedChanged(object sender, EventArgs e)
         {
             setRegBit(0x05, reg2105, 2, bg3chrsize, 0x40);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void bg4chrsize_CheckedChanged(object sender, EventArgs e)
         {
             setRegBit(0x05, reg2105, 2, bg4chrsize, 0x80);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void mosaicsize_TextChanged(object sender, EventArgs e)
@@ -342,61 +347,73 @@ namespace SuperTileMapper
         private void bg1scbase_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x07, reg2107, 2, bg1scbase, 0xFC);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void bg1scsize_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x07, reg2107, 2, bg1scsize, 0x03);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void bg2scbase_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x08, reg2108, 2, bg2scbase, 0xFC);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void bg2scsize_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x08, reg2108, 2, bg2scsize, 0x03);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void bg3scbase_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x09, reg2109, 2, bg3scbase, 0xFC);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void bg3scsize_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x09, reg2109, 2, bg3scsize, 0x03);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void bg4scbase_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x0A, reg210A, 2, bg4scbase, 0xFC);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void bg4scsize_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x0A, reg210A, 2, bg4scsize, 0x03);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void bg1chrbase_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x0B, reg210B, 2, bg1chrbase, 0x0F);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void bg2chrbase_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x0B, reg210B, 2, bg2chrbase, 0xF0);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void bg3chrbase_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x0C, reg210C, 2, bg3chrbase, 0x0F);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void bg4chrbase_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x0C, reg210C, 2, bg4chrbase, 0xF0);
+            SuperTileMapper.tmap.RedrawAll();
         }
 
         private void bg1hofs_TextChanged(object sender, EventArgs e)
