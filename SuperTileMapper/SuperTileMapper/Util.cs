@@ -11,6 +11,17 @@ namespace SuperTileMapper
     {
         public static int[,] Endianness = new int[,] { { 0, 0 }, { 1, -1 } };
 
+        public static int[,,] OBJsizes = new int[,,] {
+            { {8,8}, {16,16} },
+            { {8,8}, {32,32} },
+            { {8,8}, {64,64} },
+            { {16,16}, {32,32} },
+            { {16,16}, {64,64} },
+            { {32,32}, {64,64} },
+            { {16,32}, {32,64} },
+            { {16,32}, {32,32} }
+        };
+
         public static int HexOrDecToDec(string val)
         {
             if (val[0] == '$')
@@ -47,33 +58,66 @@ namespace SuperTileMapper
             return (val < min ? min : (val > max ? max : val));
         }
 
-        public static void Draw8x8Tile(int vram, int bpp, bool h, bool v, int cgram, Bitmap img, int x, int y, int zoom)
+        public static void Draw8x8Tile(int vram, int bpp, bool h, bool v, int cgram, Bitmap img, int x, int y, int zoom, int transparency)
         {
-            for (int py = 0; py < 8; py++)
+            if (bpp == 3)
             {
-                for (int px = 0; px < 8; px++)
+                for (int py = 0; py < 8; py++)
                 {
-                    int b0 = 0x01 & Data.VRAM[(2 * py + 0x00 + vram + 0) % Data.VRAM.Length] >> (7 - px);
-                    int b1 = 0x01 & Data.VRAM[(2 * py + 0x00 + vram + 1) % Data.VRAM.Length] >> (7 - px);
-                    int b2 = 0x01 & Data.VRAM[(2 * py + 0x10 + vram + 0) % Data.VRAM.Length] >> (7 - px);
-                    int b3 = 0x01 & Data.VRAM[(2 * py + 0x10 + vram + 1) % Data.VRAM.Length] >> (7 - px);
-                    int b4 = 0x01 & Data.VRAM[(2 * py + 0x20 + vram + 0) % Data.VRAM.Length] >> (7 - px);
-                    int b5 = 0x01 & Data.VRAM[(2 * py + 0x20 + vram + 1) % Data.VRAM.Length] >> (7 - px);
-                    int b6 = 0x01 & Data.VRAM[(2 * py + 0x30 + vram + 0) % Data.VRAM.Length] >> (7 - px);
-                    int b7 = 0x01 & Data.VRAM[(2 * py + 0x30 + vram + 1) % Data.VRAM.Length] >> (7 - px);
-
-                    int xx = b0 + 2 * b1;
-                    if (bpp > 0) xx += 4 * b2 + 8 * b3;
-                    if (bpp > 1) xx += 0x10 * b4 + 0x20 * b5 + 0x40 * b6 + 0x80 * b7;
-
-                    for (int zy = 0; zy < zoom; zy++)
+                    for (int px = 0; px < 8; px++)
                     {
-                        for (int zx = 0; zx < zoom; zx++)
+                        int xx = Data.VRAM[(vram + 2 * (py * 8 + px) + 1) % Data.VRAM.Length];
+
+                        for (int zy = 0; zy < zoom; zy++)
                         {
-                            img.SetPixel(
-                                (x + (h ? 7 - px : px)) * zoom + zx,
-                                (y + (v ? 7 - py : py)) * zoom + zy,
-                                Data.GetCGRAMColor(cgram + xx));
+                            for (int zx = 0; zx < zoom; zx++)
+                            {
+                                img.SetPixel(
+                                    (x + (h ? 7 - px : px)) * zoom + zx,
+                                    (y + (v ? 7 - py : py)) * zoom + zy,
+                                    Data.GetCGRAMColor(cgram + xx)
+                                    );
+                            }
+                        }
+                    }
+                }
+            } else
+            {
+                Color back = Color.White;
+                switch (transparency)
+                {
+                    case 1: back = Data.GetCGRAMColor(0); break;
+                    case 2: back = Color.Black; break;
+                    case 3: back = Color.White; break;
+                }
+
+                for (int py = 0; py < 8; py++)
+                {
+                    for (int px = 0; px < 8; px++)
+                    {
+                        int b0 = 0x01 & Data.VRAM[(2 * py + 0x00 + vram + 0) % Data.VRAM.Length] >> (7 - px);
+                        int b1 = 0x01 & Data.VRAM[(2 * py + 0x00 + vram + 1) % Data.VRAM.Length] >> (7 - px);
+                        int b2 = 0x01 & Data.VRAM[(2 * py + 0x10 + vram + 0) % Data.VRAM.Length] >> (7 - px);
+                        int b3 = 0x01 & Data.VRAM[(2 * py + 0x10 + vram + 1) % Data.VRAM.Length] >> (7 - px);
+                        int b4 = 0x01 & Data.VRAM[(2 * py + 0x20 + vram + 0) % Data.VRAM.Length] >> (7 - px);
+                        int b5 = 0x01 & Data.VRAM[(2 * py + 0x20 + vram + 1) % Data.VRAM.Length] >> (7 - px);
+                        int b6 = 0x01 & Data.VRAM[(2 * py + 0x30 + vram + 0) % Data.VRAM.Length] >> (7 - px);
+                        int b7 = 0x01 & Data.VRAM[(2 * py + 0x30 + vram + 1) % Data.VRAM.Length] >> (7 - px);
+
+                        int xx = b0 + 2 * b1;
+                        if (bpp > 0) xx += 4 * b2 + 8 * b3;
+                        if (bpp > 1) xx += 0x10 * b4 + 0x20 * b5 + 0x40 * b6 + 0x80 * b7;
+
+                        for (int zy = 0; zy < zoom; zy++)
+                        {
+                            for (int zx = 0; zx < zoom; zx++)
+                            {
+                                img.SetPixel(
+                                    (x + (h ? 7 - px : px)) * zoom + zx,
+                                    (y + (v ? 7 - py : py)) * zoom + zy,
+                                    xx == 0 && transparency != 0 ? back : Data.GetCGRAMColor(cgram + xx)
+                                    );
+                            }
                         }
                     }
                 }

@@ -25,6 +25,8 @@ namespace SuperTileMapper
 
         int bgOfInterest = 1;
         int tilemapZoom = 1;
+        int transparency = 0;
+        int priority = 0;
 
         int pickerZoom = 1;
         bool pickerFlipH = false;
@@ -53,19 +55,26 @@ namespace SuperTileMapper
         {
             RedrawPicker();
             RedrawTilemap();
+            RedrawSelectedTile();
         }
 
         private void RedrawPicker()
         {
             if (pictureBox2.Image != null) pictureBox2.Image.Dispose();
-            Bitmap img = new Bitmap(pickerZoom * 8 * pickerAcross, pickerZoom * 8 * (0x400 / pickerAcross));
-            for (int ty = 0; ty < 0x400 / pickerAcross; ty++)
+
+            int mode = Data.PPURegs[0x05] & 0x7;
+            int tileCount = mode == 7 ? 0x100 : 0x400;
+
+            Bitmap img = new Bitmap(pickerZoom * 8 * pickerAcross, pickerZoom * 8 * (tileCount / pickerAcross));
+
+            for (int ty = 0; ty < tileCount / pickerAcross; ty++)
             {
                 for (int tx = 0; tx < pickerAcross; tx++)
                 {
-                    DrawTile(ty * pickerAcross + tx, img, 8 * tx, 8 * ty, pickerZoom);
+                    DrawTile(ty * pickerAcross + tx, pickerFlipH, pickerFlipV, pickerPalette, img, 8 * tx, 8 * ty, pickerZoom, 0);
                 }
             }
+
             pictureBox2.Image = img;
             pictureBox2.Width = img.Width;
             pictureBox2.Height = img.Height;
@@ -75,26 +84,119 @@ namespace SuperTileMapper
         {
             if (pictureBox1.Image != null) pictureBox1.Image.Dispose();
 
-            // TODO actually draw the background
-            Bitmap img = new Bitmap(tilemapZoom * 8 * 0x40, tilemapZoom * 8 * 0x40);
+            int mode = Data.PPURegs[0x05] & 0x7;
+            
+            if (mode == 7)
+            {
+                Bitmap img = new Bitmap(tilemapZoom * 8 * 0x80, tilemapZoom * 8 * 0x80);
 
-            pictureBox1.Image = img;
-            pictureBox1.Width = img.Width;
-            pictureBox1.Height = img.Height;
+                for (int ty = 0; ty < 0x80; ty++)
+                {
+                    for (int tx = 0; tx < 0x80; tx++)
+                    {
+                        int tile = Data.VRAM[2 * (0x80 * ty + tx)];
+
+                        DrawTile(tile, false, false, 0, img, 8 * tx, 8 * ty, tilemapZoom, 0);
+                    }
+                }
+
+                pictureBox1.Image = img;
+                pictureBox1.Width = img.Width;
+                pictureBox1.Height = img.Height;
+            } else
+            {
+                int bg = bgOfInterest - 1;
+                int sizeX = 1 + (Data.PPURegs[0x07 + bg] & 0x01);
+                int sizeY = 1 + ((Data.PPURegs[0x07 + bg] & 0x02) >> 1);
+                int tilemapBase = ((Data.PPURegs[0x07 + bg] & 0xFC) << 8) & 0xFC00;
+                int charSize = 1 + ((Data.PPURegs[0x05] >> (4 + bg)) & 1);
+                int charX = mode == 6 ? 2 : charSize, charY = mode == 6 ? 1 : charSize;
+
+                Bitmap img = new Bitmap(tilemapZoom * 8 * 0x20 * sizeX * charX, tilemapZoom * 8 * 0x20 * sizeY * charY);
+
+                int screenNo = 0;
+                for (int scy = 0; scy < sizeY; scy++)
+                {
+                    for (int scx = 0; scx < sizeX; scx++)
+                    {
+                        for (int ty = 0; ty < 0x20; ty++)
+                        {
+                            for (int tx = 0; tx < 0x20; tx++)
+                            {
+                                int tileI = screenNo * 0x20 * 0x20 + ty * 0x20 + tx;
+                                int tileLow = Data.VRAM[0xFFFF & ((tilemapBase + tileI) * 2)];
+                                int tileHigh = Data.VRAM[0xFFFF & ((tilemapBase + tileI) * 2 + 1)];
+
+                                int tile = ((tileHigh & 0x3) << 8) | tileLow;
+                                bool v = (tileHigh & 0x80) != 0;
+                                bool h = (tileHigh & 0x40) != 0;
+                                bool p = (tileHigh & 0x20) != 0;
+                                int c = (tileHigh & 0x1C) >> 2;
+
+                                if (p || priority != 2)
+                                {
+                                    for (int cy = 0; cy < charY; cy++)
+                                    {
+                                        for (int cx = 0; cx < charX; cx++)
+                                        {
+                                            int character = (tile + 0x10 * cy + cx) & 0x3FF;
+                                            int x = (scx * 0x20 + tx) * charX + (charX == 2 && h ? 1 - cx : cx);
+                                            int y = (scy * 0x20 + ty) * charY + (charY == 2 && v ? 1 - cy : cy);
+
+                                            //TODO: implement priority focus
+                                            DrawTile(character, h, v, c, img, 8 * x, 8 * y, tilemapZoom, transparency);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        screenNo++;
+                    }
+                }
+
+                pictureBox1.Image = img;
+                pictureBox1.Width = img.Width;
+                pictureBox1.Height = img.Height;
+            }
         }
 
-        private void DrawTile(int tile, Bitmap img, int x, int y, int zoom)
+        private void RedrawSelectedTile()
+        {
+            int mode = Data.PPURegs[0x05] & 0x7;
+            int charSize = 1 + ((Data.PPURegs[0x05] >> (4 + bgOfInterest - 1)) & 1);
+            int charX = mode == 6 ? 2 : charSize, charY = mode == 6 ? 1 : charSize;
+
+            Bitmap img = (Bitmap)pictureSelTile.Image;
+            for (int cy = 0; cy < charY; cy++)
+            {
+                for (int cx = 0; cx < charX; cx++)
+                {
+                    int tile = (pickerTile + 0x10 * cy + cx) & 0x3FF;
+                    DrawTile(tile, pickerFlipH, pickerFlipV, pickerPalette, img, 8 * (charX == 2 && pickerFlipH ? 1 - cx : cx), 8 * (charX == 2 && pickerFlipV ? 1 - cy : cy), 8 / charX, 0);
+                }
+            }
+            pictureSelTile.Image = img;
+        }
+
+        private void DrawTile(int tile, bool h, bool v, int c, Bitmap img, int x, int y, int zoom, int t)
         {
             int bg = bgOfInterest - 1;
             int bpp = BGBitDepths[Data.PPURegs[0x05] & 0x7, bg];
             if (bpp >= 0)
             {
-                int nameBase = 0xE000 & (Data.PPURegs[0x0B + (bg / 2)] << (((bg & 1) == 0) ? 13 : 9));
-                int tileOffset = tile * (bpp == 0 ? 0x10 : (bpp == 1 ? 0x20 : 0x40));
+                if (bpp == 3)
+                {
+                    int vram = 0x80 * tile;
+                    Util.Draw8x8Tile(vram, bpp, h, v, 0, img, x, y, zoom, t);
+                } else
+                {
+                    int nameBase = 0xE000 & (Data.PPURegs[0x0B + (bg / 2)] << (((bg & 1) == 0) ? 13 : 9));
+                    int tileOffset = tile * (bpp == 0 ? 0x10 : (bpp == 1 ? 0x20 : 0x40));
 
-                int vram = nameBase + tileOffset;
-                int cgram = (bpp > 1 ? 0 : pickerPalette) * (bpp == 0 ? 4 : 0x10);
-                Util.Draw8x8Tile(vram, bpp, pickerFlipH, pickerFlipV, cgram, img, x, y, zoom);
+                    int vram = nameBase + tileOffset;
+                    int cgram = (bpp > 1 ? 0 : c) * (bpp == 0 ? 4 : 0x10);
+                    Util.Draw8x8Tile(vram, bpp, h, v, cgram, img, x, y, zoom, t);
+                }
             }
         }
 
@@ -114,6 +216,13 @@ namespace SuperTileMapper
             pickerZoom400.Checked = (pickerZoom == 4);
             pickerWidth32.Checked = (pickerAcross == 0x20);
             pickerWidth16.Checked = (pickerAcross == 0x10);
+            transLocal0.Checked = (transparency == 0);
+            transColor00.Checked = (transparency == 1);
+            transBlack.Checked = (transparency == 2);
+            transWhite.Checked = (transparency == 3);
+            prioAll.Checked = (priority == 0);
+            prioFocus.Checked = (priority == 1);
+            prioOnly.Checked = (priority == 2);
             RedrawAll();
         }
 
@@ -201,6 +310,48 @@ namespace SuperTileMapper
             updateCheckboxes();
         }
 
+        private void transLocal0_Click(object sender, EventArgs e)
+        {
+            transparency = 0;
+            updateCheckboxes();
+        }
+
+        private void transColor00_Click(object sender, EventArgs e)
+        {
+            transparency = 1;
+            updateCheckboxes();
+        }
+
+        private void transBlack_Click(object sender, EventArgs e)
+        {
+            transparency = 2;
+            updateCheckboxes();
+        }
+
+        private void transWhite_Click(object sender, EventArgs e)
+        {
+            transparency = 3;
+            updateCheckboxes();
+        }
+
+        private void prioAll_Click(object sender, EventArgs e)
+        {
+            priority = 0;
+            updateCheckboxes();
+        }
+
+        private void prioFocus_Click(object sender, EventArgs e)
+        {
+            priority = 1;
+            updateCheckboxes();
+        }
+
+        private void prioOnly_Click(object sender, EventArgs e)
+        {
+            priority = 2;
+            updateCheckboxes();
+        }
+
         private void UpdateDetails()
         {
             updatingDetails = true;
@@ -211,9 +362,13 @@ namespace SuperTileMapper
             checkFlipV.Checked = pickerFlipV;
             checkPriority.Checked = pickerPriority;
 
-            Bitmap img = (Bitmap)pictureSelTile.Image;
-            DrawTile(pickerTile, img, 0, 0, 8);
-            pictureSelTile.Image = img;
+            int mode = Data.PPURegs[0x05] & 0x7;
+            textPalette.Enabled = (mode != 7);
+            checkFlipH.Enabled = (mode != 7);
+            checkFlipV.Enabled = (mode != 7);
+            checkPriority.Enabled = (mode != 7);
+
+            RedrawSelectedTile();
 
             updatingDetails = false;
         }
@@ -256,7 +411,7 @@ namespace SuperTileMapper
                 if (val >= 0 && val < 8)
                 {
                     pickerPalette = val;
-                    UpdateDetails();
+                    RedrawSelectedTile();
                     RedrawPicker();
                 }
             }
@@ -267,6 +422,51 @@ namespace SuperTileMapper
             int tx = e.X / (8 * pickerZoom);
             int ty = e.Y / (8 * pickerZoom);
             pickerTile = tx + pickerAcross * ty;
+            UpdateDetails();
+        }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            int bg = bgOfInterest - 1;
+            int mode = Data.PPURegs[0x05] & 0x7;
+
+            if (mode == 7)
+            {
+                int tx = e.X / (8 * tilemapZoom);
+                int ty = e.Y / (8 * tilemapZoom);
+                int tileI = ty * 0x80 + tx;
+
+                int tile = Data.VRAM[tileI * 2];
+
+                pickerTile = tile;
+                pickerFlipV = false;
+                pickerFlipH = false;
+                pickerPriority = false;
+                pickerPalette = 0;
+            } else
+            {
+                int sizeX = 1 + (Data.PPURegs[0x07 + bg] & 0x01);
+                int sizeY = 1 + ((Data.PPURegs[0x07 + bg] & 0x02) >> 1);
+                int tilemapBase = ((Data.PPURegs[0x07 + bg] & 0xFC) << 8) & 0xFC00;
+                int charSize = 1 + ((Data.PPURegs[0x05] >> (4 + bg)) & 1);
+                int charX = mode == 6 ? 2 : charSize, charY = mode == 6 ? 1 : charSize;
+
+                int rx = e.X / (8 * tilemapZoom * charX);
+                int ry = e.Y / (8 * tilemapZoom * charY);
+                int sx = rx / 0x20, sy = ry / 0x20;
+                int tx = rx % 0x20, ty = ry % 0x20;
+                int scNo = sy * sizeX + sx;
+                int tileI = scNo * 0x20 * 0x20 + ty * 0x20 + tx;
+
+                int tileLow = Data.VRAM[0xFFFF & ((tilemapBase + tileI) * 2)];
+                int tileHigh = Data.VRAM[0xFFFF & ((tilemapBase + tileI) * 2 + 1)];
+
+                pickerTile = ((tileHigh & 0x3) << 8) | tileLow;
+                pickerFlipV = (tileHigh & 0x80) != 0;
+                pickerFlipH = (tileHigh & 0x40) != 0;
+                pickerPriority = (tileHigh & 0x20) != 0;
+                pickerPalette = (tileHigh & 0x1C) >> 2;
+            }
             UpdateDetails();
         }
     }

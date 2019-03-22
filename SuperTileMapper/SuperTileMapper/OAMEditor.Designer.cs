@@ -33,16 +33,15 @@
             this.importDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.screenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.screenZoom100 = new System.Windows.Forms.ToolStripMenuItem();
+            this.screenZoom200 = new System.Windows.Forms.ToolStripMenuItem();
+            this.screenZoom300 = new System.Windows.Forms.ToolStripMenuItem();
+            this.screenZoom400 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.hexEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oBJDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -59,12 +58,14 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.hexBox1 = new Be.Windows.Forms.HexBox();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -106,7 +107,7 @@
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.zoomToolStripMenuItem,
+            this.screenToolStripMenuItem,
             this.toolStripSeparator1,
             this.hexEditorToolStripMenuItem,
             this.oBJDetailsToolStripMenuItem});
@@ -114,85 +115,73 @@
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
             // 
+            // screenToolStripMenuItem
+            // 
+            this.screenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.zoomToolStripMenuItem});
+            this.screenToolStripMenuItem.Name = "screenToolStripMenuItem";
+            this.screenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.screenToolStripMenuItem.Text = "Screen";
+            // 
             // zoomToolStripMenuItem
             // 
             this.zoomToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem2,
-            this.toolStripMenuItem3,
-            this.toolStripMenuItem4,
-            this.toolStripMenuItem5});
+            this.screenZoom100,
+            this.screenZoom200,
+            this.screenZoom300,
+            this.screenZoom400});
             this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
-            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.zoomToolStripMenuItem.Text = "Zoom";
             // 
-            // toolStripMenuItem2
+            // screenZoom100
             // 
-            this.toolStripMenuItem2.Checked = true;
-            this.toolStripMenuItem2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(102, 22);
-            this.toolStripMenuItem2.Text = "100%";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            this.screenZoom100.Checked = true;
+            this.screenZoom100.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.screenZoom100.Name = "screenZoom100";
+            this.screenZoom100.Size = new System.Drawing.Size(102, 22);
+            this.screenZoom100.Text = "100%";
+            this.screenZoom100.Click += new System.EventHandler(this.screenZoom100_Click);
             // 
-            // toolStripMenuItem3
+            // screenZoom200
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(102, 22);
-            this.toolStripMenuItem3.Text = "200%";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            this.screenZoom200.Name = "screenZoom200";
+            this.screenZoom200.Size = new System.Drawing.Size(102, 22);
+            this.screenZoom200.Text = "200%";
+            this.screenZoom200.Click += new System.EventHandler(this.screenZoom200_Click);
             // 
-            // toolStripMenuItem4
+            // screenZoom300
             // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(102, 22);
-            this.toolStripMenuItem4.Text = "300%";
-            this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
+            this.screenZoom300.Name = "screenZoom300";
+            this.screenZoom300.Size = new System.Drawing.Size(102, 22);
+            this.screenZoom300.Text = "300%";
+            this.screenZoom300.Click += new System.EventHandler(this.screenZoom300_Click);
             // 
-            // toolStripMenuItem5
+            // screenZoom400
             // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(102, 22);
-            this.toolStripMenuItem5.Text = "400%";
-            this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
+            this.screenZoom400.Name = "screenZoom400";
+            this.screenZoom400.Size = new System.Drawing.Size(102, 22);
+            this.screenZoom400.Text = "400%";
+            this.screenZoom400.Click += new System.EventHandler(this.screenZoom400_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(129, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // hexEditorToolStripMenuItem
             // 
             this.hexEditorToolStripMenuItem.Name = "hexEditorToolStripMenuItem";
-            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hexEditorToolStripMenuItem.Text = "Hex Editor";
             this.hexEditorToolStripMenuItem.Click += new System.EventHandler(this.hexEditorToolStripMenuItem_Click);
             // 
             // oBJDetailsToolStripMenuItem
             // 
             this.oBJDetailsToolStripMenuItem.Name = "oBJDetailsToolStripMenuItem";
-            this.oBJDetailsToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.oBJDetailsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.oBJDetailsToolStripMenuItem.Text = "OBJ Details";
             this.oBJDetailsToolStripMenuItem.Click += new System.EventHandler(this.oBJDetailsToolStripMenuItem_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(512, 512);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
-            // 
-            // panel1
-            // 
-            this.panel1.AutoScroll = true;
-            this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Location = new System.Drawing.Point(0, 24);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(512, 512);
-            this.panel1.TabIndex = 2;
             // 
             // panel2
             // 
@@ -368,6 +357,24 @@
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
             // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.pictureBox3);
+            this.panel3.Location = new System.Drawing.Point(0, 24);
+            this.panel3.Margin = new System.Windows.Forms.Padding(0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(512, 512);
+            this.panel3.TabIndex = 5;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(512, 512);
+            this.pictureBox3.TabIndex = 0;
+            this.pictureBox3.TabStop = false;
+            // 
             // hexBox1
             // 
             this.hexBox1.ColumnInfoVisible = true;
@@ -389,9 +396,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(940, 636);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.hexBox1);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
@@ -405,11 +412,11 @@
             this.Load += new System.EventHandler(this.OAMEditor_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -418,19 +425,12 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hexEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oBJDetailsToolStripMenuItem;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ToolStripMenuItem zoomToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private Be.Windows.Forms.HexBox hexBox1;
         private System.Windows.Forms.Panel panel2;
@@ -449,5 +449,13 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.ToolStripMenuItem screenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zoomToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem screenZoom100;
+        private System.Windows.Forms.ToolStripMenuItem screenZoom200;
+        private System.Windows.Forms.ToolStripMenuItem screenZoom300;
+        private System.Windows.Forms.ToolStripMenuItem screenZoom400;
     }
 }

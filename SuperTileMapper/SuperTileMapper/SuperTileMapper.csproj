@@ -93,17 +93,17 @@
     <Compile Include="ImportData.Designer.cs">
       <DependentUpon>ImportData.cs</DependentUpon>
     </Compile>
-    <Compile Include="OAMEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="OAMEditor.Designer.cs">
-      <DependentUpon>OAMEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="OBJEditor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="OBJEditor.Designer.cs">
       <DependentUpon>OBJEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OAMEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OAMEditor.Designer.cs">
+      <DependentUpon>OAMEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="PPURegEditor.cs">
       <SubType>Form</SubType>
@@ -148,11 +148,11 @@
     <EmbeddedResource Include="ImportData.resx">
       <DependentUpon>ImportData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OAMEditor.resx">
-      <DependentUpon>OAMEditor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="OBJEditor.resx">
       <DependentUpon>OBJEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OAMEditor.resx">
+      <DependentUpon>OAMEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PPURegEditor.resx">
       <DependentUpon>PPURegEditor.cs</DependentUpon>

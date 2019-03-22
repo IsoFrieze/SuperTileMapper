@@ -42,6 +42,15 @@
             this.tilemapZoom200 = new System.Windows.Forms.ToolStripMenuItem();
             this.tilemapZoom300 = new System.Windows.Forms.ToolStripMenuItem();
             this.tilemapZoom400 = new System.Windows.Forms.ToolStripMenuItem();
+            this.transparencyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.transLocal0 = new System.Windows.Forms.ToolStripMenuItem();
+            this.transColor00 = new System.Windows.Forms.ToolStripMenuItem();
+            this.transBlack = new System.Windows.Forms.ToolStripMenuItem();
+            this.transWhite = new System.Windows.Forms.ToolStripMenuItem();
+            this.priorityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.prioAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.prioFocus = new System.Windows.Forms.ToolStripMenuItem();
+            this.prioOnly = new System.Windows.Forms.ToolStripMenuItem();
             this.tilePickerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pickerZoom100 = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,6 +88,7 @@
             this.pictureBox1.Size = new System.Drawing.Size(512, 512);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             // 
             // menuStrip1
             // 
@@ -144,7 +154,9 @@
             // tilemapToolStripMenuItem
             // 
             this.tilemapToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.zoomToolStripMenuItem});
+            this.zoomToolStripMenuItem,
+            this.transparencyToolStripMenuItem,
+            this.priorityToolStripMenuItem});
             this.tilemapToolStripMenuItem.Name = "tilemapToolStripMenuItem";
             this.tilemapToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.tilemapToolStripMenuItem.Text = "Tilemap";
@@ -157,7 +169,7 @@
             this.tilemapZoom300,
             this.tilemapZoom400});
             this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
-            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.zoomToolStripMenuItem.Text = "Zoom";
             // 
             // tilemapZoom100
@@ -189,6 +201,80 @@
             this.tilemapZoom400.Size = new System.Drawing.Size(102, 22);
             this.tilemapZoom400.Text = "400%";
             this.tilemapZoom400.Click += new System.EventHandler(this.tilemapZoom400_Click);
+            // 
+            // transparencyToolStripMenuItem
+            // 
+            this.transparencyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.transLocal0,
+            this.transColor00,
+            this.transBlack,
+            this.transWhite});
+            this.transparencyToolStripMenuItem.Name = "transparencyToolStripMenuItem";
+            this.transparencyToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.transparencyToolStripMenuItem.Text = "Transparency";
+            // 
+            // transLocal0
+            // 
+            this.transLocal0.Checked = true;
+            this.transLocal0.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.transLocal0.Name = "transLocal0";
+            this.transLocal0.Size = new System.Drawing.Size(169, 22);
+            this.transLocal0.Text = "Local Color #0";
+            this.transLocal0.Click += new System.EventHandler(this.transLocal0_Click);
+            // 
+            // transColor00
+            // 
+            this.transColor00.Name = "transColor00";
+            this.transColor00.Size = new System.Drawing.Size(169, 22);
+            this.transColor00.Text = "CGRAM Color $00";
+            this.transColor00.Click += new System.EventHandler(this.transColor00_Click);
+            // 
+            // transBlack
+            // 
+            this.transBlack.Name = "transBlack";
+            this.transBlack.Size = new System.Drawing.Size(169, 22);
+            this.transBlack.Text = "Black";
+            this.transBlack.Click += new System.EventHandler(this.transBlack_Click);
+            // 
+            // transWhite
+            // 
+            this.transWhite.Name = "transWhite";
+            this.transWhite.Size = new System.Drawing.Size(169, 22);
+            this.transWhite.Text = "White";
+            this.transWhite.Click += new System.EventHandler(this.transWhite_Click);
+            // 
+            // priorityToolStripMenuItem
+            // 
+            this.priorityToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.prioAll,
+            this.prioFocus,
+            this.prioOnly});
+            this.priorityToolStripMenuItem.Name = "priorityToolStripMenuItem";
+            this.priorityToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.priorityToolStripMenuItem.Text = "Priority";
+            // 
+            // prioAll
+            // 
+            this.prioAll.Checked = true;
+            this.prioAll.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.prioAll.Name = "prioAll";
+            this.prioAll.Size = new System.Drawing.Size(175, 22);
+            this.prioAll.Text = "Show All";
+            this.prioAll.Click += new System.EventHandler(this.prioAll_Click);
+            // 
+            // prioFocus
+            // 
+            this.prioFocus.Name = "prioFocus";
+            this.prioFocus.Size = new System.Drawing.Size(175, 22);
+            this.prioFocus.Text = "Focus High Priority";
+            this.prioFocus.Click += new System.EventHandler(this.prioFocus_Click);
+            // 
+            // prioOnly
+            // 
+            this.prioOnly.Name = "prioOnly";
+            this.prioOnly.Size = new System.Drawing.Size(175, 22);
+            this.prioOnly.Text = "Only High Priority";
+            this.prioOnly.Click += new System.EventHandler(this.prioOnly_Click);
             // 
             // tilePickerToolStripMenuItem
             // 
@@ -448,5 +534,14 @@
         private System.Windows.Forms.ToolStripMenuItem pickerWidth16;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ToolStripMenuItem transparencyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem transLocal0;
+        private System.Windows.Forms.ToolStripMenuItem transColor00;
+        private System.Windows.Forms.ToolStripMenuItem transBlack;
+        private System.Windows.Forms.ToolStripMenuItem transWhite;
+        private System.Windows.Forms.ToolStripMenuItem priorityToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem prioAll;
+        private System.Windows.Forms.ToolStripMenuItem prioFocus;
+        private System.Windows.Forms.ToolStripMenuItem prioOnly;
     }
 }

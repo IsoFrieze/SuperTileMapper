@@ -265,23 +265,27 @@ namespace SuperTileMapper
         {
             setRegBits(0x01, reg2101, 2, objsize, 0xE0);
             SuperTileMapper.oam.RedrawAll();
+            SuperTileMapper.obj.RedrawAll();
         }
 
         private void objselect_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x01, reg2101, 2, objselect, 0x18);
             SuperTileMapper.oam.RedrawAll();
+            SuperTileMapper.obj.RedrawAll();
         }
 
         private void objbase_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x01, reg2101, 2, objbase, 0x07);
             SuperTileMapper.oam.RedrawAll();
+            SuperTileMapper.obj.RedrawAll();
         }
 
         private void objpriority_TextChanged(object sender, EventArgs e)
         {
             setRegBits(0x02, reg2102, 2, objpriority, 0xFE);
+            SuperTileMapper.oam.RedrawAll();
         }
 
         private void bg3priority_CheckedChanged(object sender, EventArgs e)

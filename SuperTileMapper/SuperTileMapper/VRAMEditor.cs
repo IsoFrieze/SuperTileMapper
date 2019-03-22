@@ -89,10 +89,13 @@ namespace SuperTileMapper
         public void RedrawAll()
         {
             if (pictureBox1.Image != null) pictureBox1.Image.Dispose();
-            Bitmap img = new Bitmap(8 * across * zoom, 8 * (bpp == 0 ? 0x1000 / across : (bpp == 1 ? 0x800 / across : 0x400 / across)) * zoom);
+
+            int tileCount = bpp == 0 ? 0x1000 : bpp == 1 ? 0x800 : bpp == 2 ? 0x400 : 0x100;
+
+            Bitmap img = new Bitmap(8 * across * zoom, 8 * zoom * tileCount / across);
             pictureBox1.Image = img;
 
-            for (int i = 0; i < (bpp == 0 ? 0x1000 : (bpp == 1 ? 0x800 : 0x400)); i++) Redraw(i);
+            for (int i = 0; i < tileCount; i++) Redraw(i);
 
             pictureBox1.Width = img.Width;
             pictureBox1.Height = img.Height;
@@ -109,9 +112,9 @@ namespace SuperTileMapper
 
         private void DrawTile(int tile, Bitmap img, int x, int y, int zoom)
         {
-            int vram = ((0x10 * tile) * (bpp == 0 ? 1 : (bpp == 1 ? 2 : 4)));
+            int vram = ((0x10 * tile) * (bpp == 0 ? 1 : (bpp == 1 ? 2 : (bpp == 2 ? 4 : 8))));
             int cgram = pal * (bpp == 0 ? 4 : 0x10);
-            Util.Draw8x8Tile(vram, bpp, false, false, cgram, img, x, y, zoom);
+            Util.Draw8x8Tile(vram, bpp, false, false, cgram, img, x, y, zoom, 0);
         }
 
         private void UpdateDetails()
@@ -128,7 +131,7 @@ namespace SuperTileMapper
 
         private void UpdateHexEditor(int tile)
         {
-            int b = bpp == 0 ? 0x10 : (bpp == 1 ? 0x20 : 0x40);
+            int b = bpp == 0 ? 0x10 : (bpp == 1 ? 0x20 : (bpp == 2 ? 0x40 : 0x80));
             hexBox1.ByteProvider = new DynamicByteProvider(Data.VRAM);
             hexBox1.SelectionStart = b * tile;
             hexBox1.SelectionLength = b;

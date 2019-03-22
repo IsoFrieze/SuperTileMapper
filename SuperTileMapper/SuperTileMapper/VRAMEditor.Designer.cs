@@ -170,7 +170,7 @@
             this.toolStripMenuItem3,
             this.toolStripMenuItem4});
             this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
-            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.zoomToolStripMenuItem.Text = "Zoom";
             // 
             // x1ToolStripMenuItem
@@ -210,7 +210,7 @@
             this.tilesToolStripMenuItem1,
             this.tilesToolStripMenuItem2});
             this.widthToolStripMenuItem.Name = "widthToolStripMenuItem";
-            this.widthToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.widthToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.widthToolStripMenuItem.Text = "Width";
             // 
             // tilesToolStripMenuItem
@@ -239,26 +239,26 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(133, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // hexEditorToolStripMenuItem
             // 
             this.hexEditorToolStripMenuItem.Name = "hexEditorToolStripMenuItem";
-            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hexEditorToolStripMenuItem.Text = "Hex Editor";
             this.hexEditorToolStripMenuItem.Click += new System.EventHandler(this.hexEditorToolStripMenuItem_Click);
             // 
             // tileDetailsToolStripMenuItem
             // 
             this.tileDetailsToolStripMenuItem.Name = "tileDetailsToolStripMenuItem";
-            this.tileDetailsToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.tileDetailsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tileDetailsToolStripMenuItem.Text = "Tile Details";
             this.tileDetailsToolStripMenuItem.Click += new System.EventHandler(this.tileDetailsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(133, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // bPPFormatToolStripMenuItem
             // 
@@ -268,7 +268,7 @@
             this.bPPToolStripMenuItem2,
             this.mode78BPPToolStripMenuItem});
             this.bPPFormatToolStripMenuItem.Name = "bPPFormatToolStripMenuItem";
-            this.bPPFormatToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.bPPFormatToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bPPFormatToolStripMenuItem.Text = "BPP Format";
             // 
             // bPPToolStripMenuItem
@@ -276,29 +276,28 @@
             this.bPPToolStripMenuItem.Checked = true;
             this.bPPToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.bPPToolStripMenuItem.Name = "bPPToolStripMenuItem";
-            this.bPPToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.bPPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bPPToolStripMenuItem.Text = "2BPP";
             this.bPPToolStripMenuItem.Click += new System.EventHandler(this.bPPToolStripMenuItem_Click);
             // 
             // bPPToolStripMenuItem1
             // 
             this.bPPToolStripMenuItem1.Name = "bPPToolStripMenuItem1";
-            this.bPPToolStripMenuItem1.Size = new System.Drawing.Size(144, 22);
+            this.bPPToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.bPPToolStripMenuItem1.Text = "4BPP";
             this.bPPToolStripMenuItem1.Click += new System.EventHandler(this.bPPToolStripMenuItem1_Click);
             // 
             // bPPToolStripMenuItem2
             // 
             this.bPPToolStripMenuItem2.Name = "bPPToolStripMenuItem2";
-            this.bPPToolStripMenuItem2.Size = new System.Drawing.Size(144, 22);
+            this.bPPToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.bPPToolStripMenuItem2.Text = "8BPP";
             this.bPPToolStripMenuItem2.Click += new System.EventHandler(this.bPPToolStripMenuItem2_Click);
             // 
             // mode78BPPToolStripMenuItem
             // 
-            this.mode78BPPToolStripMenuItem.Enabled = false;
             this.mode78BPPToolStripMenuItem.Name = "mode78BPPToolStripMenuItem";
-            this.mode78BPPToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.mode78BPPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.mode78BPPToolStripMenuItem.Text = "Mode 7 8BPP";
             this.mode78BPPToolStripMenuItem.Click += new System.EventHandler(this.mode78BPPToolStripMenuItem_Click);
             // 
@@ -310,7 +309,7 @@
             this.palette02ToolStripMenuItem,
             this.palette03ToolStripMenuItem});
             this.paletteToolStripMenuItem.Name = "paletteToolStripMenuItem";
-            this.paletteToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.paletteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.paletteToolStripMenuItem.Text = "Palette";
             // 
             // palette00ToolStripMenuItem

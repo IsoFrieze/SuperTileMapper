@@ -47,10 +47,10 @@
             this.pPURegistersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tilemapEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.oBJEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.oBJEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -206,13 +206,6 @@
             this.tilemapEditorToolStripMenuItem.Text = "Tilemap Editor";
             this.tilemapEditorToolStripMenuItem.Click += new System.EventHandler(this.tilemapEditorToolStripMenuItem_Click);
             // 
-            // oBJEditorToolStripMenuItem
-            // 
-            this.oBJEditorToolStripMenuItem.Enabled = false;
-            this.oBJEditorToolStripMenuItem.Name = "oBJEditorToolStripMenuItem";
-            this.oBJEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.oBJEditorToolStripMenuItem.Text = "OBJ Editor";
-            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -237,6 +230,13 @@
             this.pictureBox1.Size = new System.Drawing.Size(512, 478);
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
+            // 
+            // oBJEditorToolStripMenuItem
+            // 
+            this.oBJEditorToolStripMenuItem.Name = "oBJEditorToolStripMenuItem";
+            this.oBJEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.oBJEditorToolStripMenuItem.Text = "OBJ Editor";
+            this.oBJEditorToolStripMenuItem.Click += new System.EventHandler(this.oBJEditorToolStripMenuItem_Click);
             // 
             // SuperTileMapper
             // 

@@ -19,13 +19,14 @@ namespace SuperTileMapper
         public static OAMEditor oam;
         public static PPURegEditor ppu;
         public static TilemapEditor tmap;
+        public static OBJEditor obj;
 
         public SuperTileMapper()
         {
             InitializeComponent();
             try
             {
-                string testdata = "C:\\Users\\Alex\\Documents\\Visual Studio 2017\\SuperTileMapper\\testdata\\tetrisattack\\";
+                string testdata = "C:\\Users\\Alex\\Documents\\Visual Studio 2017\\SuperTileMapper\\testdata\\smw\\";
 
                 byte[] cgram = File.ReadAllBytes(testdata + "cgram.bin");
                 byte[] vram = File.ReadAllBytes(testdata + "vram.bin");
@@ -56,6 +57,8 @@ namespace SuperTileMapper
         {
             tmap = new TilemapEditor();
             tmap.Close();
+            obj = new OBJEditor();
+            obj.Close();
             vram = new VRAMEditor();
             vram.Close();
             cgram = new CGRAMEditor();
@@ -118,6 +121,15 @@ namespace SuperTileMapper
                 tmap = new TilemapEditor();
             }
             tmap.Show();
+        }
+
+        private void oBJEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (obj.IsDisposed)
+            {
+                obj = new OBJEditor();
+            }
+            obj.Show();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)

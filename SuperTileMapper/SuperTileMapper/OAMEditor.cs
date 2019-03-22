@@ -17,17 +17,8 @@ namespace SuperTileMapper
         int showDetails = -1;
         bool updatingDetails = false;
 
-        int[,,] sizes = new int[,,] {
-            { {8,8}, {16,16} },
-            { {8,8}, {32,32} },
-            { {8,8}, {64,64} },
-            { {16,16}, {32,32} },
-            { {16,16}, {64,64} },
-            { {32,32}, {64,64} },
-            { {16,32}, {32,64} },
-            { {16,32}, {32,32} }
-        };
-        int zoom = 1;
+        int screenZoom = 1;
+
         public OAMEditor()
         {
             InitializeComponent();
@@ -89,31 +80,6 @@ namespace SuperTileMapper
 
         public void RedrawAll()
         {
-            int objsize = (Data.PPURegs[0x01] & 0xE0) >> 5;
-            int objw = sizes[objsize, 1, 0], objh = sizes[objsize, 1, 1];
-
-            if (pictureBox1.Image != null) pictureBox1.Image.Dispose();
-            Bitmap img = new Bitmap(zoom * 8 * objw, zoom * 16 * objh);
-            pictureBox1.Image = img;
-
-            for (int i = 0; i < 0x80; i++) Redraw(i);
-
-            pictureBox1.Width = img.Width;
-            pictureBox1.Height = img.Height;
-
-            if (showDetails >= 0) UpdateDetails();
-        }
-
-        public void Redraw(int obj)
-        {
-            Bitmap img = (Bitmap)pictureBox1.Image;
-
-            int objsize = (Data.PPURegs[0x01] & 0xE0) >> 5;
-            int objw = sizes[objsize, 1, 0], objh = sizes[objsize, 1, 1];
-            int x = objw * (obj % 8), y = objh * (obj / 8);
-            DrawOBJ(obj, img, x, y, zoom, objw, objh);
-
-            pictureBox1.Image = img;
         }
 
         private void DrawOBJ(int obj, Bitmap img, int x, int y, int zoom, int sx, int sy)
@@ -137,7 +103,7 @@ namespace SuperTileMapper
             int vselect = ((Data.PPURegs[0x01] & 0x18) >> 3) * 0x100;
 
             int bs = (Data.OAM[0x200 + obj / 4] >> (2 * (obj % 4) + 1)) & 0x01;
-            int bw = sizes[objsize, bs, 0], bh = sizes[objsize, bs, 1];
+            int bw = Util.OBJsizes[objsize, bs, 0], bh = Util.OBJsizes[objsize, bs, 1];
             bool xflip = (Data.OAM[4 * obj + 3] & 0x40) != 0, yflip = (Data.OAM[4 * obj + 3] & 0x80) != 0;
             for (int ty = 0; ty < bh / 8; ty++)
             {
@@ -157,6 +123,7 @@ namespace SuperTileMapper
                             int xx = b0 + 2 * b1 + 4 * b2 + 8 * b3;
                             int c = 0x80 + 0x10 * ((Data.OAM[4 * obj + 3] & 0x0E) >> 1);
                             //TODO: correctly y-flip OBJ in size mode 6 & 7 (the undocumented sizes)
+                            //TODO: use Util.Draw8x8Tile
                             for (int zy = 0; zy < zoom; zy++)
                             {
                                 for (int zx = 0; zx < zoom; zx++)
@@ -191,7 +158,7 @@ namespace SuperTileMapper
             checkBox3.Checked = (bits & 0x02) != 0;
             
             Bitmap img = (Bitmap)pictureBox2.Image;
-            int maxSize = sizes[((Data.PPURegs[0x01] & 0xE0) >> 5), (bits & 0x02) >> 1, 1];
+            int maxSize = Util.OBJsizes[((Data.PPURegs[0x01] & 0xE0) >> 5), (bits & 0x02) >> 1, 1];
             DrawOBJ(showDetails, img, 0, 0, img.Height / maxSize, maxSize, maxSize);
             pictureBox2.Image = img;
 
@@ -211,34 +178,34 @@ namespace SuperTileMapper
 
         private void updateCheckboxes()
         {
-            toolStripMenuItem2.Checked = (zoom == 1);
-            toolStripMenuItem3.Checked = (zoom == 2);
-            toolStripMenuItem4.Checked = (zoom == 3);
-            toolStripMenuItem5.Checked = (zoom == 4);
+            screenZoom100.Checked = (screenZoom == 1);
+            screenZoom200.Checked = (screenZoom == 2);
+            screenZoom300.Checked = (screenZoom == 3);
+            screenZoom400.Checked = (screenZoom == 4);
             RedrawAll();
         }
 
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        private void screenZoom100_Click(object sender, EventArgs e)
         {
-            zoom = 1;
+            screenZoom = 1;
             updateCheckboxes();
         }
 
-        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        private void screenZoom200_Click(object sender, EventArgs e)
         {
-            zoom = 2;
+            screenZoom = 2;
             updateCheckboxes();
         }
 
-        private void toolStripMenuItem4_Click(object sender, EventArgs e)
+        private void screenZoom300_Click(object sender, EventArgs e)
         {
-            zoom = 3;
+            screenZoom = 3;
             updateCheckboxes();
         }
 
-        private void toolStripMenuItem5_Click(object sender, EventArgs e)
+        private void screenZoom400_Click(object sender, EventArgs e)
         {
-            zoom = 4;
+            screenZoom = 4;
             updateCheckboxes();
         }
 
@@ -255,19 +222,6 @@ namespace SuperTileMapper
             ResizeMe();
         }
 
-        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
-        {
-            int ox = e.X / (pictureBox1.Width / 8);
-            int oy = e.Y / (pictureBox1.Height / 16);
-            int obj = ox + 8 * oy;
-            if (showDetails >= 0)
-            {
-                showDetails = obj;
-                UpdateDetails();
-            }
-            UpdateHexEditor(obj);
-        }
-
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             int val;
@@ -278,7 +232,7 @@ namespace SuperTileMapper
                     Data.OAM[4 * showDetails + 2] = (byte)(val & 0x00FF);
                     Data.OAM[4 * showDetails + 3] = (byte)((Data.OAM[4 * showDetails + 3] & ~0x01) | ((val & 0x0100) >> 8));
                     UpdateDetails();
-                    Redraw(showDetails);
+                    RedrawAll();
                     UpdateHexEditor(showDetails);
                 }
                 else if (e.KeyCode == Keys.Escape)
@@ -306,7 +260,7 @@ namespace SuperTileMapper
                     Data.OAM[4 * showDetails] = (byte)(val & 0x00FF);
                     Data.OAM[0x200 + showDetails / 4] = (byte)((Data.OAM[0x200 + showDetails / 4] & ~(0x01 << (2*(showDetails%4))) | ((val & 0x0100) >> 8)));
                     UpdateDetails();
-                    Redraw(showDetails);
+                    RedrawAll();
                     UpdateHexEditor(showDetails);
                 }
                 else if (e.KeyCode == Keys.Escape)
@@ -333,7 +287,7 @@ namespace SuperTileMapper
                 {
                     Data.OAM[4 * showDetails + 1] = (byte)val;
                     UpdateDetails();
-                    Redraw(showDetails);
+                    RedrawAll();
                     UpdateHexEditor(showDetails);
                 }
                 else if (e.KeyCode == Keys.Escape)
@@ -360,7 +314,7 @@ namespace SuperTileMapper
                 {
                     Data.OAM[4 * showDetails + 3] = (byte)((Data.OAM[4 * showDetails + 3] & ~0x0E) | ((val & 0x07) << 1));
                     UpdateDetails();
-                    Redraw(showDetails);
+                    RedrawAll();
                     UpdateHexEditor(showDetails);
                 }
                 else if (e.KeyCode == Keys.Escape)
@@ -387,7 +341,7 @@ namespace SuperTileMapper
                 {
                     Data.OAM[4 * showDetails + 3] = (byte)((Data.OAM[4 * showDetails + 3] & ~0x30) | ((val & 0x03) << 4));
                     UpdateDetails();
-                    Redraw(showDetails);
+                    RedrawAll();
                     UpdateHexEditor(showDetails);
                 }
                 else if (e.KeyCode == Keys.Escape)
@@ -411,7 +365,7 @@ namespace SuperTileMapper
             {
                 Data.OAM[4 * showDetails + 3] = (byte)((Data.OAM[4 * showDetails + 3] & ~0x40) | (checkBox1.Checked ? 0x40 : 0));
                 UpdateDetails();
-                Redraw(showDetails);
+                RedrawAll();
                 UpdateHexEditor(showDetails);
             }
         }
@@ -422,7 +376,7 @@ namespace SuperTileMapper
             {
                 Data.OAM[4 * showDetails + 3] = (byte)((Data.OAM[4 * showDetails + 3] & ~0x80) | (checkBox2.Checked ? 0x80 : 0));
                 UpdateDetails();
-                Redraw(showDetails);
+                RedrawAll();
                 UpdateHexEditor(showDetails);
             }
         }
@@ -433,7 +387,7 @@ namespace SuperTileMapper
             {
                 Data.OAM[0x200 + showDetails / 4] = (byte)((Data.OAM[0x200 + showDetails / 4] & ~(0x02 << (2 * (showDetails % 4)))) | ((checkBox3.Checked ? 0x02 : 0) << (2 * (showDetails % 4))));
                 UpdateDetails();
-                Redraw(showDetails);
+                RedrawAll();
                 UpdateHexEditor(showDetails);
             }
         }
@@ -444,17 +398,16 @@ namespace SuperTileMapper
             Data.OAM[i] = hexBox1.ByteProvider.ReadByte(i);
             if (i < 0x200)
             {
-                Redraw(i / 4);
                 if (showDetails == i / 4) UpdateDetails();
             } else
             {
                 for (int j = 0; j < 4; j++)
                 {
                     int obj = (i - 0x200) * 4 + j;
-                    Redraw(obj);
                     if (showDetails == obj) UpdateDetails();
                 }
             }
+            RedrawAll();
         }
     }
 }
