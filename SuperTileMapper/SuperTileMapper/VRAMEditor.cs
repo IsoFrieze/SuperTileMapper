@@ -117,6 +117,13 @@ namespace SuperTileMapper
             Util.Draw8x8Tile(vram, bpp, false, false, cgram, img, x, y, zoom, 0);
         }
 
+        private void RedrawOtherWindows()
+        {
+            if (SuperTileMapper.oam != null) SuperTileMapper.oam.RedrawAll();
+            if (SuperTileMapper.tmap != null) SuperTileMapper.tmap.RedrawAll();
+            if (SuperTileMapper.obj != null) SuperTileMapper.obj.RedrawAll();
+        }
+
         private void UpdateDetails()
         {
             updatingDetails = true;
@@ -503,7 +510,7 @@ namespace SuperTileMapper
             if (showDetails == i / b) UpdateDetails();
 
             // TODO: this can be reduced to only redraw when an oam-used tile is modified
-            if (SuperTileMapper.oam != null) SuperTileMapper.oam.RedrawAll();
+            RedrawOtherWindows();
         }
     }
 }

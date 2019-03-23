@@ -22,10 +22,10 @@ namespace SuperTileMapper
         public OAMEditor()
         {
             InitializeComponent();
+            pictureBox2.Image = new Bitmap(64, 64);
             RedrawAll();
             ResizeMe();
             hexBox1.ByteProvider = new DynamicByteProvider(Data.OAM);
-            pictureBox2.Image = new Bitmap(64, 64);
         }
 
         private void importDataToolStripMenuItem_Click(object sender, EventArgs e)
@@ -80,6 +80,18 @@ namespace SuperTileMapper
 
         public void RedrawAll()
         {
+            if (showDetails >= 0) RedrawSelectedOBJ();
+        }
+
+        private void RedrawSelectedOBJ()
+        {
+            Bitmap img = (Bitmap)pictureBox2.Image;
+
+            int bits = (Data.OAM[0x200 + showDetails / 4] >> ((showDetails % 4) * 2)) & 0x03;
+            int maxSize = Util.OBJsizes[((Data.PPURegs[0x01] & 0xE0) >> 5), (bits & 0x02) >> 1, 1];
+            DrawOBJ(showDetails, img, 0, 0, img.Height / maxSize, maxSize, maxSize);
+
+            pictureBox2.Image = img;
         }
 
         private void DrawOBJ(int obj, Bitmap img, int x, int y, int zoom, int sx, int sy)
@@ -156,11 +168,8 @@ namespace SuperTileMapper
             checkBox1.Checked = (word2 & 0x4000) != 0;
             checkBox2.Checked = (word2 & 0x8000) != 0;
             checkBox3.Checked = (bits & 0x02) != 0;
-            
-            Bitmap img = (Bitmap)pictureBox2.Image;
-            int maxSize = Util.OBJsizes[((Data.PPURegs[0x01] & 0xE0) >> 5), (bits & 0x02) >> 1, 1];
-            DrawOBJ(showDetails, img, 0, 0, img.Height / maxSize, maxSize, maxSize);
-            pictureBox2.Image = img;
+
+            RedrawSelectedOBJ();
 
             updatingDetails = false;
         }
@@ -408,6 +417,8 @@ namespace SuperTileMapper
                 }
             }
             RedrawAll();
+
+            if (SuperTileMapper.obj != null) SuperTileMapper.obj.RedrawAll();
         }
     }
 }

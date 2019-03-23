@@ -95,6 +95,14 @@ namespace SuperTileMapper
             pictureBox1.Image = img;
         }
 
+        private void RedrawOtherWindows()
+        {
+            if (SuperTileMapper.oam != null) SuperTileMapper.oam.RedrawAll();
+            if (SuperTileMapper.vram != null) SuperTileMapper.vram.RedrawAll();
+            if (SuperTileMapper.tmap != null) SuperTileMapper.tmap.RedrawAll();
+            if (SuperTileMapper.obj != null) SuperTileMapper.obj.RedrawAll();
+        }
+
         private void UpdateDetails()
         {
             updatingDetails = true;
@@ -158,8 +166,7 @@ namespace SuperTileMapper
                 Data.CGRAM[2 * showDetails + 1] = (byte)((cg & 0x7F00) >> 8);
                 UpdateDetails();
                 Redraw(showDetails);
-                SuperTileMapper.oam.RedrawAll();
-                SuperTileMapper.vram.RedrawAll();
+                RedrawOtherWindows();
             }
         }
 
@@ -175,8 +182,7 @@ namespace SuperTileMapper
                     UpdateDetails();
                     Redraw(showDetails);
                     UpdateHexEditor(showDetails);
-                    SuperTileMapper.oam.RedrawAll();
-                    SuperTileMapper.vram.RedrawAll();
+                    RedrawOtherWindows();
                 } else if (e.KeyCode == Keys.Escape)
                 {
                     textBox1_Leave(sender, e);
@@ -195,8 +201,7 @@ namespace SuperTileMapper
                     UpdateDetails();
                     Redraw(showDetails);
                     UpdateHexEditor(showDetails);
-                    SuperTileMapper.oam.RedrawAll();
-                    SuperTileMapper.vram.RedrawAll();
+                    RedrawOtherWindows();
                 }
                 else if (e.KeyCode == Keys.Escape)
                 {
@@ -217,8 +222,7 @@ namespace SuperTileMapper
                     UpdateDetails();
                     Redraw(showDetails);
                     UpdateHexEditor(showDetails);
-                    SuperTileMapper.oam.RedrawAll();
-                    SuperTileMapper.vram.RedrawAll();
+                    RedrawOtherWindows();
                 }
                 else if (e.KeyCode == Keys.Escape)
                 {
@@ -238,8 +242,7 @@ namespace SuperTileMapper
                     UpdateDetails();
                     Redraw(showDetails);
                     UpdateHexEditor(showDetails);
-                    SuperTileMapper.oam.RedrawAll();
-                    SuperTileMapper.vram.RedrawAll();
+                    RedrawOtherWindows();
                 }
                 else if (e.KeyCode == Keys.Escape)
                 {
@@ -282,22 +285,19 @@ namespace SuperTileMapper
         private void trackBar3_MouseUp(object sender, MouseEventArgs e)
         {
             UpdateHexEditor(showDetails);
-            SuperTileMapper.oam.RedrawAll();
-            SuperTileMapper.vram.RedrawAll();
+            RedrawOtherWindows();
         }
 
         private void trackBar1_MouseUp(object sender, MouseEventArgs e)
         {
             UpdateHexEditor(showDetails);
-            SuperTileMapper.oam.RedrawAll();
-            SuperTileMapper.vram.RedrawAll();
+            RedrawOtherWindows();
         }
 
         private void trackBar2_MouseUp(object sender, MouseEventArgs e)
         {
             UpdateHexEditor(showDetails);
-            SuperTileMapper.oam.RedrawAll();
-            SuperTileMapper.vram.RedrawAll();
+            RedrawOtherWindows();
         }
 
         private void hexBox1_KeyDown(object sender, KeyEventArgs e)
@@ -314,8 +314,7 @@ namespace SuperTileMapper
             {
                 UpdateDetails();
             }
-            if (SuperTileMapper.oam != null) SuperTileMapper.oam.RedrawAll();
-            if (SuperTileMapper.vram != null) SuperTileMapper.vram.RedrawAll();
+            RedrawOtherWindows();
         }
 
         private void textBox1_Leave(object sender, EventArgs e)
