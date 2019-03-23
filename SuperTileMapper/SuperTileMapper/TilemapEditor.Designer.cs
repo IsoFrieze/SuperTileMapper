@@ -96,7 +96,7 @@
             this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(768, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(802, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -438,47 +438,45 @@
             this.groupBox1.Controls.Add(this.labelTileNo);
             this.groupBox1.Controls.Add(this.checkFlipH);
             this.groupBox1.Controls.Add(this.checkFlipV);
-            this.groupBox1.Location = new System.Drawing.Point(520, 286);
+            this.groupBox1.Location = new System.Drawing.Point(537, 305);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(236, 124);
+            this.groupBox1.Size = new System.Drawing.Size(257, 124);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Selected Tile";
             // 
             // panel1
             // 
-            this.panel1.AutoScroll = true;
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(512, 512);
+            this.panel1.Size = new System.Drawing.Size(529, 529);
             this.panel1.TabIndex = 11;
             // 
             // panel2
             // 
-            this.panel2.AutoScroll = true;
             this.panel2.Controls.Add(this.pictureBox2);
-            this.panel2.Location = new System.Drawing.Point(512, 24);
+            this.panel2.Location = new System.Drawing.Point(529, 24);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(256, 256);
+            this.panel2.Size = new System.Drawing.Size(273, 273);
             this.panel2.TabIndex = 12;
             // 
             // TilemapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(768, 536);
+            this.ClientSize = new System.Drawing.Size(802, 553);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(784, 575);
+            this.MaximumSize = new System.Drawing.Size(818, 592);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(784, 575);
+            this.MinimumSize = new System.Drawing.Size(818, 592);
             this.Name = "TilemapEditor";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

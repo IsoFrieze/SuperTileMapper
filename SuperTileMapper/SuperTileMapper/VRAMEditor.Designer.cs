@@ -118,7 +118,7 @@
             this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(940, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(957, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -170,7 +170,7 @@
             this.toolStripMenuItem3,
             this.toolStripMenuItem4});
             this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
-            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.zoomToolStripMenuItem.Text = "Zoom";
             // 
             // x1ToolStripMenuItem
@@ -210,7 +210,7 @@
             this.tilesToolStripMenuItem1,
             this.tilesToolStripMenuItem2});
             this.widthToolStripMenuItem.Name = "widthToolStripMenuItem";
-            this.widthToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.widthToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.widthToolStripMenuItem.Text = "Width";
             // 
             // tilesToolStripMenuItem
@@ -239,26 +239,26 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(133, 6);
             // 
             // hexEditorToolStripMenuItem
             // 
             this.hexEditorToolStripMenuItem.Name = "hexEditorToolStripMenuItem";
-            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.hexEditorToolStripMenuItem.Text = "Hex Editor";
             this.hexEditorToolStripMenuItem.Click += new System.EventHandler(this.hexEditorToolStripMenuItem_Click);
             // 
             // tileDetailsToolStripMenuItem
             // 
             this.tileDetailsToolStripMenuItem.Name = "tileDetailsToolStripMenuItem";
-            this.tileDetailsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tileDetailsToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.tileDetailsToolStripMenuItem.Text = "Tile Details";
             this.tileDetailsToolStripMenuItem.Click += new System.EventHandler(this.tileDetailsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(133, 6);
             // 
             // bPPFormatToolStripMenuItem
             // 
@@ -268,7 +268,7 @@
             this.bPPToolStripMenuItem2,
             this.mode78BPPToolStripMenuItem});
             this.bPPFormatToolStripMenuItem.Name = "bPPFormatToolStripMenuItem";
-            this.bPPFormatToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bPPFormatToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.bPPFormatToolStripMenuItem.Text = "BPP Format";
             // 
             // bPPToolStripMenuItem
@@ -276,28 +276,28 @@
             this.bPPToolStripMenuItem.Checked = true;
             this.bPPToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.bPPToolStripMenuItem.Name = "bPPToolStripMenuItem";
-            this.bPPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bPPToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.bPPToolStripMenuItem.Text = "2BPP";
             this.bPPToolStripMenuItem.Click += new System.EventHandler(this.bPPToolStripMenuItem_Click);
             // 
             // bPPToolStripMenuItem1
             // 
             this.bPPToolStripMenuItem1.Name = "bPPToolStripMenuItem1";
-            this.bPPToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.bPPToolStripMenuItem1.Size = new System.Drawing.Size(144, 22);
             this.bPPToolStripMenuItem1.Text = "4BPP";
             this.bPPToolStripMenuItem1.Click += new System.EventHandler(this.bPPToolStripMenuItem1_Click);
             // 
             // bPPToolStripMenuItem2
             // 
             this.bPPToolStripMenuItem2.Name = "bPPToolStripMenuItem2";
-            this.bPPToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.bPPToolStripMenuItem2.Size = new System.Drawing.Size(144, 22);
             this.bPPToolStripMenuItem2.Text = "8BPP";
             this.bPPToolStripMenuItem2.Click += new System.EventHandler(this.bPPToolStripMenuItem2_Click);
             // 
             // mode78BPPToolStripMenuItem
             // 
             this.mode78BPPToolStripMenuItem.Name = "mode78BPPToolStripMenuItem";
-            this.mode78BPPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.mode78BPPToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.mode78BPPToolStripMenuItem.Text = "Mode 7 8BPP";
             this.mode78BPPToolStripMenuItem.Click += new System.EventHandler(this.mode78BPPToolStripMenuItem_Click);
             // 
@@ -309,7 +309,7 @@
             this.palette02ToolStripMenuItem,
             this.palette03ToolStripMenuItem});
             this.paletteToolStripMenuItem.Name = "paletteToolStripMenuItem";
-            this.paletteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.paletteToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.paletteToolStripMenuItem.Text = "Palette";
             // 
             // palette00ToolStripMenuItem
@@ -600,22 +600,21 @@
             // 
             // panel1
             // 
-            this.panel1.AutoScroll = true;
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(512, 512);
+            this.panel1.Size = new System.Drawing.Size(529, 529);
             this.panel1.TabIndex = 2;
             // 
             // panel2
             // 
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.pictureBox2);
-            this.panel2.Location = new System.Drawing.Point(0, 536);
+            this.panel2.Location = new System.Drawing.Point(0, 553);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(512, 100);
+            this.panel2.Size = new System.Drawing.Size(529, 100);
             this.panel2.TabIndex = 4;
             // 
             // label1
@@ -640,12 +639,12 @@
             this.hexBox1.ColumnInfoVisible = true;
             this.hexBox1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.hexBox1.LineInfoVisible = true;
-            this.hexBox1.Location = new System.Drawing.Point(512, 24);
+            this.hexBox1.Location = new System.Drawing.Point(529, 24);
             this.hexBox1.Margin = new System.Windows.Forms.Padding(0);
             this.hexBox1.Name = "hexBox1";
             this.hexBox1.SelectionBackColor = System.Drawing.Color.RoyalBlue;
             this.hexBox1.ShadowSelectionColor = System.Drawing.Color.LightSlateGray;
-            this.hexBox1.Size = new System.Drawing.Size(428, 612);
+            this.hexBox1.Size = new System.Drawing.Size(428, 629);
             this.hexBox1.TabIndex = 3;
             this.hexBox1.VScrollBarVisible = true;
             this.hexBox1.CurrentPositionInLineChanged += new System.EventHandler(this.hexBox1_CurrentPositionInLineChanged);
@@ -654,16 +653,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(940, 636);
+            this.ClientSize = new System.Drawing.Size(957, 653);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.hexBox1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(956, 675);
+            this.MaximumSize = new System.Drawing.Size(973, 692);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(528, 575);
+            this.MinimumSize = new System.Drawing.Size(545, 592);
             this.Name = "VRAMEditor";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

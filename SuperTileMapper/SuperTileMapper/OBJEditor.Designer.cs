@@ -52,6 +52,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkSize = new System.Windows.Forms.CheckBox();
             this.pictureSelTile = new System.Windows.Forms.PictureBox();
             this.labelTileNo = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -60,7 +61,6 @@
             this.textPriority = new System.Windows.Forms.TextBox();
             this.checkFlipV = new System.Windows.Forms.CheckBox();
             this.checkFlipH = new System.Windows.Forms.CheckBox();
-            this.checkSize = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -76,7 +76,7 @@
             this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(768, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(802, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -236,7 +236,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(512, 512);
+            this.panel1.Size = new System.Drawing.Size(529, 529);
             this.panel1.TabIndex = 2;
             // 
             // pictureBox1
@@ -252,12 +252,11 @@
             // panel2
             // 
             this.panel2.AllowDrop = true;
-            this.panel2.AutoScroll = true;
             this.panel2.Controls.Add(this.pictureBox2);
-            this.panel2.Location = new System.Drawing.Point(512, 24);
+            this.panel2.Location = new System.Drawing.Point(529, 24);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(256, 256);
+            this.panel2.Size = new System.Drawing.Size(273, 273);
             this.panel2.TabIndex = 3;
             // 
             // pictureBox2
@@ -281,12 +280,23 @@
             this.groupBox1.Controls.Add(this.textPriority);
             this.groupBox1.Controls.Add(this.checkFlipV);
             this.groupBox1.Controls.Add(this.checkFlipH);
-            this.groupBox1.Location = new System.Drawing.Point(520, 286);
+            this.groupBox1.Location = new System.Drawing.Point(537, 305);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(236, 152);
+            this.groupBox1.Size = new System.Drawing.Size(257, 152);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Selected Tile";
+            // 
+            // checkSize
+            // 
+            this.checkSize.AutoSize = true;
+            this.checkSize.Location = new System.Drawing.Point(128, 66);
+            this.checkSize.Name = "checkSize";
+            this.checkSize.Size = new System.Drawing.Size(76, 17);
+            this.checkSize.TabIndex = 8;
+            this.checkSize.Text = "Large Size";
+            this.checkSize.UseVisualStyleBackColor = true;
+            this.checkSize.CheckedChanged += new System.EventHandler(this.checkSize_CheckedChanged);
             // 
             // pictureSelTile
             // 
@@ -361,31 +371,20 @@
             this.checkFlipH.UseVisualStyleBackColor = true;
             this.checkFlipH.CheckedChanged += new System.EventHandler(this.checkFlipH_CheckedChanged);
             // 
-            // checkSize
-            // 
-            this.checkSize.AutoSize = true;
-            this.checkSize.Location = new System.Drawing.Point(128, 66);
-            this.checkSize.Name = "checkSize";
-            this.checkSize.Size = new System.Drawing.Size(76, 17);
-            this.checkSize.TabIndex = 8;
-            this.checkSize.Text = "Large Size";
-            this.checkSize.UseVisualStyleBackColor = true;
-            this.checkSize.CheckedChanged += new System.EventHandler(this.checkSize_CheckedChanged);
-            // 
             // OBJEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(768, 537);
+            this.ClientSize = new System.Drawing.Size(802, 553);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(784, 576);
+            this.MaximumSize = new System.Drawing.Size(818, 592);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(784, 576);
+            this.MinimumSize = new System.Drawing.Size(818, 592);
             this.Name = "OBJEditor";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

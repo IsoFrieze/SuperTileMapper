@@ -26,6 +26,18 @@ namespace SuperTileMapper
             RedrawAll();
             ResizeMe();
             hexBox1.ByteProvider = new DynamicByteProvider(Data.OAM);
+            UpdateScrollbars();
+        }
+
+        private void UpdateScrollbars()
+        {
+            bool extend = pictureBox3.Width > 512 || pictureBox3.Height > 512;
+            if (!extend) panel3.AutoScroll = extend;
+            panel3.HorizontalScroll.Visible = !extend;
+            panel3.VerticalScroll.Visible = !extend;
+            panel3.HorizontalScroll.Enabled = extend;
+            panel3.VerticalScroll.Enabled = extend;
+            if (extend) panel3.AutoScroll = extend;
         }
 
         private void importDataToolStripMenuItem_Click(object sender, EventArgs e)
@@ -81,6 +93,7 @@ namespace SuperTileMapper
         public void RedrawAll()
         {
             if (showDetails >= 0) RedrawSelectedOBJ();
+            UpdateScrollbars();
         }
 
         private void RedrawSelectedOBJ()

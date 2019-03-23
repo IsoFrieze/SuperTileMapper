@@ -29,11 +29,23 @@ namespace SuperTileMapper
             ResizeMe();
             hexBox1.ByteProvider = new DynamicByteProvider(Data.VRAM);
             pictureBox2.Image = new Bitmap(64, 64);
+            UpdateScrollbars();
         }
 
         private void VRAMEditor_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void UpdateScrollbars()
+        {
+            bool extend = pictureBox1.Width > 512 || pictureBox1.Height > 512;
+            if (!extend) panel1.AutoScroll = extend;
+            panel1.HorizontalScroll.Visible = !extend;
+            panel1.VerticalScroll.Visible = !extend;
+            panel1.HorizontalScroll.Enabled = extend;
+            panel1.VerticalScroll.Enabled = extend;
+            if (extend) panel1.AutoScroll = extend;
         }
 
         private void importDataToolStripMenuItem_Click(object sender, EventArgs e)
@@ -66,21 +78,21 @@ namespace SuperTileMapper
             tileDetailsToolStripMenuItem.Checked = (showDetails >= 0);
             if (showHexEditor && (showDetails >= 0))
             {
-                SetSize(new Size(956, 675));
-                hexBox1.Height = 612;
+                SetSize(new Size(975, 692));
+                hexBox1.Height = 629;
             }
             else if (showHexEditor)
             {
-                SetSize(new Size(956, 575));
-                hexBox1.Height = 512;
+                SetSize(new Size(975, 592));
+                hexBox1.Height = 529;
             }
             else if ((showDetails >= 0))
             {
-                SetSize(new Size(528, 675));
+                SetSize(new Size(545, 692));
             }
             else
             {
-                SetSize(new Size(528, 575));
+                SetSize(new Size(545, 592));
             }
             hexBox1.Visible = showHexEditor;
             panel2.Visible = (showDetails >= 0);
@@ -101,6 +113,7 @@ namespace SuperTileMapper
             pictureBox1.Height = img.Height;
 
             if (showDetails >= 0) UpdateDetails();
+            UpdateScrollbars();
         }
 
         public void Redraw(int tile)

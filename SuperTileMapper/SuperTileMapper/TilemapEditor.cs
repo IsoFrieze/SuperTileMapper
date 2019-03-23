@@ -44,6 +44,7 @@ namespace SuperTileMapper
             pictureSelTile.Image = new Bitmap(64, 64);
             UpdateDetails();
             RedrawAll();
+            UpdateScrollbars();
         }
 
         private void TilemapEditor_Load(object sender, EventArgs e)
@@ -51,11 +52,31 @@ namespace SuperTileMapper
 
         }
 
+        private void UpdateScrollbars()
+        {
+            bool extendTilemap = pictureBox1.Width > 512 || pictureBox1.Height > 512;
+            if (!extendTilemap) panel1.AutoScroll = extendTilemap;
+            panel1.HorizontalScroll.Visible = !extendTilemap;
+            panel1.VerticalScroll.Visible = !extendTilemap;
+            panel1.HorizontalScroll.Enabled = extendTilemap;
+            panel1.VerticalScroll.Enabled = extendTilemap;
+            if (extendTilemap) panel1.AutoScroll = extendTilemap;
+
+            bool extendPicker = pictureBox2.Width > 256 || pictureBox2.Height > 256;
+            if (!extendPicker) panel2.AutoScroll = extendPicker;
+            panel2.HorizontalScroll.Visible = !extendPicker;
+            panel2.VerticalScroll.Visible = !extendPicker;
+            panel2.HorizontalScroll.Enabled = extendPicker;
+            panel2.VerticalScroll.Enabled = extendPicker;
+            if (extendPicker) panel2.AutoScroll = extendPicker;
+        }
+
         public void RedrawAll()
         {
             RedrawPicker();
             RedrawTilemap();
             RedrawSelectedTile();
+            UpdateScrollbars();
         }
 
         private void RedrawPicker()
