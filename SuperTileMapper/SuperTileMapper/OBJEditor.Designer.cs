@@ -61,6 +61,11 @@
             this.textPriority = new System.Windows.Forms.TextBox();
             this.checkFlipV = new System.Windows.Forms.CheckBox();
             this.checkFlipH = new System.Windows.Forms.CheckBox();
+            this.transparencyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewerTransLocal0 = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewerTransColor00 = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewerTransBlack = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewerTransWhite = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -93,9 +98,10 @@
             // 
             this.oBJViewerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.zoomToolStripMenuItem1,
+            this.transparencyToolStripMenuItem,
             this.widthToolStripMenuItem});
             this.oBJViewerToolStripMenuItem.Name = "oBJViewerToolStripMenuItem";
-            this.oBJViewerToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.oBJViewerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.oBJViewerToolStripMenuItem.Text = "OBJ Viewer";
             // 
             // zoomToolStripMenuItem1
@@ -106,7 +112,7 @@
             this.viewerZoom300,
             this.viewerZoom400});
             this.zoomToolStripMenuItem1.Name = "zoomToolStripMenuItem1";
-            this.zoomToolStripMenuItem1.Size = new System.Drawing.Size(106, 22);
+            this.zoomToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.zoomToolStripMenuItem1.Text = "Zoom";
             // 
             // viewerZoom100
@@ -147,7 +153,7 @@
             this.viewerWidth8,
             this.viewerWidth4});
             this.widthToolStripMenuItem.Name = "widthToolStripMenuItem";
-            this.widthToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+            this.widthToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.widthToolStripMenuItem.Text = "Width";
             // 
             // viewerWidth32
@@ -185,7 +191,7 @@
             this.oBJPickerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.zoomToolStripMenuItem});
             this.oBJPickerToolStripMenuItem.Name = "oBJPickerToolStripMenuItem";
-            this.oBJPickerToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.oBJPickerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.oBJPickerToolStripMenuItem.Text = "OBJ Picker";
             // 
             // zoomToolStripMenuItem
@@ -371,6 +377,47 @@
             this.checkFlipH.UseVisualStyleBackColor = true;
             this.checkFlipH.CheckedChanged += new System.EventHandler(this.checkFlipH_CheckedChanged);
             // 
+            // transparencyToolStripMenuItem
+            // 
+            this.transparencyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewerTransLocal0,
+            this.viewerTransColor00,
+            this.viewerTransBlack,
+            this.viewerTransWhite});
+            this.transparencyToolStripMenuItem.Name = "transparencyToolStripMenuItem";
+            this.transparencyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.transparencyToolStripMenuItem.Text = "Transparency";
+            // 
+            // viewerTransLocal0
+            // 
+            this.viewerTransLocal0.Checked = true;
+            this.viewerTransLocal0.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewerTransLocal0.Name = "viewerTransLocal0";
+            this.viewerTransLocal0.Size = new System.Drawing.Size(180, 22);
+            this.viewerTransLocal0.Text = "Local Color #0";
+            this.viewerTransLocal0.Click += new System.EventHandler(this.viewerTransLocal0_Click);
+            // 
+            // viewerTransColor00
+            // 
+            this.viewerTransColor00.Name = "viewerTransColor00";
+            this.viewerTransColor00.Size = new System.Drawing.Size(180, 22);
+            this.viewerTransColor00.Text = "CGRAM Color $00";
+            this.viewerTransColor00.Click += new System.EventHandler(this.viewerTransColor00_Click);
+            // 
+            // viewerTransBlack
+            // 
+            this.viewerTransBlack.Name = "viewerTransBlack";
+            this.viewerTransBlack.Size = new System.Drawing.Size(180, 22);
+            this.viewerTransBlack.Text = "Black";
+            this.viewerTransBlack.Click += new System.EventHandler(this.viewerTransBlack_Click);
+            // 
+            // viewerTransWhite
+            // 
+            this.viewerTransWhite.Name = "viewerTransWhite";
+            this.viewerTransWhite.Size = new System.Drawing.Size(180, 22);
+            this.viewerTransWhite.Text = "White";
+            this.viewerTransWhite.Click += new System.EventHandler(this.viewerTransWhite_Click);
+            // 
             // OBJEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -437,5 +484,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem viewerWidth32;
         private System.Windows.Forms.CheckBox checkSize;
+        private System.Windows.Forms.ToolStripMenuItem transparencyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewerTransLocal0;
+        private System.Windows.Forms.ToolStripMenuItem viewerTransColor00;
+        private System.Windows.Forms.ToolStripMenuItem viewerTransBlack;
+        private System.Windows.Forms.ToolStripMenuItem viewerTransWhite;
     }
 }

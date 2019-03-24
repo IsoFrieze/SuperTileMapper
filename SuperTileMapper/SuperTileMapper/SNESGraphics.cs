@@ -144,20 +144,25 @@ namespace SuperTileMapper
             }
         }
 
-        public static void UpdateTransparency(int bpp, int color, int transparency)
+        public static Color GetTransparency(int cgram, int transparency)
         {
-            Color back = Color.Black;
             switch (transparency)
             {
-                case 0: back = Data.GetCGRAMColor(color); break;
-                case 1: back = Data.GetCGRAMColor(0); break;
-                case 2: back = Color.Black; break;
-                case 3: back = Color.White; break;
+                case 0: return Data.GetCGRAMColor(cgram);
+                case 1: return Data.GetCGRAMColor(0);
+                case 2: return Color.Black;
+                case 3: return Color.White;
             }
+            return Color.Black;
+        }
 
-            int c = color / colorsPerPalette[bpp];
+        public static void UpdateTransparency(int bpp, int cgram, int transparency)
+        {
+            Color back = GetTransparency(cgram, transparency);
+
+            int c = cgram / colorsPerPalette[bpp];
             ColorPalette pal = indexedGraphics[bpp][c].Palette;
-            pal.Entries[color] = Color.FromArgb(0xFF, back);
+            pal.Entries[0] = Color.FromArgb(transparency < 0 ? 0 : 0xFF, back);
             indexedGraphics[bpp][c].Palette = pal;
         }
 
@@ -189,12 +194,22 @@ namespace SuperTileMapper
             UpdateAllTiles();
         }
 
+        public static void Clear8x8Tile(int cgram, Bitmap img, int x, int y, int zoom, int transparency)
+        {
+            Color color = GetTransparency(cgram, transparency);
+
+            using (Graphics g = Graphics.FromImage(img))
+            {
+                g.FillRectangle(new SolidBrush(color), new Rectangle(x * zoom, y * zoom, 8 * zoom, 8 * zoom));
+            }
+        }
+
         public static void Draw8x8Tile(int vram, int bpp, bool h, bool v, int cgram, Bitmap img, int x, int y, int zoom, int transparency)
         {
             int c = cgram / colorsPerPalette[bpp];
             int tile = vram / (bpp == 0 ? 0x10 : (bpp == 1 ? 0x20 : (bpp == 2 ? 0x40 : 0x80)));
 
-            UpdateTransparency(bpp, c, transparency);
+            UpdateTransparency(bpp, cgram, transparency);
 
             using (Graphics g = Graphics.FromImage(img))
             {
@@ -208,9 +223,21 @@ namespace SuperTileMapper
             }
         }
 
-        public static void DrawObject()
+        public static void DrawObject(int vram, bool h, bool v, int bw, int bh, int cgram, Bitmap img, int x, int y, int zoom)
         {
-
+            int s = bytesPerTile[1];
+            for (int ty = 0; ty < bh; ty++)
+            {
+                for (int tx = 0; tx < bw; tx++)
+                {
+                    int tile = (0xE000 & vram) | (0x1FFF & (vram + ty * s * 0x10 + tx * s));
+                    Draw8x8Tile(
+                        tile, 1, h, v, cgram, img,
+                        x + 8 * (h ? bw - tx - 1 : tx),
+                        y + 8 * (v ? (bh - ty - 1 + (bw == bh ? 0 : bh / 2)) % bh : ty),
+                        zoom, -1);
+                }
+            }
         }
     }
 }

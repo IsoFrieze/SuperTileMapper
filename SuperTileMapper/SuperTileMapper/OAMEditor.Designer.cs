@@ -61,6 +61,14 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.hexBox1 = new Be.Windows.Forms.HexBox();
+            this.transparencyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.transColor00 = new System.Windows.Forms.ToolStripMenuItem();
+            this.transBlack = new System.Windows.Forms.ToolStripMenuItem();
+            this.transWhite = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayAreaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayHidden = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayOutline = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayShaded = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -118,9 +126,11 @@
             // screenToolStripMenuItem
             // 
             this.screenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.zoomToolStripMenuItem});
+            this.zoomToolStripMenuItem,
+            this.transparencyToolStripMenuItem,
+            this.displayAreaToolStripMenuItem});
             this.screenToolStripMenuItem.Name = "screenToolStripMenuItem";
-            this.screenToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.screenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.screenToolStripMenuItem.Text = "Screen";
             // 
             // zoomToolStripMenuItem
@@ -131,7 +141,7 @@
             this.screenZoom300,
             this.screenZoom400});
             this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
-            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.zoomToolStripMenuItem.Text = "Zoom";
             // 
             // screenZoom100
@@ -167,19 +177,19 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(129, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // hexEditorToolStripMenuItem
             // 
             this.hexEditorToolStripMenuItem.Name = "hexEditorToolStripMenuItem";
-            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hexEditorToolStripMenuItem.Text = "Hex Editor";
             this.hexEditorToolStripMenuItem.Click += new System.EventHandler(this.hexEditorToolStripMenuItem_Click);
             // 
             // oBJDetailsToolStripMenuItem
             // 
             this.oBJDetailsToolStripMenuItem.Name = "oBJDetailsToolStripMenuItem";
-            this.oBJDetailsToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.oBJDetailsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.oBJDetailsToolStripMenuItem.Text = "OBJ Details";
             this.oBJDetailsToolStripMenuItem.Click += new System.EventHandler(this.oBJDetailsToolStripMenuItem_Click);
             // 
@@ -391,6 +401,72 @@
             this.hexBox1.VScrollBarVisible = true;
             this.hexBox1.CurrentPositionInLineChanged += new System.EventHandler(this.hexBox1_CurrentPositionInLineChanged);
             // 
+            // transparencyToolStripMenuItem
+            // 
+            this.transparencyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.transColor00,
+            this.transBlack,
+            this.transWhite});
+            this.transparencyToolStripMenuItem.Name = "transparencyToolStripMenuItem";
+            this.transparencyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.transparencyToolStripMenuItem.Text = "Transparency";
+            // 
+            // transColor00
+            // 
+            this.transColor00.Checked = true;
+            this.transColor00.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.transColor00.Name = "transColor00";
+            this.transColor00.Size = new System.Drawing.Size(180, 22);
+            this.transColor00.Text = "CGRAM Color $00";
+            this.transColor00.Click += new System.EventHandler(this.transColor00_Click);
+            // 
+            // transBlack
+            // 
+            this.transBlack.Name = "transBlack";
+            this.transBlack.Size = new System.Drawing.Size(180, 22);
+            this.transBlack.Text = "Black";
+            this.transBlack.Click += new System.EventHandler(this.transBlack_Click);
+            // 
+            // transWhite
+            // 
+            this.transWhite.Name = "transWhite";
+            this.transWhite.Size = new System.Drawing.Size(180, 22);
+            this.transWhite.Text = "White";
+            this.transWhite.Click += new System.EventHandler(this.transWhite_Click);
+            // 
+            // displayAreaToolStripMenuItem
+            // 
+            this.displayAreaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.displayHidden,
+            this.displayOutline,
+            this.displayShaded});
+            this.displayAreaToolStripMenuItem.Name = "displayAreaToolStripMenuItem";
+            this.displayAreaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.displayAreaToolStripMenuItem.Text = "Display Area";
+            // 
+            // displayHidden
+            // 
+            this.displayHidden.Checked = true;
+            this.displayHidden.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.displayHidden.Name = "displayHidden";
+            this.displayHidden.Size = new System.Drawing.Size(180, 22);
+            this.displayHidden.Text = "Hidden";
+            this.displayHidden.Click += new System.EventHandler(this.displayHidden_Click);
+            // 
+            // displayOutline
+            // 
+            this.displayOutline.Name = "displayOutline";
+            this.displayOutline.Size = new System.Drawing.Size(180, 22);
+            this.displayOutline.Text = "Red Outline";
+            this.displayOutline.Click += new System.EventHandler(this.displayOutline_Click);
+            // 
+            // displayShaded
+            // 
+            this.displayShaded.Name = "displayShaded";
+            this.displayShaded.Size = new System.Drawing.Size(180, 22);
+            this.displayShaded.Text = "Gray Area";
+            this.displayShaded.Click += new System.EventHandler(this.displayShaded_Click);
+            // 
             // OAMEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -457,5 +533,13 @@
         private System.Windows.Forms.ToolStripMenuItem screenZoom200;
         private System.Windows.Forms.ToolStripMenuItem screenZoom300;
         private System.Windows.Forms.ToolStripMenuItem screenZoom400;
+        private System.Windows.Forms.ToolStripMenuItem transparencyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem transColor00;
+        private System.Windows.Forms.ToolStripMenuItem transBlack;
+        private System.Windows.Forms.ToolStripMenuItem transWhite;
+        private System.Windows.Forms.ToolStripMenuItem displayAreaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem displayHidden;
+        private System.Windows.Forms.ToolStripMenuItem displayOutline;
+        private System.Windows.Forms.ToolStripMenuItem displayShaded;
     }
 }

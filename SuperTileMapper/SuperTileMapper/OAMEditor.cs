@@ -18,6 +18,8 @@ namespace SuperTileMapper
         bool updatingDetails = false;
 
         int screenZoom = 1;
+        int transparency = 1;
+        int displayArea = 0;
 
         public OAMEditor()
         {
@@ -94,77 +96,91 @@ namespace SuperTileMapper
         public void RedrawAll()
         {
             if (showDetails >= 0) RedrawSelectedOBJ();
+            RedrawScreen();
             UpdateScrollbars();
+        }
+
+        private void RedrawScreen()
+        {
+            if (pictureBox3.Image != null) pictureBox3.Image.Dispose();
+            Bitmap img = new Bitmap(512 * screenZoom, 256 * screenZoom);
+
+            using (Graphics g = Graphics.FromImage(img))
+            {
+                Color back = SNESGraphics.GetTransparency(0, transparency);
+                g.FillRectangle(new SolidBrush(back), new Rectangle(0, 0, img.Width, img.Height));
+
+                int lines = ((Data.PPURegs[0x33] & 0x4) != 0) ? 239 : 224;
+                if (displayArea  == 1)
+                {
+                    g.DrawRectangle(new Pen(Color.Red), new Rectangle(256 * screenZoom, 1 * screenZoom, 256 * screenZoom - 1, lines * screenZoom - 1));
+                } else if (displayArea == 2)
+                {
+                    g.FillRectangle(new SolidBrush(Color.FromArgb(0x80,0x80,0x80,0x80)), new Rectangle(256 * screenZoom, 1 * screenZoom, 256 * screenZoom, lines * screenZoom));
+                }
+            }
+
+            int rotation = Data.PPURegs[0x02] & 0x7F;
+            for (int i = 0x7F; i >= 0; i--)
+            {
+                int j = (i + rotation) & 0x7F;
+
+                int objLow = Data.OAM[4 * j + 0];
+                int objHigh = Data.OAM[4 * j + 1];
+                int objBits = (Data.OAM[0x200 + j / 4] >> ((j % 4) * 2)) & 0x03;
+                int y = objHigh;
+                int x = ((objBits << 8) & 0x100) | objLow;
+
+                DrawOBJ(j, img, x + 0x100, y, screenZoom);
+                DrawOBJ(j, img, x - 0x100, y, screenZoom);
+                DrawOBJ(j, img, x + 0x100, y - 0x100, screenZoom);
+                DrawOBJ(j, img, x - 0x100, y - 0x100, screenZoom);
+            }
+
+            pictureBox3.Image = img;
+            pictureBox3.Width = img.Width;
+            pictureBox3.Height = img.Height;
         }
 
         private void RedrawSelectedOBJ()
         {
-            Bitmap img = (Bitmap)pictureBox2.Image;
+            pictureBox2.Image.Dispose();
+            Bitmap img = new Bitmap(64, 64);
 
-            int bits = (Data.OAM[0x200 + showDetails / 4] >> ((showDetails % 4) * 2)) & 0x03;
-            int maxSize = Util.OBJsizes[((Data.PPURegs[0x01] & 0xE0) >> 5), (bits & 0x02) >> 1, 1];
-            DrawOBJ(showDetails, img, 0, 0, img.Height / maxSize, maxSize, maxSize);
+            int objBits = (Data.OAM[0x200 + showDetails / 4] >> ((showDetails % 4) * 2)) & 0x03;
+            int maxSize = Util.OBJsizes[((Data.PPURegs[0x01] & 0xE0) >> 5), (objBits & 0x02) >> 1, 1];
+            int zoom = 0x40 / maxSize;
+
+            DrawOBJ(showDetails, img, 0, 0, zoom);
 
             pictureBox2.Image = img;
         }
 
-        //TODO rewrite this method to use SNESGraphics.DrawObject
-        private void DrawOBJ(int obj, Bitmap img, int x, int y, int zoom, int sx, int sy)
+        private void DrawOBJ(int i, Bitmap img, int x, int y, int zoom)
         {
-            for (int i = 0; i < sx; i++)
-            {
-                for (int j = 0; j < sy; j++)
-                {
-                    for (int zy = 0; zy < zoom; zy++)
-                    {
-                        for (int zx = 0; zx < zoom; zx++)
-                        {
-                            img.SetPixel(zoom * (x + i) + zx, zoom * (y + j) + zy, Color.Transparent);
-                        }
-                    }
-                }
-            }
-
             int objsize = (Data.PPURegs[0x01] & 0xE0) >> 5;
-            int voffset = (Data.PPURegs[0x01] & 0x03) * 0x4000;
-            int vselect = ((Data.PPURegs[0x01] & 0x18) >> 3) * 0x100;
+            int objLow = Data.OAM[4 * i + 2];
+            int objHigh = Data.OAM[4 * i + 3];
+            int objBits = (Data.OAM[0x200 + i / 4] >> ((i % 4) * 2)) & 0x03;
+            int tile = ((objHigh << 8) & 0x100) | objLow;
+            bool v = (objHigh & 0x80) != 0;
+            bool h = (objHigh & 0x40) != 0;
+            bool s = (objBits & 0x02) != 0;
+            int c = (objHigh >> 1) & 0x7;
 
-            int bs = (Data.OAM[0x200 + obj / 4] >> (2 * (obj % 4) + 1)) & 0x01;
-            int bw = Util.OBJsizes[objsize, bs, 0], bh = Util.OBJsizes[objsize, bs, 1];
-            bool xflip = (Data.OAM[4 * obj + 3] & 0x40) != 0, yflip = (Data.OAM[4 * obj + 3] & 0x80) != 0;
-            for (int ty = 0; ty < bh / 8; ty++)
-            {
-                for (int tx = 0; tx < bw / 8; tx++)
-                {
-                    for (int py = 0; py < 8; py++)
-                    {
-                        for (int px = 0; px < 8; px++)
-                        {
-                            int tile = (Data.OAM[4 * obj + 2] | ((Data.OAM[4 * obj + 3] & 0x01) << 8)) + 0x10 * ty + tx;
-                            if (tile >= 0x100) tile += vselect;
-                            int i = voffset + 0x20 * tile + 2 * py;
-                            int b0 = 0x01 & Data.VRAM[(0x00 + i + 0) % Data.VRAM.Length] >> (7 - px);
-                            int b1 = 0x01 & Data.VRAM[(0x00 + i + 1) % Data.VRAM.Length] >> (7 - px);
-                            int b2 = 0x01 & Data.VRAM[(0x10 + i + 0) % Data.VRAM.Length] >> (7 - px);
-                            int b3 = 0x01 & Data.VRAM[(0x10 + i + 1) % Data.VRAM.Length] >> (7 - px);
-                            int xx = b0 + 2 * b1 + 4 * b2 + 8 * b3;
-                            int c = 0x80 + 0x10 * ((Data.OAM[4 * obj + 3] & 0x0E) >> 1);
-                            //TODO: correctly y-flip OBJ in size mode 6 & 7 (the undocumented sizes)
-                            //TODO: use Util.Draw8x8Tile
-                            for (int zy = 0; zy < zoom; zy++)
-                            {
-                                for (int zx = 0; zx < zoom; zx++)
-                                {
-                                    img.SetPixel(
-                                        (x + 8 * (xflip ? bw / 8 - tx - 1 : tx) + (xflip ? 7 - px : px)) * zoom + zx,
-                                        (y + 8 * (yflip ? bh / 8 - ty - 1 : ty) + (yflip ? 7 - py : py)) * zoom + zy,
-                                        Data.GetCGRAMColor(c + xx));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            DrawObject(tile, h, v, s, c, img, x, y, zoom);
+        }
+
+        private void DrawObject(int tile, bool h, bool v, bool s, int c, Bitmap img, int x, int y, int zoom)
+        {
+            int objsize = (Data.PPURegs[0x01] & 0xE0) >> 5;
+            int nameBase = 0xE000 & ((Data.PPURegs[0x01] & 0x7) << 14);
+            int nameOffset = 0x6000 & ((Data.PPURegs[0x01] & 0x18) << 10);
+            int vram = 0xFFFF & (nameBase + (tile >= 0x100 ? nameOffset : 0) + tile * 0x20);
+            int cgram = 0x80 + SNESGraphics.colorsPerPalette[1] * c;
+            int bw = Util.OBJsizes[objsize, (s ? 1 : 0), 0] / 8, bh = Util.OBJsizes[objsize, (s ? 1 : 0), 1] / 8;
+
+            SNESGraphics.DrawObject(vram, h, v, bw, bh, cgram, img, x, y, zoom);
         }
 
         private void RedrawOtherWindows()
@@ -211,6 +227,12 @@ namespace SuperTileMapper
             screenZoom200.Checked = (screenZoom == 2);
             screenZoom300.Checked = (screenZoom == 3);
             screenZoom400.Checked = (screenZoom == 4);
+            transColor00.Checked = (transparency == 1);
+            transBlack.Checked = (transparency == 2);
+            transWhite.Checked = (transparency == 3);
+            displayHidden.Checked = (displayArea == 0);
+            displayOutline.Checked = (displayArea == 1);
+            displayShaded.Checked = (displayArea == 2);
             RedrawAll();
         }
 
@@ -235,6 +257,42 @@ namespace SuperTileMapper
         private void screenZoom400_Click(object sender, EventArgs e)
         {
             screenZoom = 4;
+            updateCheckboxes();
+        }
+
+        private void transColor00_Click(object sender, EventArgs e)
+        {
+            transparency = 1;
+            updateCheckboxes();
+        }
+
+        private void transBlack_Click(object sender, EventArgs e)
+        {
+            transparency = 2;
+            updateCheckboxes();
+        }
+
+        private void transWhite_Click(object sender, EventArgs e)
+        {
+            transparency = 3;
+            updateCheckboxes();
+        }
+
+        private void displayHidden_Click(object sender, EventArgs e)
+        {
+            displayArea = 0;
+            updateCheckboxes();
+        }
+
+        private void displayOutline_Click(object sender, EventArgs e)
+        {
+            displayArea = 1;
+            updateCheckboxes();
+        }
+
+        private void displayShaded_Click(object sender, EventArgs e)
+        {
+            displayArea = 2;
             updateCheckboxes();
         }
 

@@ -868,6 +868,7 @@ namespace SuperTileMapper
         private void overscan_CheckedChanged(object sender, EventArgs e)
         {
             setRegBit(0x33, reg2133, 2, overscan, 0x04);
+            if (SuperTileMapper.oam.Visible) SuperTileMapper.oam.RedrawAll();
         }
 
         private void objvdisp_CheckedChanged(object sender, EventArgs e)

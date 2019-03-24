@@ -27,7 +27,7 @@ namespace SuperTileMapper
             
             try
             {
-                string testdata = "C:\\Users\\Alex\\Documents\\Visual Studio 2017\\SuperTileMapper\\testdata\\smw\\";
+                string testdata = "C:\\Users\\Alex\\Documents\\Visual Studio 2017\\SuperTileMapper\\testdata\\smb3battle\\";
 
                 byte[] cgram = File.ReadAllBytes(testdata + "cgram.bin");
                 byte[] vram = File.ReadAllBytes(testdata + "vram.bin");
@@ -161,6 +161,8 @@ namespace SuperTileMapper
             if (!ppu.IsDisposed && !vis) ppu.Hide();
             if (!tmap.IsDisposed && vis) tmap.Show();
             if (!tmap.IsDisposed && !vis) tmap.Hide();
+            if (!obj.IsDisposed && vis) obj.Show();
+            if (!obj.IsDisposed && !vis) obj.Hide();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)

@@ -24,6 +24,7 @@ namespace SuperTileMapper
 
         int viewerZoom = 1;
         int viewerAcross = 0x20;
+        int viewerTransparency = 0;
 
         public OBJEditor()
         {
@@ -127,52 +128,29 @@ namespace SuperTileMapper
             SNESGraphics.Draw8x8Tile(vram, 1, h, v, cgram, img, x, y, zoom, t);
         }
 
-        //TODO rewrite this method to use SNESGraphics.DrawObject
         private void DrawOBJ(int tile, bool h, bool v, bool s, int c, Bitmap img, int x, int y, int zoom)
         {
             int objsize = (Data.PPURegs[0x01] & 0xE0) >> 5;
             int nameBase = 0xE000 & ((Data.PPURegs[0x01] & 0x7) << 14);
             int nameOffset = 0x6000 & ((Data.PPURegs[0x01] & 0x18) << 10);
-
+            int vram = 0xFFFF & (nameBase + (tile >= 0x100 ? nameOffset : 0) + tile * 0x20);
+            int cgram = 0x80 + SNESGraphics.colorsPerPalette[1] * c;
             int bw = Util.OBJsizes[objsize, (s ? 1 : 0), 0] / 8, bh = Util.OBJsizes[objsize, (s ? 1 : 0), 1] / 8;
+
             for (int ty = 0; ty < bh; ty++)
             {
-                for (int tx = 0; tx < bh; tx++)
+                for (int tx = 0; tx < bw; tx++)
                 {
-                    if (ty < bh && tx < bw)
-                    {
-                        int tileX = (tile + tx) & 0x0F;
-                        int tileY = (tile + 0x10 * ty) & 0xF0;
-                        int tileP = tile & 0x100;
-                        int newTile = tileP | tileY | tileX;
-
-                        // TODO: Correctly Y-flip OBJ sizes 6 and 7
-                        int vram = 0xFFFF & (nameBase + (newTile >= 0x100 ? nameOffset : 0) + newTile * 0x20);
-                        int cgram = 0x80 + 0x10 * c;
-                        SNESGraphics.Draw8x8Tile(vram, 1, h, v, cgram, img, x + 8 * (h ? bw - tx - 1 : tx), y + 8 * (v ? bh - ty - 1 : ty), zoom, 0);
-                    } else
-                    {
-                        for (int zy = 0; zy < zoom; zy++)
-                        {
-                            for (int zx = 0; zx < zoom; zx++)
-                            {
-                                for (int py = 0; py < 8; py++)
-                                {
-                                    for (int px = 0; px < 8; px++)
-                                    {
-                                        img.SetPixel((x + 8 * tx + px) * zoom + zx, (y + 8 * ty + py) * zoom + zy, Color.Transparent);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    SNESGraphics.Clear8x8Tile(cgram, img, x + 8 * tx, y + 8 * ty, zoom, viewerTransparency);
                 }
             }
+            SNESGraphics.DrawObject(vram, h, v, bw, bh, cgram, img, x, y, zoom);
         }
 
         private void RedrawSelectedTile()
         {
-            Bitmap img = (Bitmap)pictureSelTile.Image;
+            pictureSelTile.Image.Dispose();
+            Bitmap img = new Bitmap(64, 64);
 
             int objsize = (Data.PPURegs[0x01] & 0xE0) >> 5;
             int objh = Util.OBJsizes[objsize, (pickerSize ? 1 : 0), 1];
@@ -193,6 +171,10 @@ namespace SuperTileMapper
             viewerZoom200.Checked = (viewerZoom == 2);
             viewerZoom300.Checked = (viewerZoom == 3);
             viewerZoom400.Checked = (viewerZoom == 4);
+            viewerTransLocal0.Checked = (viewerTransparency == 0);
+            viewerTransColor00.Checked = (viewerTransparency == 1);
+            viewerTransBlack.Checked = (viewerTransparency == 2);
+            viewerTransWhite.Checked = (viewerTransparency == 3);
             viewerWidth32.Checked = (viewerAcross == 0x20);
             viewerWidth16.Checked = (viewerAcross == 0x10);
             viewerWidth8.Checked = (viewerAcross == 0x08);
@@ -269,6 +251,30 @@ namespace SuperTileMapper
         private void viewerWidth4_Click(object sender, EventArgs e)
         {
             viewerAcross = 0x04;
+            updateCheckboxes();
+        }
+
+        private void viewerTransLocal0_Click(object sender, EventArgs e)
+        {
+            viewerTransparency = 0;
+            updateCheckboxes();
+        }
+
+        private void viewerTransColor00_Click(object sender, EventArgs e)
+        {
+            viewerTransparency = 1;
+            updateCheckboxes();
+        }
+
+        private void viewerTransBlack_Click(object sender, EventArgs e)
+        {
+            viewerTransparency = 2;
+            updateCheckboxes();
+        }
+
+        private void viewerTransWhite_Click(object sender, EventArgs e)
+        {
+            viewerTransparency = 3;
             updateCheckboxes();
         }
 
