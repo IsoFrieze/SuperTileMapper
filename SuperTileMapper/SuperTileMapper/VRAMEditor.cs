@@ -54,9 +54,11 @@ namespace SuperTileMapper
             DialogResult result = import.ShowDialog();
             if (result == DialogResult.OK)
             {
+                SNESGraphics.UpdateAllTiles();
                 RedrawAll();
                 if (showDetails >= 0) UpdateDetails();
                 UpdateHexEditor(0);
+                RedrawOtherWindows();
             }
         }
 
@@ -102,7 +104,7 @@ namespace SuperTileMapper
         {
             if (pictureBox1.Image != null) pictureBox1.Image.Dispose();
 
-            int tileCount = bpp == 0 ? 0x1000 : bpp == 1 ? 0x800 : bpp == 2 ? 0x400 : 0x100;
+            int tileCount = SNESGraphics.totalTiles[bpp];
 
             Bitmap img = new Bitmap(8 * across * zoom, 8 * zoom * tileCount / across);
             pictureBox1.Image = img;
@@ -125,16 +127,16 @@ namespace SuperTileMapper
 
         private void DrawTile(int tile, Bitmap img, int x, int y, int zoom)
         {
-            int vram = ((0x10 * tile) * (bpp == 0 ? 1 : (bpp == 1 ? 2 : (bpp == 2 ? 4 : 8))));
-            int cgram = pal * (bpp == 0 ? 4 : 0x10);
-            Util.Draw8x8Tile(vram, bpp, false, false, cgram, img, x, y, zoom, 0);
+            int vram = tile * SNESGraphics.bytesPerTile[bpp];
+            int cgram = pal * SNESGraphics.colorsPerPalette[bpp];
+            SNESGraphics.Draw8x8Tile(vram, bpp, false, false, cgram, img, x, y, zoom, 0);
         }
 
         private void RedrawOtherWindows()
         {
-            if (SuperTileMapper.oam != null) SuperTileMapper.oam.RedrawAll();
-            if (SuperTileMapper.tmap != null) SuperTileMapper.tmap.RedrawAll();
-            if (SuperTileMapper.obj != null) SuperTileMapper.obj.RedrawAll();
+            if (SuperTileMapper.oam != null && SuperTileMapper.oam.Visible) SuperTileMapper.oam.RedrawAll();
+            if (SuperTileMapper.tmap != null && SuperTileMapper.tmap.Visible) SuperTileMapper.tmap.RedrawAll();
+            if (SuperTileMapper.obj != null && SuperTileMapper.obj.Visible) SuperTileMapper.obj.RedrawAll();
         }
 
         private void UpdateDetails()
@@ -151,7 +153,7 @@ namespace SuperTileMapper
 
         private void UpdateHexEditor(int tile)
         {
-            int b = bpp == 0 ? 0x10 : (bpp == 1 ? 0x20 : (bpp == 2 ? 0x40 : 0x80));
+            int b = SNESGraphics.bytesPerTile[bpp];
             hexBox1.ByteProvider = new DynamicByteProvider(Data.VRAM);
             hexBox1.SelectionStart = b * tile;
             hexBox1.SelectionLength = b;
@@ -205,7 +207,7 @@ namespace SuperTileMapper
             RedrawAll();
             if (showDetails >= 0)
             {
-                showDetails = Util.clamp(showDetails, 0, bpp == 0 ? 0x1000 : (bpp == 1 ? 0x800 : 0x400));
+                showDetails = Util.clamp(showDetails, 0, SNESGraphics.totalTiles[bpp]);
                 UpdateDetails();
             }
         }
@@ -518,7 +520,8 @@ namespace SuperTileMapper
             int i = Util.clamp((int)hexBox1.SelectionStart - 1, 0, Data.VRAM.Length - 1);
             Data.VRAM[i] = hexBox1.ByteProvider.ReadByte(i);
             
-            int b = bpp == 0 ? 0x10 : (bpp == 1 ? 0x20 : 0x40);
+            int b = SNESGraphics.bytesPerTile[bpp];
+            SNESGraphics.UpdateTile(bpp, i / b);
             Redraw(i / b);
             if (showDetails == i / b) UpdateDetails();
 

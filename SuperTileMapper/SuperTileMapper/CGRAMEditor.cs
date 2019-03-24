@@ -31,11 +31,11 @@ namespace SuperTileMapper
             DialogResult result = import.ShowDialog();
             if (result == DialogResult.OK)
             {
+                SNESGraphics.UpdateAllPalettes();
                 RedrawAll();
                 if (showDetails >= 0) UpdateDetails();
                 UpdateHexEditor(0);
-                SuperTileMapper.oam.RedrawAll();
-                SuperTileMapper.vram.RedrawAll();
+                RedrawOtherWindows();
             }
         }
 
@@ -93,14 +93,22 @@ namespace SuperTileMapper
                 }
             }
             pictureBox1.Image = img;
+
+            if (showDetails >= 0)
+            {
+                for (int bpp = 0; bpp < 4; bpp++)
+                {
+                    SNESGraphics.UpdateColor(bpp, showDetails);
+                }
+            }
         }
 
         private void RedrawOtherWindows()
         {
-            if (SuperTileMapper.oam != null) SuperTileMapper.oam.RedrawAll();
-            if (SuperTileMapper.vram != null) SuperTileMapper.vram.RedrawAll();
-            if (SuperTileMapper.tmap != null) SuperTileMapper.tmap.RedrawAll();
-            if (SuperTileMapper.obj != null) SuperTileMapper.obj.RedrawAll();
+            if (SuperTileMapper.oam != null && SuperTileMapper.oam.Visible) SuperTileMapper.oam.RedrawAll();
+            if (SuperTileMapper.vram != null && SuperTileMapper.vram.Visible) SuperTileMapper.vram.RedrawAll();
+            if (SuperTileMapper.tmap != null && SuperTileMapper.tmap.Visible) SuperTileMapper.tmap.RedrawAll();
+            if (SuperTileMapper.obj != null && SuperTileMapper.obj.Visible) SuperTileMapper.obj.RedrawAll();
         }
 
         private void UpdateDetails()

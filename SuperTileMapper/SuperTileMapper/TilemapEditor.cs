@@ -92,7 +92,7 @@ namespace SuperTileMapper
             {
                 for (int tx = 0; tx < pickerAcross; tx++)
                 {
-                    DrawTile(ty * pickerAcross + tx, pickerFlipH, pickerFlipV, pickerPalette, img, 8 * tx, 8 * ty, pickerZoom, 0);
+                    DrawTile(ty * pickerAcross + tx, false, false, pickerPalette, img, 8 * tx, 8 * ty, pickerZoom, 0);
                 }
             }
 
@@ -208,15 +208,15 @@ namespace SuperTileMapper
                 if (bpp == 3)
                 {
                     int vram = 0x80 * tile;
-                    Util.Draw8x8Tile(vram, bpp, h, v, 0, img, x, y, zoom, t);
+                    SNESGraphics.Draw8x8Tile(vram, bpp, h, v, 0, img, x, y, zoom, t);
                 } else
                 {
                     int nameBase = 0xE000 & (Data.PPURegs[0x0B + (bg / 2)] << (((bg & 1) == 0) ? 13 : 9));
-                    int tileOffset = tile * (bpp == 0 ? 0x10 : (bpp == 1 ? 0x20 : 0x40));
+                    int tileOffset = tile * SNESGraphics.bytesPerTile[bpp];
 
                     int vram = nameBase + tileOffset;
-                    int cgram = (bpp > 1 ? 0 : c) * (bpp == 0 ? 4 : 0x10);
-                    Util.Draw8x8Tile(vram, bpp, h, v, cgram, img, x, y, zoom, t);
+                    int cgram = (bpp > 1 ? 0 : c) * SNESGraphics.colorsPerPalette[bpp];
+                    SNESGraphics.Draw8x8Tile(vram, bpp, h, v, cgram, img, x, y, zoom, t);
                 }
             }
         }

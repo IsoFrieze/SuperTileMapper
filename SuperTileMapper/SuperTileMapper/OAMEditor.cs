@@ -49,6 +49,7 @@ namespace SuperTileMapper
                 RedrawAll();
                 if (showDetails >= 0) UpdateDetails();
                 UpdateHexEditor(0);
+                RedrawOtherWindows();
             }
         }
 
@@ -70,21 +71,21 @@ namespace SuperTileMapper
             oBJDetailsToolStripMenuItem.Checked = (showDetails >= 0);
             if (showHexEditor && (showDetails >= 0))
             {
-                SetSize(new Size(956, 675));
-                hexBox1.Height = 612;
+                SetSize(new Size(975, 692));
+                hexBox1.Height = 629;
             }
             else if (showHexEditor)
             {
-                SetSize(new Size(956, 575));
-                hexBox1.Height = 512;
+                SetSize(new Size(975, 592));
+                hexBox1.Height = 529;
             }
             else if ((showDetails >= 0))
             {
-                SetSize(new Size(528, 675));
+                SetSize(new Size(545, 692));
             }
             else
             {
-                SetSize(new Size(528, 575));
+                SetSize(new Size(545, 592));
             }
             hexBox1.Visible = showHexEditor;
             panel2.Visible = (showDetails >= 0);
@@ -107,6 +108,7 @@ namespace SuperTileMapper
             pictureBox2.Image = img;
         }
 
+        //TODO rewrite this method to use SNESGraphics.DrawObject
         private void DrawOBJ(int obj, Bitmap img, int x, int y, int zoom, int sx, int sy)
         {
             for (int i = 0; i < sx; i++)
@@ -163,6 +165,11 @@ namespace SuperTileMapper
                     }
                 }
             }
+        }
+
+        private void RedrawOtherWindows()
+        {
+            if (SuperTileMapper.obj != null && SuperTileMapper.obj.Visible) SuperTileMapper.obj.RedrawAll();
         }
 
         private void UpdateDetails()
@@ -430,8 +437,7 @@ namespace SuperTileMapper
                 }
             }
             RedrawAll();
-
-            if (SuperTileMapper.obj != null) SuperTileMapper.obj.RedrawAll();
+            RedrawOtherWindows();
         }
     }
 }

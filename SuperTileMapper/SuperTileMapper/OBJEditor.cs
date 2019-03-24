@@ -70,7 +70,7 @@ namespace SuperTileMapper
             {
                 for (int tx = 0; tx < 0x10; tx++)
                 {
-                    DrawTile(ty * 0x10 + tx, pickerFlipH, pickerFlipV, pickerPalette, img, 8 * tx, 8 * ty, pickerZoom, 0);
+                    DrawTile(ty * 0x10 + tx, false, false, pickerPalette, img, 8 * tx, 8 * ty, pickerZoom, 0);
                 }
             }
 
@@ -124,9 +124,10 @@ namespace SuperTileMapper
 
             int vram = 0xFFFF & (nameBase + (tile >= 0x100 ? nameOffset : 0) + tileOffset);
             int cgram = 0x80 + 0x10 * c;
-            Util.Draw8x8Tile(vram, 1, h, v, cgram, img, x, y, zoom, t);
+            SNESGraphics.Draw8x8Tile(vram, 1, h, v, cgram, img, x, y, zoom, t);
         }
 
+        //TODO rewrite this method to use SNESGraphics.DrawObject
         private void DrawOBJ(int tile, bool h, bool v, bool s, int c, Bitmap img, int x, int y, int zoom)
         {
             int objsize = (Data.PPURegs[0x01] & 0xE0) >> 5;
@@ -148,7 +149,7 @@ namespace SuperTileMapper
                         // TODO: Correctly Y-flip OBJ sizes 6 and 7
                         int vram = 0xFFFF & (nameBase + (newTile >= 0x100 ? nameOffset : 0) + newTile * 0x20);
                         int cgram = 0x80 + 0x10 * c;
-                        Util.Draw8x8Tile(vram, 1, h, v, cgram, img, x + 8 * (h ? bw - tx - 1 : tx), y + 8 * (v ? bh - ty - 1 : ty), zoom, 0);
+                        SNESGraphics.Draw8x8Tile(vram, 1, h, v, cgram, img, x + 8 * (h ? bw - tx - 1 : tx), y + 8 * (v ? bh - ty - 1 : ty), zoom, 0);
                     } else
                     {
                         for (int zy = 0; zy < zoom; zy++)

@@ -24,6 +24,7 @@ namespace SuperTileMapper
         public SuperTileMapper()
         {
             InitializeComponent();
+            
             try
             {
                 string testdata = "C:\\Users\\Alex\\Documents\\Visual Studio 2017\\SuperTileMapper\\testdata\\smw\\";
@@ -46,6 +47,7 @@ namespace SuperTileMapper
             {
 
             }
+            
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -55,6 +57,8 @@ namespace SuperTileMapper
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            SNESGraphics.UpdateAll();
+
             tmap = new TilemapEditor();
             tmap.Close();
             obj = new OBJEditor();
@@ -67,6 +71,7 @@ namespace SuperTileMapper
             oam.Close();
             ppu = new PPURegEditor();
             ppu.Close();
+
             //Data.PPURegs[0x00] = 0x0F;
             //Data.PPURegs[0x1B] = 0x100;
             //Data.PPURegs[0x1E] = 0x100;
