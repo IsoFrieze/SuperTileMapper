@@ -27,7 +27,7 @@ namespace SuperTileMapper
             
             try
             {
-                string testdata = "C:\\Users\\Alex\\Documents\\Visual Studio 2017\\SuperTileMapper\\testdata\\smb3battle\\";
+                string testdata = "C:\\Users\\Alex\\Documents\\Visual Studio 2017\\SuperTileMapper\\testdata\\smw\\";
 
                 byte[] cgram = File.ReadAllBytes(testdata + "cgram.bin");
                 byte[] vram = File.ReadAllBytes(testdata + "vram.bin");

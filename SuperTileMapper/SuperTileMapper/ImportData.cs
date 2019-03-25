@@ -18,18 +18,25 @@ namespace SuperTileMapper
         byte[] source;
         int destOffset = 0, srcOffset = 0;
         int len;
+        int defLen;
 
-        public ImportData(String loc, byte[] arr)
+        public ImportData(String loc, byte[] arr, int amount = -1, int step = -1, int fileStep = -1, int fileOffset = -1, int arrStep = -1, int arrOffset = -1, int endian = -1)
         {
             name = loc;
             destination = arr;
+            defLen = amount;
+
             InitializeComponent();
             groupBox1.Text = groupBox1.Text.Replace("<x>", loc);
             label3.Text = label3.Text.Replace("<x>", loc);
-            comboBox1.SelectedIndex = 0;
-            comboBox2.SelectedIndex = 0;
-            comboBox3.SelectedIndex = 1;
-            comboBox4.SelectedIndex = 0;
+
+            textBox2.Text = "$" + Util.DecToHex(defLen == -1 ? 0 : defLen, 0);
+            comboBox1.SelectedIndex = step == -1 ? 0 : step;
+            comboBox2.SelectedIndex = fileStep == -1 ? 0 : fileStep;
+            textBox3.Text = "$" + Util.DecToHex(fileOffset == -1 ? 0 : fileOffset, 4);
+            comboBox3.SelectedIndex = arrStep == -1 ? 1 : arrStep;
+            textBox4.Text = "$" + Util.DecToHex(arrOffset == -1 ? 0 : arrOffset, 4);
+            comboBox4.SelectedIndex = endian == -1 ? 0 : endian;
         }
 
         private void ImportData_Load(object sender, EventArgs e)
@@ -46,27 +53,37 @@ namespace SuperTileMapper
         {
             try
             {
-                if (comboBox1.SelectedIndex > 1) throw new Exception("Must insert 'bytes' or 'words' only!");
-                if (comboBox2.SelectedIndex > 1) throw new Exception("Must access 'bytes' or 'words' only from file!");
-                if (comboBox3.SelectedIndex > 1) throw new Exception("Must access 'bytes' or 'words' only from " + name + "!");
-                if (comboBox4.SelectedIndex > 1) throw new Exception("Must use 'little endian' or 'big endian' only!");
+                int transfer = comboBox1.SelectedIndex;
+                int endian = comboBox4.SelectedIndex;
+
+                if (transfer >= 6) throw new Exception("Must insert 'bytes' or 'words' only!");
+                if (comboBox2.SelectedIndex >= 2) throw new Exception("Must access 'bytes' or 'words' only from file!");
+                if (comboBox3.SelectedIndex >= 2) throw new Exception("Must access 'bytes' or 'words' only from " + name + "!");
+                if (endian >= 2) throw new Exception("Must use 'little endian' or 'big endian' only!");
                 if (!Util.TryHexOrDecToDec(textBox2.Text, out len)) throw new Exception("Unknown value for number of bytes or words to insert!");
                 if (!Util.TryHexOrDecToDec(textBox3.Text, out srcOffset)) throw new Exception("Unknown value for file offset!");
                 if (!Util.TryHexOrDecToDec(textBox4.Text, out destOffset)) throw new Exception("Unknown value for " + name + " offset!");
 
-                if (comboBox1.SelectedIndex == 1) len *= 2;
+                if (transfer >= 3) len *= 2;
                 if (comboBox2.SelectedIndex == 1) srcOffset *= 2;
                 if (comboBox3.SelectedIndex == 1) destOffset *= 2;
 
                 if (len > destination.Length) throw new Exception("Amount of data to insert exceeds the size of " + name + "!");
                 if (srcOffset >= source.Length) throw new Exception("The source address exceeds the size of the file!");
                 if (destOffset >= destination.Length) throw new Exception("The destination address exceeds the size of " + name + "!");
-                if (srcOffset + len + ((comboBox4.SelectedIndex == 1 && len % 2 == 1) ? 1 : 0) > source.Length) throw new Exception("The amount of data to insert exceeds the size of the file!");
+                if (srcOffset + len + ((endian == 1 && len % 2 == 1) ? 1 : 0) > source.Length) throw new Exception("The amount of data to insert exceeds the size of the file!");
                 // I don't know why anyone would import an odd amount of bytes via big endian but who knows?
 
-                for (int i = 0; i < len; i++)
+                // Trust me on this voodoo, I used k-maps
+                int srcStep = transfer >= 4 ? 2 : 1;
+                int destStep = transfer % 3 >= 1 ? 2 : 1;
+                bool endianFlip = endian == 1 && (transfer == 0 || transfer == 3);
+                if (transfer == 4) srcOffset++;
+                if (transfer % 3 == endian + 1) destOffset++;
+
+                for (int i = 0, j = 0; i < len; i += srcStep, j += destStep)
                 {
-                    destination[(destOffset + i) % destination.Length] = source[srcOffset + i + Util.Endianness[comboBox4.SelectedIndex, i % 2]];
+                    destination[(destOffset + j) % destination.Length] = source[srcOffset + i + (endianFlip ? Util.Endianness[i % 2] : 0)];
                 }
 
                 this.DialogResult = DialogResult.OK;
@@ -86,10 +103,14 @@ namespace SuperTileMapper
                 try
                 {
                     source = File.ReadAllBytes(file);
-                    len = source.Length >= destination.Length ? destination.Length : source.Length;
+
+                    if (defLen < 0)
+                    {
+                        len = source.Length >= destination.Length ? destination.Length : source.Length;
+                        textBox2.Text = "$" + Util.DecToHex(len, 0);
+                    }
 
                     textBox1.Text = file;
-                    textBox2.Text = len.ToString();
                     textBox2.Enabled = true;
                     textBox3.Enabled = true;
                     textBox4.Enabled = true;

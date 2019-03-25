@@ -71,6 +71,9 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importTilemapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportTilemapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -93,6 +96,7 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editToolStripMenuItem,
             this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -118,7 +122,7 @@
             this.layerBG3,
             this.layerBG4});
             this.layerToolStripMenuItem.Name = "layerToolStripMenuItem";
-            this.layerToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.layerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.layerToolStripMenuItem.Text = "Layer";
             // 
             // layerBG1
@@ -126,28 +130,28 @@
             this.layerBG1.Checked = true;
             this.layerBG1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.layerBG1.Name = "layerBG1";
-            this.layerBG1.Size = new System.Drawing.Size(95, 22);
+            this.layerBG1.Size = new System.Drawing.Size(180, 22);
             this.layerBG1.Text = "BG1";
             this.layerBG1.Click += new System.EventHandler(this.layerBG1_Click);
             // 
             // layerBG2
             // 
             this.layerBG2.Name = "layerBG2";
-            this.layerBG2.Size = new System.Drawing.Size(95, 22);
+            this.layerBG2.Size = new System.Drawing.Size(180, 22);
             this.layerBG2.Text = "BG2";
             this.layerBG2.Click += new System.EventHandler(this.layerBG2_Click);
             // 
             // layerBG3
             // 
             this.layerBG3.Name = "layerBG3";
-            this.layerBG3.Size = new System.Drawing.Size(95, 22);
+            this.layerBG3.Size = new System.Drawing.Size(180, 22);
             this.layerBG3.Text = "BG3";
             this.layerBG3.Click += new System.EventHandler(this.layerBG3_Click);
             // 
             // layerBG4
             // 
             this.layerBG4.Name = "layerBG4";
-            this.layerBG4.Size = new System.Drawing.Size(95, 22);
+            this.layerBG4.Size = new System.Drawing.Size(180, 22);
             this.layerBG4.Text = "BG4";
             this.layerBG4.Click += new System.EventHandler(this.layerBG4_Click);
             // 
@@ -158,7 +162,7 @@
             this.transparencyToolStripMenuItem,
             this.priorityToolStripMenuItem});
             this.tilemapToolStripMenuItem.Name = "tilemapToolStripMenuItem";
-            this.tilemapToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.tilemapToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tilemapToolStripMenuItem.Text = "Tilemap";
             // 
             // zoomToolStripMenuItem
@@ -282,7 +286,7 @@
             this.zoomToolStripMenuItem1,
             this.widthToolStripMenuItem});
             this.tilePickerToolStripMenuItem.Name = "tilePickerToolStripMenuItem";
-            this.tilePickerToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.tilePickerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tilePickerToolStripMenuItem.Text = "Tile Picker";
             // 
             // zoomToolStripMenuItem1
@@ -463,6 +467,31 @@
             this.panel2.Size = new System.Drawing.Size(273, 273);
             this.panel2.TabIndex = 12;
             // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.importTilemapToolStripMenuItem,
+            this.exportTilemapToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // importTilemapToolStripMenuItem
+            // 
+            this.importTilemapToolStripMenuItem.Name = "importTilemapToolStripMenuItem";
+            this.importTilemapToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.importTilemapToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.importTilemapToolStripMenuItem.Text = "Import Tilemap...";
+            this.importTilemapToolStripMenuItem.Click += new System.EventHandler(this.importTilemapToolStripMenuItem_Click);
+            // 
+            // exportTilemapToolStripMenuItem
+            // 
+            this.exportTilemapToolStripMenuItem.Name = "exportTilemapToolStripMenuItem";
+            this.exportTilemapToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.exportTilemapToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.exportTilemapToolStripMenuItem.Text = "Export Tilemap...";
+            this.exportTilemapToolStripMenuItem.Click += new System.EventHandler(this.exportTilemapToolStripMenuItem_Click);
+            // 
             // TilemapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -541,5 +570,8 @@
         private System.Windows.Forms.ToolStripMenuItem prioAll;
         private System.Windows.Forms.ToolStripMenuItem prioFocus;
         private System.Windows.Forms.ToolStripMenuItem prioOnly;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importTilemapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportTilemapToolStripMenuItem;
     }
 }

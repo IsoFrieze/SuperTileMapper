@@ -18,17 +18,23 @@ namespace SuperTileMapper
         string destination;
         int srcOffset = 0;
         int len;
+        int defLen;
 
-        public ExportData(String loc, byte[] arr)
+        public ExportData(String loc, byte[] arr, int amount = -1, int step = -1, int arrStep = -1, int arrOffset = -1, int endian = -1)
         {
             name = loc;
             source = arr;
+            defLen = amount;
+
             InitializeComponent();
             groupBox1.Text = groupBox1.Text.Replace("<x>", loc);
             label2.Text = label2.Text.Replace("<x>", loc);
-            comboBox1.SelectedIndex = 0;
-            comboBox2.SelectedIndex = 1;
-            comboBox3.SelectedIndex = 0;
+
+            textBox2.Text = "$" + Util.DecToHex(defLen == -1 ? 0 : defLen, 0);
+            comboBox1.SelectedIndex = step == -1 ? 0 : step;
+            comboBox2.SelectedIndex = arrStep == -1 ? 1 : arrStep;
+            textBox3.Text = "$" + Util.DecToHex(arrOffset == -1 ? 0 : arrOffset, 4);
+            comboBox3.SelectedIndex = endian == -1 ? 0 : endian;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -44,10 +50,13 @@ namespace SuperTileMapper
                 destination = saveFileDialog1.FileName;
                 try
                 {
-                    len = source.Length;
+                    if (defLen < 0)
+                    {
+                        len = source.Length;
+                        textBox2.Text = Util.DecToHex(len, 0);
+                    }
 
                     textBox1.Text = destination;
-                    textBox2.Text = len.ToString();
                     textBox2.Enabled = true;
                     textBox3.Enabled = true;
                     comboBox1.Enabled = true;
@@ -66,22 +75,33 @@ namespace SuperTileMapper
         {
             try
             {
-                if (comboBox1.SelectedIndex > 1) throw new Exception("Must insert 'bytes' or 'words' only!");
-                if (comboBox2.SelectedIndex > 1) throw new Exception("Must access 'bytes' or 'words' only from " + name + "!");
-                if (comboBox3.SelectedIndex > 1) throw new Exception("Must use 'little endian' or 'big endian' only!");
+                int transfer = comboBox1.SelectedIndex;
+                int endian = comboBox3.SelectedIndex;
+
+                if (transfer >= 6) throw new Exception("Must insert 'bytes' or 'words' only!");
+                if (comboBox2.SelectedIndex >= 2) throw new Exception("Must access 'bytes' or 'words' only from " + name + "!");
+                if (endian >= 2) throw new Exception("Must use 'little endian' or 'big endian' only!");
                 if (!Util.TryHexOrDecToDec(textBox2.Text, out len)) throw new Exception("Unknown value for number of bytes or words to extract!");
                 if (!Util.TryHexOrDecToDec(textBox3.Text, out srcOffset)) throw new Exception("Unknown value for " + name + " offset!");
 
-                if (comboBox1.SelectedIndex == 1) len *= 2;
+                if (transfer >= 3) len *= 2;
                 if (comboBox2.SelectedIndex == 1) srcOffset *= 2;
 
                 if (len > source.Length) throw new Exception("Amount of data to extract exceeds the size of " + name + "!");
                 if (srcOffset >= source.Length) throw new Exception("The source address exceeds the size of " + name + "!");
 
-                byte[] destArr = new byte[len + ((comboBox3.SelectedIndex == 1 && len % 2 == 1) ? 1 : 0)];
-                for (int i = 0; i < len; i++)
+                // Trust me on this voodoo, I used k-maps
+                int srcStep = transfer >= 4 ? 2 : 1;
+                int destStep = transfer % 3 >= 1 ? 2 : 1;
+                bool endianFlip = endian == 1 && (transfer == 0 || transfer == 3);
+                if (transfer == 4) srcOffset++;
+                int destOffset = (transfer % 3 == endian + 1) ? 1 : 0;
+                int destSize = len * (transfer == 1 || transfer == 2 ? 2 : 1) + ((endian == 1 && transfer % 3 == 0 && len % 2 == 1) ? 1 : 0);
+
+                byte[] destArr = new byte[destSize];
+                for (int i = 0, j = 0; i < len; i += srcStep, j += destStep)
                 {
-                    destArr[i + Util.Endianness[comboBox3.SelectedIndex, i % 2]] = source[(srcOffset + i) % source.Length];
+                    destArr[j + (endianFlip ? Util.Endianness[j % 2] : 0) + destOffset] = source[(srcOffset + i) % source.Length];
                 }
                 File.WriteAllBytes(destination, destArr);
 

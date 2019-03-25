@@ -135,7 +135,7 @@
             "big endian"});
             this.comboBox3.Location = new System.Drawing.Point(86, 105);
             this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(110, 21);
+            this.comboBox3.Size = new System.Drawing.Size(136, 21);
             this.comboBox3.TabIndex = 8;
             // 
             // comboBox2
@@ -148,7 +148,7 @@
             "word address"});
             this.comboBox2.Location = new System.Drawing.Point(86, 79);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(110, 21);
+            this.comboBox2.Size = new System.Drawing.Size(136, 21);
             this.comboBox2.TabIndex = 7;
             // 
             // comboBox1
@@ -158,16 +158,20 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "bytes",
-            "words"});
+            "bytes as words (high)",
+            "bytes as words (low)",
+            "words",
+            "words (high only)",
+            "words (low only)"});
             this.comboBox1.Location = new System.Drawing.Point(152, 53);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(70, 21);
+            this.comboBox1.Size = new System.Drawing.Size(136, 21);
             this.comboBox1.TabIndex = 6;
             // 
             // textBox3
             // 
             this.textBox3.Enabled = false;
-            this.textBox3.Location = new System.Drawing.Point(202, 79);
+            this.textBox3.Location = new System.Drawing.Point(228, 79);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(60, 20);
             this.textBox3.TabIndex = 5;

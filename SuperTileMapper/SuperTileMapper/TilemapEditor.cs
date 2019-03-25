@@ -221,6 +221,14 @@ namespace SuperTileMapper
             }
         }
 
+        private void RedrawOtherWindows()
+        {
+            if (SuperTileMapper.vram != null && SuperTileMapper.vram.Visible) SuperTileMapper.vram.RedrawAll();
+            if (SuperTileMapper.oam != null && SuperTileMapper.oam.Visible) SuperTileMapper.oam.RedrawAll();
+            if (SuperTileMapper.tmap != null && SuperTileMapper.tmap.Visible) SuperTileMapper.tmap.RedrawAll();
+            if (SuperTileMapper.obj != null && SuperTileMapper.obj.Visible) SuperTileMapper.obj.RedrawAll();
+        }
+
         private void updateCheckboxes()
         {
             layerBG1.Checked = (bgOfInterest == 1);
@@ -245,6 +253,46 @@ namespace SuperTileMapper
             prioFocus.Checked = (priority == 1);
             prioOnly.Checked = (priority == 2);
             RedrawAll();
+        }
+
+        private void importTilemapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int amount = 0x80 * 0x80, vram = 0;
+            int mode = Data.PPURegs[0x05] & 0x7;
+
+            if (mode != 7)
+            {
+                int bg = bgOfInterest - 1;
+                vram = ((Data.PPURegs[0x07 + bg] & 0xFC) << 8) & 0xFC00;
+                int scSize = Data.PPURegs[0x07 + bg] & 0x3;
+                amount = 0x20 * 0x20 * (scSize == 0 ? 1 : scSize == 3 ? 4 : 2);
+            }
+
+            ImportData import = new ImportData("VRAM", Data.VRAM, amount: amount, step: 3, fileStep: 1, arrOffset: vram);
+            DialogResult result = import.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                SNESGraphics.UpdateAllTiles();
+                RedrawAll();
+                RedrawOtherWindows();
+            }
+        }
+
+        private void exportTilemapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int amount = 0x80 * 0x80, vram = 0;
+            int mode = Data.PPURegs[0x05] & 0x7;
+
+            if (mode != 7)
+            {
+                int bg = bgOfInterest - 1;
+                vram = ((Data.PPURegs[0x07 + bg] & 0xFC) << 8) & 0xFC00;
+                int scSize = Data.PPURegs[0x07 + bg] & 0x3;
+                amount = 0x20 * 0x20 * (scSize == 0 ? 1 : scSize == 3 ? 4 : 2);
+            }
+
+            ExportData export = new ExportData("VRAM", Data.VRAM, amount: amount, step: 3, arrOffset: vram);
+            DialogResult result = export.ShowDialog();
         }
 
         private void layerBG1_Click(object sender, EventArgs e)

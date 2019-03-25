@@ -9,7 +9,7 @@ namespace SuperTileMapper
 {
     public static class Util
     {
-        public static int[,] Endianness = new int[,] { { 0, 0 }, { 1, -1 } };
+        public static int[] Endianness = new int[] { 1, -1 };
 
         public static int[,,] OBJsizes = new int[,,] {
             { {8,8}, {16,16} },
@@ -48,7 +48,8 @@ namespace SuperTileMapper
 
         public static string DecToHex(int val, int digits)
         {
-            string hex = (val & (digits == 4 ? 0xFFFF : (digits == 3 ? 0xFFF : 0xFF))).ToString("X");
+            int mask = digits == 0 ? -1 : ~(-1 << (4 * digits));
+            string hex = (val & mask).ToString("X");
             int idx = digits - hex.Length;
             return "00000000".Substring(0, idx < 0 ? 0 : idx) + hex;
         }
