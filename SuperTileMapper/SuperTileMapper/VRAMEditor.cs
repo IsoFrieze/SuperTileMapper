@@ -27,7 +27,7 @@ namespace SuperTileMapper
             InitializeComponent();
             RedrawAll();
             ResizeMe();
-            hexBox1.ByteProvider = new DynamicByteProvider(Data.VRAM);
+            hexBox1.ByteProvider = new DynamicByteProvider(Data.GetVRAMArray());
             pictureBox2.Image = new Bitmap(64, 64);
             UpdateScrollbars();
         }
@@ -50,7 +50,7 @@ namespace SuperTileMapper
 
         private void importDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ImportData import = new ImportData("VRAM", Data.VRAM);
+            ImportData import = new ImportData("VRAM", Data.GetVRAMArray());
             DialogResult result = import.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -64,7 +64,7 @@ namespace SuperTileMapper
 
         private void exportDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ExportData export = new ExportData("VRAM", Data.VRAM);
+            ExportData export = new ExportData("VRAM", Data.GetVRAMArray());
             DialogResult result = export.ShowDialog();
         }
 
@@ -154,7 +154,7 @@ namespace SuperTileMapper
         private void UpdateHexEditor(int tile)
         {
             int b = SNESGraphics.bytesPerTile[bpp];
-            hexBox1.ByteProvider = new DynamicByteProvider(Data.VRAM);
+            hexBox1.ByteProvider = new DynamicByteProvider(Data.GetVRAMArray());
             hexBox1.SelectionStart = b * tile;
             hexBox1.SelectionLength = b;
         }
@@ -517,8 +517,8 @@ namespace SuperTileMapper
 
         private void hexBox1_CurrentPositionInLineChanged(object sender, EventArgs e)
         {
-            int i = Util.clamp((int)hexBox1.SelectionStart - 1, 0, Data.VRAM.Length - 1);
-            Data.VRAM[i] = hexBox1.ByteProvider.ReadByte(i);
+            int i = Util.clamp((int)hexBox1.SelectionStart - 1, 0, Data.VRAM_SIZE - 1);
+            Data.SetVRAMByte(i, hexBox1.ByteProvider.ReadByte(i));
             
             int b = SNESGraphics.bytesPerTile[bpp];
             SNESGraphics.UpdateTile(bpp, i / b);

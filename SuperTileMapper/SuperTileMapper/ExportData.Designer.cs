@@ -162,7 +162,9 @@
             "bytes as words (low)",
             "words",
             "words (high only)",
-            "words (low only)"});
+            "words (low only)",
+            "words as bytes (high)",
+            "words as bytes (low)"});
             this.comboBox1.Location = new System.Drawing.Point(152, 53);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(136, 21);

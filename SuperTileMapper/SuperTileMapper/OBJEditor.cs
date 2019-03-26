@@ -82,7 +82,7 @@ namespace SuperTileMapper
 
         private void RedrawViewer()
         {
-            int objsize = (Data.PPURegs[0x01] & 0xE0) >> 5;
+            int objsize = (Data.GetPPUReg(0x01) & 0xE0) >> 5;
             int objw = Util.OBJsizes[objsize, 1, 0], objh = Util.OBJsizes[objsize, 1, 1];
 
             if (pictureBox1.Image != null) pictureBox1.Image.Dispose();
@@ -99,17 +99,16 @@ namespace SuperTileMapper
         {
             Bitmap img = (Bitmap)pictureBox1.Image;
 
-            int objsize = (Data.PPURegs[0x01] & 0xE0) >> 5;
+            int objsize = (Data.GetPPUReg(0x01) & 0xE0) >> 5;
             int objw = Util.OBJsizes[objsize, 1, 0], objh = Util.OBJsizes[objsize, 1, 1];
 
-            int objLow = Data.OAM[4 * obj + 2];
-            int objHigh = Data.OAM[4 * obj + 3];
-            int objBits = (Data.OAM[0x200 + obj / 4] >> (2 * (obj % 4))) & 0x3;
+            int objWord = Data.GetOAMWord(2 * obj + 1);
+            int objBits = (Data.GetOAMByte(0x200 + obj / 4) >> (2 * (obj % 4))) & 0x3;
 
-            int t = ((objHigh & 0x01) << 8) | objLow;
-            bool v = (objHigh & 0x80) != 0;
-            bool h = (objHigh & 0x40) != 0;
-            int c = (objHigh & 0x0E) >> 1;
+            int t = objWord & 0x1FF;
+            bool v = (objWord & 0x8000) != 0;
+            bool h = (objWord & 0x4000) != 0;
+            int c = (objWord & 0x0E00) >> 9;
             bool s = (objBits & 0x02) != 0;
 
             DrawOBJ(t, h, v, s, c, img, objw * (obj % viewerAcross), objh * (obj / viewerAcross), viewerZoom);
@@ -119,8 +118,8 @@ namespace SuperTileMapper
 
         private void DrawTile(int tile, bool h, bool v, int c, Bitmap img, int x, int y, int zoom, int t)
         {
-            int nameBase = 0xE000 & ((Data.PPURegs[0x01] & 0x7) << 14);
-            int nameOffset = 0x6000 & ((Data.PPURegs[0x01] & 0x18) << 10);
+            int nameBase = 0xE000 & ((Data.GetPPUReg(0x01) & 0x7) << 14);
+            int nameOffset = 0x6000 & ((Data.GetPPUReg(0x01) & 0x18) << 10);
             int tileOffset = tile * 0x20;
 
             int vram = 0xFFFF & (nameBase + (tile >= 0x100 ? nameOffset : 0) + tileOffset);
@@ -130,9 +129,9 @@ namespace SuperTileMapper
 
         private void DrawOBJ(int tile, bool h, bool v, bool s, int c, Bitmap img, int x, int y, int zoom)
         {
-            int objsize = (Data.PPURegs[0x01] & 0xE0) >> 5;
-            int nameBase = 0xE000 & ((Data.PPURegs[0x01] & 0x7) << 14);
-            int nameOffset = 0x6000 & ((Data.PPURegs[0x01] & 0x18) << 10);
+            int objsize = (Data.GetPPUReg(0x01) & 0xE0) >> 5;
+            int nameBase = 0xE000 & ((Data.GetPPUReg(0x01) & 0x7) << 14);
+            int nameOffset = 0x6000 & ((Data.GetPPUReg(0x01) & 0x18) << 10);
             int vram = 0xFFFF & (nameBase + (tile >= 0x100 ? nameOffset : 0) + tile * 0x20);
             int cgram = 0x80 + SNESGraphics.colorsPerPalette[1] * c;
             int bw = Util.OBJsizes[objsize, (s ? 1 : 0), 0] / 8, bh = Util.OBJsizes[objsize, (s ? 1 : 0), 1] / 8;
@@ -152,7 +151,7 @@ namespace SuperTileMapper
             pictureSelTile.Image.Dispose();
             Bitmap img = new Bitmap(64, 64);
 
-            int objsize = (Data.PPURegs[0x01] & 0xE0) >> 5;
+            int objsize = (Data.GetPPUReg(0x01) & 0xE0) >> 5;
             int objh = Util.OBJsizes[objsize, (pickerSize ? 1 : 0), 1];
             int zoom = 0x40 / objh;
 
@@ -362,23 +361,22 @@ namespace SuperTileMapper
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-            int objsize = (Data.PPURegs[0x01] & 0xE0) >> 5;
+            int objsize = (Data.GetPPUReg(0x01) & 0xE0) >> 5;
             int objw = Util.OBJsizes[objsize, 1, 0], objh = Util.OBJsizes[objsize, 1, 1];
 
             int ox = e.X / (objw * viewerZoom);
             int oy = e.Y / (objh * viewerZoom);
             int objI = oy * viewerAcross + ox;
 
-            int objLow = Data.OAM[4 * objI + 2];
-            int objHigh = Data.OAM[4 * objI + 3];
-            int objBits = (Data.OAM[0x200 + objI / 4] >> (2 * (objI % 4))) & 0x3;
+            int objWord = Data.GetOAMWord(2 * objI + 1);
+            int objBits = (Data.GetOAMByte(0x200 + objI / 4) >> (2 * (objI % 4))) & 0x3;
 
-            pickerTile = ((objHigh & 0x01) << 8) | objLow;
-            pickerFlipV = (objHigh & 0x80) != 0;
-            pickerFlipH = (objHigh & 0x40) != 0;
+            pickerTile = objWord & 0x1FF;
+            pickerFlipV = (objWord & 0x8000) != 0;
+            pickerFlipH = (objWord & 0x4000) != 0;
             pickerSize = (objBits & 0x02) != 0;
-            pickerPriority = (objHigh & 0x30) >> 4;
-            pickerPalette = (objHigh & 0x0E) >> 1;
+            pickerPriority = (objWord & 0x3000) >> 4;
+            pickerPalette = (objWord & 0x0E00) >> 9;
 
             UpdateDetails();
         }

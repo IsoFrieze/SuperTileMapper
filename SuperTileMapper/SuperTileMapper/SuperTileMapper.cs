@@ -35,13 +35,16 @@ namespace SuperTileMapper
                 byte[] ppu = File.ReadAllBytes(testdata + "ppuregs.bin");
 
                 for (int i = 0; i < cgram.Length; i++)
-                    Data.CGRAM[i] = cgram[i];
+                    Data.SetCGRAMByte(i, cgram[i]);
                 for (int i = 0; i < vram.Length; i++)
-                    Data.VRAM[i] = vram[i];
+                    Data.SetVRAMByte(i, vram[i]);
                 for (int i = 0; i < oam.Length; i++)
-                    Data.OAM[i] = oam[i];
+                    Data.SetOAMByte(i, oam[i]);
                 for (int i = 0; i < ppu.Length; i+=2)
-                    Data.PPURegs[i/2] = (short)(ppu[i] | (ppu[i+1]<<8));
+                {
+                    Data.SetPPURegBits(i/2, 0xFF, ppu[i]);
+                    Data.SetPPURegBits(i/2, 0xFF00, ppu[i + 1] << 8);
+                }
             }
             catch (Exception)
             {
@@ -76,11 +79,6 @@ namespace SuperTileMapper
             //Data.PPURegs[0x1B] = 0x100;
             //Data.PPURegs[0x1E] = 0x100;
             //Data.PPURegs[0x30] = 0x30;
-        }
-
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void vRAMEditorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -169,6 +167,36 @@ namespace SuperTileMapper
         {
             About about = new About();
             about.ShowDialog();
+        }
+
+        private bool continueUnsavedChanges()
+        {
+            return true;
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveProjectAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void revertUnsavedChangesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

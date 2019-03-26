@@ -96,19 +96,19 @@ namespace SuperTileMapper
                         {
                             if (bpp == 3)
                             {
-                                ptr[px] = Data.VRAM[(vram + 2 * (py * 8 + px) + 1) % Data.VRAM.Length];
+                                ptr[px] = (byte)Data.GetVRAMByte((vram + 2 * (py * 8 + px) + 1));
                             }
                             else
                             {
                                 // TODO optimize this
-                                int b0 = 0x01 & Data.VRAM[(2 * py + 0x00 + vram + 0) % Data.VRAM.Length] >> (7 - px);
-                                int b1 = 0x01 & Data.VRAM[(2 * py + 0x00 + vram + 1) % Data.VRAM.Length] >> (7 - px);
-                                int b2 = 0x01 & Data.VRAM[(2 * py + 0x10 + vram + 0) % Data.VRAM.Length] >> (7 - px);
-                                int b3 = 0x01 & Data.VRAM[(2 * py + 0x10 + vram + 1) % Data.VRAM.Length] >> (7 - px);
-                                int b4 = 0x01 & Data.VRAM[(2 * py + 0x20 + vram + 0) % Data.VRAM.Length] >> (7 - px);
-                                int b5 = 0x01 & Data.VRAM[(2 * py + 0x20 + vram + 1) % Data.VRAM.Length] >> (7 - px);
-                                int b6 = 0x01 & Data.VRAM[(2 * py + 0x30 + vram + 0) % Data.VRAM.Length] >> (7 - px);
-                                int b7 = 0x01 & Data.VRAM[(2 * py + 0x30 + vram + 1) % Data.VRAM.Length] >> (7 - px);
+                                int b0 = 0x01 & Data.GetVRAMByte(2 * py + 0x00 + vram + 0) >> (7 - px);
+                                int b1 = 0x01 & Data.GetVRAMByte(2 * py + 0x00 + vram + 1) >> (7 - px);
+                                int b2 = 0x01 & Data.GetVRAMByte(2 * py + 0x10 + vram + 0) >> (7 - px);
+                                int b3 = 0x01 & Data.GetVRAMByte(2 * py + 0x10 + vram + 1) >> (7 - px);
+                                int b4 = 0x01 & Data.GetVRAMByte(2 * py + 0x20 + vram + 0) >> (7 - px);
+                                int b5 = 0x01 & Data.GetVRAMByte(2 * py + 0x20 + vram + 1) >> (7 - px);
+                                int b6 = 0x01 & Data.GetVRAMByte(2 * py + 0x30 + vram + 0) >> (7 - px);
+                                int b7 = 0x01 & Data.GetVRAMByte(2 * py + 0x30 + vram + 1) >> (7 - px);
 
                                 int xx = b0 + 2 * b1;
                                 if (bpp > 0) xx += 4 * b2 + 8 * b3;

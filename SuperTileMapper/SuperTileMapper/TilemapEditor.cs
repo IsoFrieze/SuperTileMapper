@@ -83,7 +83,7 @@ namespace SuperTileMapper
         {
             if (pictureBox2.Image != null) pictureBox2.Image.Dispose();
 
-            int mode = Data.PPURegs[0x05] & 0x7;
+            int mode = Data.GetPPUReg(0x05) & 0x7;
             int tileCount = mode == 7 ? 0x100 : 0x400;
 
             Bitmap img = new Bitmap(pickerZoom * 8 * pickerAcross, pickerZoom * 8 * (tileCount / pickerAcross));
@@ -105,7 +105,7 @@ namespace SuperTileMapper
         {
             if (pictureBox1.Image != null) pictureBox1.Image.Dispose();
 
-            int mode = Data.PPURegs[0x05] & 0x7;
+            int mode = Data.GetPPUReg(0x05) & 0x7;
             
             if (mode == 7)
             {
@@ -115,7 +115,7 @@ namespace SuperTileMapper
                 {
                     for (int tx = 0; tx < 0x80; tx++)
                     {
-                        int tile = Data.VRAM[2 * (0x80 * ty + tx)];
+                        int tile = Data.GetVRAMByte(2 * (0x80 * ty + tx));
 
                         DrawTile(tile, false, false, 0, img, 8 * tx, 8 * ty, tilemapZoom, 0);
                     }
@@ -127,11 +127,11 @@ namespace SuperTileMapper
             } else
             {
                 int bg = bgOfInterest - 1;
-                int sizeX = 1 + (Data.PPURegs[0x07 + bg] & 0x01);
-                int sizeY = 1 + ((Data.PPURegs[0x07 + bg] & 0x02) >> 1);
-                int tilemapBase = ((Data.PPURegs[0x07 + bg] & 0xFC) << 8) & 0xFC00;
-                int charSize = 1 + ((Data.PPURegs[0x05] >> (4 + bg)) & 1);
-                int charX = mode == 6 ? 2 : charSize, charY = mode == 6 ? 1 : charSize;
+                int sizeX = 1 + (Data.GetPPUReg(0x07 + bg) & 0x01);
+                int sizeY = 1 + ((Data.GetPPUReg(0x07 + bg) & 0x02) >> 1);
+                int tilemapBase = ((Data.GetPPUReg(0x07 + bg) & 0xFC) << 8) & 0xFC00;
+                int charSize = 1 + ((Data.GetPPUReg(0x05) >> (4 + bg)) & 1);
+                int charX = (mode == 5 || mode == 6) ? 2 : charSize, charY = mode == 6 ? 1 : charSize;
 
                 Bitmap img = new Bitmap(tilemapZoom * 8 * 0x20 * sizeX * charX, tilemapZoom * 8 * 0x20 * sizeY * charY);
 
@@ -145,14 +145,13 @@ namespace SuperTileMapper
                             for (int tx = 0; tx < 0x20; tx++)
                             {
                                 int tileI = screenNo * 0x20 * 0x20 + ty * 0x20 + tx;
-                                int tileLow = Data.VRAM[0xFFFF & ((tilemapBase + tileI) * 2)];
-                                int tileHigh = Data.VRAM[0xFFFF & ((tilemapBase + tileI) * 2 + 1)];
+                                int tileWord = Data.GetVRAMWord(tilemapBase + tileI);
 
-                                int tile = ((tileHigh & 0x3) << 8) | tileLow;
-                                bool v = (tileHigh & 0x80) != 0;
-                                bool h = (tileHigh & 0x40) != 0;
-                                bool p = (tileHigh & 0x20) != 0;
-                                int c = (tileHigh & 0x1C) >> 2;
+                                int tile = tileWord & 0x03FF;
+                                bool v = (tileWord & 0x8000) != 0;
+                                bool h = (tileWord & 0x4000) != 0;
+                                bool p = (tileWord & 0x2000) != 0;
+                                int c = (tileWord & 0x1C00) >> 10;
 
                                 if (p || priority != 2)
                                 {
@@ -183,9 +182,9 @@ namespace SuperTileMapper
 
         private void RedrawSelectedTile()
         {
-            int mode = Data.PPURegs[0x05] & 0x7;
-            int charSize = 1 + ((Data.PPURegs[0x05] >> (4 + bgOfInterest - 1)) & 1);
-            int charX = mode == 6 ? 2 : charSize, charY = mode == 6 ? 1 : charSize;
+            int mode = Data.GetPPUReg(0x05) & 0x7;
+            int charSize = 1 + ((Data.GetPPUReg(0x05) >> (4 + bgOfInterest - 1)) & 1);
+            int charX = (mode == 5 || mode == 6) ? 2 : charSize, charY = mode == 6 ? 1 : charSize;
 
             Bitmap img = (Bitmap)pictureSelTile.Image;
             for (int cy = 0; cy < charY; cy++)
@@ -202,7 +201,7 @@ namespace SuperTileMapper
         private void DrawTile(int tile, bool h, bool v, int c, Bitmap img, int x, int y, int zoom, int t)
         {
             int bg = bgOfInterest - 1;
-            int bpp = BGBitDepths[Data.PPURegs[0x05] & 0x7, bg];
+            int bpp = BGBitDepths[Data.GetPPUReg(0x05) & 0x7, bg];
             if (bpp >= 0)
             {
                 if (bpp == 3)
@@ -211,7 +210,7 @@ namespace SuperTileMapper
                     SNESGraphics.Draw8x8Tile(vram, bpp, h, v, 0, img, x, y, zoom, t);
                 } else
                 {
-                    int nameBase = 0xE000 & (Data.PPURegs[0x0B + (bg / 2)] << (((bg & 1) == 0) ? 13 : 9));
+                    int nameBase = 0xE000 & (Data.GetPPUReg(0x0B + (bg / 2)) << (((bg & 1) == 0) ? 13 : 9));
                     int tileOffset = tile * SNESGraphics.bytesPerTile[bpp];
 
                     int vram = nameBase + tileOffset;
@@ -258,17 +257,17 @@ namespace SuperTileMapper
         private void importTilemapToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int amount = 0x80 * 0x80, vram = 0;
-            int mode = Data.PPURegs[0x05] & 0x7;
+            int mode = Data.GetPPUReg(0x05) & 0x7;
 
             if (mode != 7)
             {
                 int bg = bgOfInterest - 1;
-                vram = ((Data.PPURegs[0x07 + bg] & 0xFC) << 8) & 0xFC00;
-                int scSize = Data.PPURegs[0x07 + bg] & 0x3;
+                vram = ((Data.GetPPUReg(0x07 + bg) & 0xFC) << 8) & 0xFC00;
+                int scSize = Data.GetPPUReg(0x07 + bg) & 0x3;
                 amount = 0x20 * 0x20 * (scSize == 0 ? 1 : scSize == 3 ? 4 : 2);
             }
 
-            ImportData import = new ImportData("VRAM", Data.VRAM, amount: amount, step: 3, fileStep: 1, arrOffset: vram);
+            ImportData import = new ImportData("VRAM", Data.GetVRAMArray(), amount: amount, step: 3, fileStep: 1, arrOffset: vram);
             DialogResult result = import.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -281,17 +280,17 @@ namespace SuperTileMapper
         private void exportTilemapToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int amount = 0x80 * 0x80, vram = 0;
-            int mode = Data.PPURegs[0x05] & 0x7;
+            int mode = Data.GetPPUReg(0x05) & 0x7;
 
             if (mode != 7)
             {
                 int bg = bgOfInterest - 1;
-                vram = ((Data.PPURegs[0x07 + bg] & 0xFC) << 8) & 0xFC00;
-                int scSize = Data.PPURegs[0x07 + bg] & 0x3;
+                vram = ((Data.GetPPUReg(0x07 + bg) & 0xFC) << 8) & 0xFC00;
+                int scSize = Data.GetPPUReg(0x07 + bg) & 0x3;
                 amount = 0x20 * 0x20 * (scSize == 0 ? 1 : scSize == 3 ? 4 : 2);
             }
 
-            ExportData export = new ExportData("VRAM", Data.VRAM, amount: amount, step: 3, arrOffset: vram);
+            ExportData export = new ExportData("VRAM", Data.GetVRAMArray(), amount: amount, step: 3, arrOffset: vram);
             DialogResult result = export.ShowDialog();
         }
 
@@ -431,7 +430,7 @@ namespace SuperTileMapper
             checkFlipV.Checked = pickerFlipV;
             checkPriority.Checked = pickerPriority;
 
-            int mode = Data.PPURegs[0x05] & 0x7;
+            int mode = Data.GetPPUReg(0x05) & 0x7;
             textPalette.Enabled = (mode != 7);
             checkFlipH.Enabled = (mode != 7);
             checkFlipV.Enabled = (mode != 7);
@@ -497,7 +496,7 @@ namespace SuperTileMapper
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             int bg = bgOfInterest - 1;
-            int mode = Data.PPURegs[0x05] & 0x7;
+            int mode = Data.GetPPUReg(0x05) & 0x7;
 
             if (mode == 7)
             {
@@ -505,7 +504,7 @@ namespace SuperTileMapper
                 int ty = e.Y / (8 * tilemapZoom);
                 int tileI = ty * 0x80 + tx;
 
-                int tile = Data.VRAM[tileI * 2];
+                int tile = Data.GetVRAMByte(tileI * 2);
 
                 pickerTile = tile;
                 pickerFlipV = false;
@@ -514,11 +513,11 @@ namespace SuperTileMapper
                 pickerPalette = 0;
             } else
             {
-                int sizeX = 1 + (Data.PPURegs[0x07 + bg] & 0x01);
-                int sizeY = 1 + ((Data.PPURegs[0x07 + bg] & 0x02) >> 1);
-                int tilemapBase = ((Data.PPURegs[0x07 + bg] & 0xFC) << 8) & 0xFC00;
-                int charSize = 1 + ((Data.PPURegs[0x05] >> (4 + bg)) & 1);
-                int charX = mode == 6 ? 2 : charSize, charY = mode == 6 ? 1 : charSize;
+                int sizeX = 1 + (Data.GetPPUReg(0x07 + bg) & 0x01);
+                int sizeY = 1 + ((Data.GetPPUReg(0x07 + bg) & 0x02) >> 1);
+                int tilemapBase = ((Data.GetPPUReg(0x07 + bg) & 0xFC) << 8) & 0xFC00;
+                int charSize = 1 + ((Data.GetPPUReg(0x05) >> (4 + bg)) & 1);
+                int charX =  (mode == 5  || mode == 6) ? 2 : charSize, charY = mode == 6 ? 1 : charSize;
 
                 int rx = e.X / (8 * tilemapZoom * charX);
                 int ry = e.Y / (8 * tilemapZoom * charY);
@@ -527,14 +526,13 @@ namespace SuperTileMapper
                 int scNo = sy * sizeX + sx;
                 int tileI = scNo * 0x20 * 0x20 + ty * 0x20 + tx;
 
-                int tileLow = Data.VRAM[0xFFFF & ((tilemapBase + tileI) * 2)];
-                int tileHigh = Data.VRAM[0xFFFF & ((tilemapBase + tileI) * 2 + 1)];
+                int tileWord = Data.GetVRAMWord(tilemapBase + tileI);
 
-                pickerTile = ((tileHigh & 0x3) << 8) | tileLow;
-                pickerFlipV = (tileHigh & 0x80) != 0;
-                pickerFlipH = (tileHigh & 0x40) != 0;
-                pickerPriority = (tileHigh & 0x20) != 0;
-                pickerPalette = (tileHigh & 0x1C) >> 2;
+                pickerTile = tileWord & 0x03FF;
+                pickerFlipV = (tileWord & 0x8000) != 0;
+                pickerFlipH = (tileWord & 0x4000) != 0;
+                pickerPriority = (tileWord & 0x2000) != 0;
+                pickerPalette = (tileWord & 0x1C00) >> 10;
             }
             UpdateDetails();
         }

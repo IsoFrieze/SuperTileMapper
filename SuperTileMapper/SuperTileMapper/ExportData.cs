@@ -53,7 +53,7 @@ namespace SuperTileMapper
                     if (defLen < 0)
                     {
                         len = source.Length;
-                        textBox2.Text = Util.DecToHex(len, 0);
+                        textBox2.Text = "$" + Util.DecToHex(len, 0);
                     }
 
                     textBox1.Text = destination;
@@ -78,7 +78,7 @@ namespace SuperTileMapper
                 int transfer = comboBox1.SelectedIndex;
                 int endian = comboBox3.SelectedIndex;
 
-                if (transfer >= 6) throw new Exception("Must insert 'bytes' or 'words' only!");
+                if (transfer >= 8) throw new Exception("Must insert 'bytes' or 'words' only!");
                 if (comboBox2.SelectedIndex >= 2) throw new Exception("Must access 'bytes' or 'words' only from " + name + "!");
                 if (endian >= 2) throw new Exception("Must use 'little endian' or 'big endian' only!");
                 if (!Util.TryHexOrDecToDec(textBox2.Text, out len)) throw new Exception("Unknown value for number of bytes or words to extract!");
@@ -92,11 +92,11 @@ namespace SuperTileMapper
 
                 // Trust me on this voodoo, I used k-maps
                 int srcStep = transfer >= 4 ? 2 : 1;
-                int destStep = transfer % 3 >= 1 ? 2 : 1;
-                bool endianFlip = endian == 1 && (transfer == 0 || transfer == 3);
-                if (transfer == 4) srcOffset++;
-                int destOffset = (transfer % 3 == endian + 1) ? 1 : 0;
-                int destSize = len * (transfer == 1 || transfer == 2 ? 2 : 1) + ((endian == 1 && transfer % 3 == 0 && len % 2 == 1) ? 1 : 0);
+                int destStep = (transfer % 3 >= 1) && (transfer < 6) ? 2 : 1;
+                bool endianFlip = (endian == 1) && (transfer == 0 || transfer == 3);
+                if (transfer == 4 || transfer == 6 + endian) srcOffset++;
+                int destOffset = (transfer % 3 == endian + 1 && transfer < 6) ? 1 : 0;
+                int destSize = len * (transfer == 1 || transfer == 2 ? 4 : (transfer >= 6 ? 1 : 2)) / 2 + ((endian == 1 && transfer % 3 == 0 && len % 2 == 1) ? 1 : 0);
 
                 byte[] destArr = new byte[destSize];
                 for (int i = 0, j = 0; i < len; i += srcStep, j += destStep)

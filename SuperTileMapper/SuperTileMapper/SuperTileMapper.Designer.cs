@@ -35,7 +35,6 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveProjectAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -47,10 +46,11 @@
             this.pPURegistersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tilemapEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oBJEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.oBJEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.revertUnsavedChangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -86,9 +86,9 @@
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
-            this.importDataToolStripMenuItem,
             this.saveProjectToolStripMenuItem,
             this.saveProjectAsToolStripMenuItem,
+            this.revertUnsavedChangesToolStripMenuItem,
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
@@ -98,45 +98,36 @@
             // 
             // newToolStripMenuItem
             // 
-            this.newToolStripMenuItem.Enabled = false;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.newToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.newToolStripMenuItem.Text = "New Project...";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
-            this.openToolStripMenuItem.Enabled = false;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.openToolStripMenuItem.Text = "Open Project...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
-            // importDataToolStripMenuItem
-            // 
-            this.importDataToolStripMenuItem.Enabled = false;
-            this.importDataToolStripMenuItem.Name = "importDataToolStripMenuItem";
-            this.importDataToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.importDataToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
-            this.importDataToolStripMenuItem.Text = "Import Data...";
-            // 
             // saveProjectToolStripMenuItem
             // 
-            this.saveProjectToolStripMenuItem.Enabled = false;
             this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
             this.saveProjectToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.saveProjectToolStripMenuItem.Text = "Save Project";
+            this.saveProjectToolStripMenuItem.Click += new System.EventHandler(this.saveProjectToolStripMenuItem_Click);
             // 
             // saveProjectAsToolStripMenuItem
             // 
-            this.saveProjectAsToolStripMenuItem.Enabled = false;
             this.saveProjectAsToolStripMenuItem.Name = "saveProjectAsToolStripMenuItem";
             this.saveProjectAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
             this.saveProjectAsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.saveProjectAsToolStripMenuItem.Text = "Save Project As...";
+            this.saveProjectAsToolStripMenuItem.Click += new System.EventHandler(this.saveProjectAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -169,42 +160,49 @@
             // vRAMEditorToolStripMenuItem
             // 
             this.vRAMEditorToolStripMenuItem.Name = "vRAMEditorToolStripMenuItem";
-            this.vRAMEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.vRAMEditorToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.vRAMEditorToolStripMenuItem.Text = "VRAM";
             this.vRAMEditorToolStripMenuItem.Click += new System.EventHandler(this.vRAMEditorToolStripMenuItem_Click);
             // 
             // cGRAMEditorToolStripMenuItem
             // 
             this.cGRAMEditorToolStripMenuItem.Name = "cGRAMEditorToolStripMenuItem";
-            this.cGRAMEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cGRAMEditorToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.cGRAMEditorToolStripMenuItem.Text = "CGRAM";
             this.cGRAMEditorToolStripMenuItem.Click += new System.EventHandler(this.cGRAMEditorToolStripMenuItem_Click);
             // 
             // oAMEditorToolStripMenuItem
             // 
             this.oAMEditorToolStripMenuItem.Name = "oAMEditorToolStripMenuItem";
-            this.oAMEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.oAMEditorToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.oAMEditorToolStripMenuItem.Text = "OAM";
             this.oAMEditorToolStripMenuItem.Click += new System.EventHandler(this.oAMEditorToolStripMenuItem_Click);
             // 
             // pPURegistersToolStripMenuItem
             // 
             this.pPURegistersToolStripMenuItem.Name = "pPURegistersToolStripMenuItem";
-            this.pPURegistersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pPURegistersToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.pPURegistersToolStripMenuItem.Text = "PPU Registers";
             this.pPURegistersToolStripMenuItem.Click += new System.EventHandler(this.pPURegistersToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(148, 6);
             // 
             // tilemapEditorToolStripMenuItem
             // 
             this.tilemapEditorToolStripMenuItem.Name = "tilemapEditorToolStripMenuItem";
-            this.tilemapEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tilemapEditorToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.tilemapEditorToolStripMenuItem.Text = "Tilemap Editor";
             this.tilemapEditorToolStripMenuItem.Click += new System.EventHandler(this.tilemapEditorToolStripMenuItem_Click);
+            // 
+            // oBJEditorToolStripMenuItem
+            // 
+            this.oBJEditorToolStripMenuItem.Name = "oBJEditorToolStripMenuItem";
+            this.oBJEditorToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.oBJEditorToolStripMenuItem.Text = "OBJ Editor";
+            this.oBJEditorToolStripMenuItem.Click += new System.EventHandler(this.oBJEditorToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -231,12 +229,12 @@
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             // 
-            // oBJEditorToolStripMenuItem
+            // revertUnsavedChangesToolStripMenuItem
             // 
-            this.oBJEditorToolStripMenuItem.Name = "oBJEditorToolStripMenuItem";
-            this.oBJEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.oBJEditorToolStripMenuItem.Text = "OBJ Editor";
-            this.oBJEditorToolStripMenuItem.Click += new System.EventHandler(this.oBJEditorToolStripMenuItem_Click);
+            this.revertUnsavedChangesToolStripMenuItem.Name = "revertUnsavedChangesToolStripMenuItem";
+            this.revertUnsavedChangesToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.revertUnsavedChangesToolStripMenuItem.Text = "Revert Unsaved Changes";
+            this.revertUnsavedChangesToolStripMenuItem.Click += new System.EventHandler(this.revertUnsavedChangesToolStripMenuItem_Click);
             // 
             // SuperTileMapper
             // 
@@ -284,8 +282,8 @@
         private System.Windows.Forms.ToolStripMenuItem saveProjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveProjectAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem noneToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem importDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oBJEditorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem revertUnsavedChangesToolStripMenuItem;
     }
 }
 

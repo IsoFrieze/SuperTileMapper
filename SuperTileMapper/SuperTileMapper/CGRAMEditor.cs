@@ -22,12 +22,12 @@ namespace SuperTileMapper
             InitializeComponent();
             RedrawAll();
             ResizeMe();
-            hexBox1.ByteProvider = new DynamicByteProvider(Data.CGRAM);
+            hexBox1.ByteProvider = new DynamicByteProvider(Data.GetCGRAMArray());
         }
 
         private void importDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ImportData import = new ImportData("CGRAM", Data.CGRAM);
+            ImportData import = new ImportData("CGRAM", Data.GetCGRAMArray());
             DialogResult result = import.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -41,7 +41,7 @@ namespace SuperTileMapper
 
         private void exportDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ExportData export = new ExportData("CGRAM", Data.CGRAM);
+            ExportData export = new ExportData("CGRAM", Data.GetCGRAMArray());
             DialogResult result = export.ShowDialog();
         }
 
@@ -115,21 +115,22 @@ namespace SuperTileMapper
         {
             updatingDetails = true;
             label1.Text = "Color $" + Util.DecToHex(showDetails, 2);
-            int val = (Data.CGRAM[2 * showDetails] | (Data.CGRAM[2 * showDetails + 1] << 8));
+            Color color = Data.GetCGRAMColor(showDetails);
+            int val = Data.GetCGRAMWord(showDetails);
             textBox1.Text = "$" + Util.DecToHex(val, 4);
-            textBox2.Text = "$" + Util.DecToHex(val & 0x001F, 2);
-            textBox3.Text = "$" + Util.DecToHex((val & 0x03E0) >> 5, 2);
-            textBox4.Text = "$" + Util.DecToHex((val & 0x7C00) >> 10, 2);
-            trackBar3.Value = val & 0x001F;
-            trackBar1.Value = (val & 0x03E0) >> 5;
-            trackBar2.Value = (val & 0x7C00) >> 10;
-            panel3.BackColor = Data.GetCGRAMColor(showDetails);
+            textBox2.Text = "$" + Util.DecToHex(color.R >> 3, 2);
+            textBox3.Text = "$" + Util.DecToHex(color.G >> 3, 2);
+            textBox4.Text = "$" + Util.DecToHex(color.B >> 3, 2);
+            trackBar3.Value = color.R >> 3;
+            trackBar1.Value = color.G >> 3;
+            trackBar2.Value = color.B >> 3;
+            panel3.BackColor = color;
             updatingDetails = false;
         }
 
         private void UpdateHexEditor(int color)
         {
-            hexBox1.ByteProvider = new DynamicByteProvider(Data.CGRAM);
+            hexBox1.ByteProvider = new DynamicByteProvider(Data.GetCGRAMArray());
             hexBox1.SelectionStart = 2 * color;
             hexBox1.SelectionLength = 2;
         }
@@ -170,8 +171,7 @@ namespace SuperTileMapper
             {
                 Color c = colorDialog1.Color;
                 int cg = ((c.B & 0xF8) << 7) | ((c.G & 0xF8) << 2) | ((c.R & 0xF8) >> 3);
-                Data.CGRAM[2 * showDetails] = (byte)(cg & 0x00FF);
-                Data.CGRAM[2 * showDetails + 1] = (byte)((cg & 0x7F00) >> 8);
+                Data.SetCGRAMWord(showDetails, cg);
                 UpdateDetails();
                 Redraw(showDetails);
                 RedrawOtherWindows();
@@ -185,8 +185,7 @@ namespace SuperTileMapper
             {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    Data.CGRAM[2 * showDetails] = (byte)(val & 0x00FF);
-                    Data.CGRAM[2 * showDetails + 1] = (byte)((val & 0x7F00) >> 8);
+                    Data.SetCGRAMWord(showDetails, val);
                     UpdateDetails();
                     Redraw(showDetails);
                     UpdateHexEditor(showDetails);
@@ -205,7 +204,8 @@ namespace SuperTileMapper
             {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    Data.CGRAM[2 * showDetails] = (byte)((Data.CGRAM[2 * showDetails] & 0xE0) | (val & 0x1F));
+                    int emptyRed = Data.GetCGRAMWord(showDetails) & ~0x001F;
+                    Data.SetCGRAMWord(showDetails, emptyRed | (val & 0x1F));
                     UpdateDetails();
                     Redraw(showDetails);
                     UpdateHexEditor(showDetails);
@@ -225,8 +225,8 @@ namespace SuperTileMapper
             {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    Data.CGRAM[2 * showDetails] = (byte)((Data.CGRAM[2 * showDetails] & 0x1F) | ((val & 0x07) << 5));
-                    Data.CGRAM[2 * showDetails + 1] = (byte)((Data.CGRAM[2 * showDetails + 1] & 0xFC) | ((val & 0x18) >> 3));
+                    int emptyGreen = Data.GetCGRAMWord(showDetails) & ~0x03E0;
+                    Data.SetCGRAMWord(showDetails, emptyGreen | ((val & 0x1F) << 5));
                     UpdateDetails();
                     Redraw(showDetails);
                     UpdateHexEditor(showDetails);
@@ -246,7 +246,8 @@ namespace SuperTileMapper
             {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    Data.CGRAM[2 * showDetails + 1] = (byte)((Data.CGRAM[2 * showDetails + 1] & 0x03) | ((val & 0x1F) << 2));
+                    int emptyBlue = Data.GetCGRAMWord(showDetails) & ~0x7C00;
+                    Data.SetCGRAMWord(showDetails, emptyBlue | ((val & 0x1F) << 10));
                     UpdateDetails();
                     Redraw(showDetails);
                     UpdateHexEditor(showDetails);
@@ -263,7 +264,8 @@ namespace SuperTileMapper
         {
             if (!updatingDetails)
             {
-                Data.CGRAM[2 * showDetails] = (byte)((Data.CGRAM[2 * showDetails] & 0xE0) | (trackBar3.Value & 0x1F));
+                int emptyRed = Data.GetCGRAMWord(showDetails) & ~0x001F;
+                Data.SetCGRAMWord(showDetails, emptyRed | (trackBar3.Value & 0x1F));
                 UpdateDetails();
                 Redraw(showDetails);
             }
@@ -273,8 +275,8 @@ namespace SuperTileMapper
         {
             if (!updatingDetails)
             {
-                Data.CGRAM[2 * showDetails] = (byte)((Data.CGRAM[2 * showDetails] & 0x1F) | ((trackBar1.Value & 0x07) << 5));
-                Data.CGRAM[2 * showDetails + 1] = (byte)((Data.CGRAM[2 * showDetails + 1] & 0xFC) | ((trackBar1.Value & 0x18) >> 3));
+                int emptyGreen = Data.GetCGRAMWord(showDetails) & ~0x03E0;
+                Data.SetCGRAMWord(showDetails, emptyGreen | ((trackBar1.Value & 0x1F) << 5));
                 UpdateDetails();
                 Redraw(showDetails);
             }
@@ -284,7 +286,8 @@ namespace SuperTileMapper
         {
             if (!updatingDetails)
             {
-                Data.CGRAM[2 * showDetails + 1] = (byte)((Data.CGRAM[2 * showDetails + 1] & 0x03) | ((trackBar2.Value & 0x1F) << 2));
+                int emptyBlue = Data.GetCGRAMWord(showDetails) & ~0x7C00;
+                Data.SetCGRAMWord(showDetails, emptyBlue | ((trackBar2.Value & 0x1F) << 10));
                 UpdateDetails();
                 Redraw(showDetails);
             }
@@ -315,8 +318,8 @@ namespace SuperTileMapper
 
         private void hexBox1_CurrentPositionInLineChanged(object sender, EventArgs e)
         {
-            int i = Util.clamp((int)hexBox1.SelectionStart - 1, 0, Data.CGRAM.Length-1);
-            Data.CGRAM[i] = hexBox1.ByteProvider.ReadByte(i);
+            int i = Util.clamp((int)hexBox1.SelectionStart - 1, 0, Data.CGRAM_SIZE - 1);
+            Data.SetCGRAMByte(i, hexBox1.ByteProvider.ReadByte(i));
             Redraw(i / 2);
             if (showDetails == i / 2)
             {
@@ -328,7 +331,7 @@ namespace SuperTileMapper
         private void textBox1_Leave(object sender, EventArgs e)
         {
             updatingDetails = true;
-            int oldVal = (Data.CGRAM[2 * showDetails] | (Data.CGRAM[2 * showDetails + 1] << 8));
+            int oldVal = Data.GetCGRAMWord(showDetails);
             textBox1.Text = "$" + Util.DecToHex(oldVal, 4);
             updatingDetails = false;
         }
@@ -336,7 +339,7 @@ namespace SuperTileMapper
         private void textBox2_Leave(object sender, EventArgs e)
         {
             updatingDetails = true;
-            int oldVal = Data.CGRAM[2 * showDetails] & 0x1F;
+            int oldVal = Data.GetCGRAMWord(showDetails) & 0x001F;
             textBox2.Text = "$" + Util.DecToHex(oldVal, 2);
             updatingDetails = false;
         }
@@ -344,7 +347,7 @@ namespace SuperTileMapper
         private void textBox3_Leave(object sender, EventArgs e)
         {
             updatingDetails = true;
-            int oldVal = (((Data.CGRAM[2 * showDetails] & 0xE0) >> 5) | ((Data.CGRAM[2 * showDetails + 1] & 0x03) << 3));
+            int oldVal = (Data.GetCGRAMWord(showDetails) & 0x03E0) >> 5;
             textBox3.Text = "$" + Util.DecToHex(oldVal, 2);
             updatingDetails = false;
         }
@@ -352,7 +355,7 @@ namespace SuperTileMapper
         private void textBox4_Leave(object sender, EventArgs e)
         {
             updatingDetails = true;
-            int oldVal = (Data.CGRAM[2 * showDetails + 1] & 0x7C) >> 2;
+            int oldVal = (Data.GetCGRAMWord(showDetails) & 0x7C00) >> 10;
             textBox4.Text = "$" + Util.DecToHex(oldVal, 2);
             updatingDetails = false;
         }

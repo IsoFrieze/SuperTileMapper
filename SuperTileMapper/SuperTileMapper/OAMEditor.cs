@@ -27,7 +27,7 @@ namespace SuperTileMapper
             pictureBox2.Image = new Bitmap(64, 64);
             RedrawAll();
             ResizeMe();
-            hexBox1.ByteProvider = new DynamicByteProvider(Data.OAM);
+            hexBox1.ByteProvider = new DynamicByteProvider(Data.GetOAMArray());
             UpdateScrollbars();
         }
 
@@ -44,7 +44,7 @@ namespace SuperTileMapper
 
         private void importDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ImportData import = new ImportData("OAM", Data.OAM);
+            ImportData import = new ImportData("OAM", Data.GetOAMArray());
             DialogResult result = import.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -57,7 +57,7 @@ namespace SuperTileMapper
 
         private void exportDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ExportData export = new ExportData("OAM", Data.OAM);
+            ExportData export = new ExportData("OAM", Data.GetOAMArray());
             DialogResult result = export.ShowDialog();
         }
 
@@ -110,7 +110,7 @@ namespace SuperTileMapper
                 Color back = SNESGraphics.GetTransparency(0, transparency);
                 g.FillRectangle(new SolidBrush(back), new Rectangle(0, 0, img.Width, img.Height));
 
-                int lines = ((Data.PPURegs[0x33] & 0x4) != 0) ? 239 : 224;
+                int lines = ((Data.GetPPUReg(0x33) & 0x4) != 0) ? 239 : 224;
                 if (displayArea  == 1)
                 {
                     g.DrawRectangle(new Pen(Color.Red), new Rectangle(256 * screenZoom, 1 * screenZoom, 256 * screenZoom - 1, lines * screenZoom - 1));
@@ -120,14 +120,14 @@ namespace SuperTileMapper
                 }
             }
 
-            int rotation = Data.PPURegs[0x02] & 0x7F;
+            int rotation = Data.GetPPUReg(0x02) & 0x7F;
             for (int i = 0x7F; i >= 0; i--)
             {
                 int j = (i + rotation) & 0x7F;
 
-                int objLow = Data.OAM[4 * j + 0];
-                int objHigh = Data.OAM[4 * j + 1];
-                int objBits = (Data.OAM[0x200 + j / 4] >> ((j % 4) * 2)) & 0x03;
+                int objLow = Data.GetOAMByte(4 * j + 0);
+                int objHigh = Data.GetOAMByte(4 * j + 1);
+                int objBits = (Data.GetOAMByte(0x200 + j / 4) >> ((j % 4) * 2)) & 0x03;
                 int y = objHigh;
                 int x = ((objBits << 8) & 0x100) | objLow;
 
@@ -147,8 +147,8 @@ namespace SuperTileMapper
             pictureBox2.Image.Dispose();
             Bitmap img = new Bitmap(64, 64);
 
-            int objBits = (Data.OAM[0x200 + showDetails / 4] >> ((showDetails % 4) * 2)) & 0x03;
-            int maxSize = Util.OBJsizes[((Data.PPURegs[0x01] & 0xE0) >> 5), (objBits & 0x02) >> 1, 1];
+            int objBits = (Data.GetOAMByte(0x200 + showDetails / 4) >> ((showDetails % 4) * 2)) & 0x03;
+            int maxSize = Util.OBJsizes[((Data.GetPPUReg(0x01) & 0xE0) >> 5), (objBits & 0x02) >> 1, 1];
             int zoom = 0x40 / maxSize;
 
             DrawOBJ(showDetails, img, 0, 0, zoom);
@@ -158,24 +158,23 @@ namespace SuperTileMapper
 
         private void DrawOBJ(int i, Bitmap img, int x, int y, int zoom)
         {
-            int objsize = (Data.PPURegs[0x01] & 0xE0) >> 5;
-            int objLow = Data.OAM[4 * i + 2];
-            int objHigh = Data.OAM[4 * i + 3];
-            int objBits = (Data.OAM[0x200 + i / 4] >> ((i % 4) * 2)) & 0x03;
-            int tile = ((objHigh << 8) & 0x100) | objLow;
-            bool v = (objHigh & 0x80) != 0;
-            bool h = (objHigh & 0x40) != 0;
+            int objsize = (Data.GetPPUReg(0x01) & 0xE0) >> 5;
+            int objWord = Data.GetOAMWord(2 * i + 1);
+            int objBits = (Data.GetOAMByte(0x200 + i / 4) >> ((i % 4) * 2)) & 0x03;
+            int tile = objWord & 0x1FF;
+            bool v = (objWord & 0x8000) != 0;
+            bool h = (objWord & 0x4000) != 0;
             bool s = (objBits & 0x02) != 0;
-            int c = (objHigh >> 1) & 0x7;
+            int c = (objWord >> 9) & 0x7;
 
             DrawObject(tile, h, v, s, c, img, x, y, zoom);
         }
 
         private void DrawObject(int tile, bool h, bool v, bool s, int c, Bitmap img, int x, int y, int zoom)
         {
-            int objsize = (Data.PPURegs[0x01] & 0xE0) >> 5;
-            int nameBase = 0xE000 & ((Data.PPURegs[0x01] & 0x7) << 14);
-            int nameOffset = 0x6000 & ((Data.PPURegs[0x01] & 0x18) << 10);
+            int objsize = (Data.GetPPUReg(0x01) & 0xE0) >> 5;
+            int nameBase = 0xE000 & ((Data.GetPPUReg(0x01) & 0x7) << 14);
+            int nameOffset = 0x6000 & ((Data.GetPPUReg(0x01) & 0x18) << 10);
             int vram = 0xFFFF & (nameBase + (tile >= 0x100 ? nameOffset : 0) + tile * 0x20);
             int cgram = 0x80 + SNESGraphics.colorsPerPalette[1] * c;
             int bw = Util.OBJsizes[objsize, (s ? 1 : 0), 0] / 8, bh = Util.OBJsizes[objsize, (s ? 1 : 0), 1] / 8;
@@ -193,9 +192,9 @@ namespace SuperTileMapper
             updatingDetails = true;
             
             label1.Text = "OBJ $" + Util.DecToHex(showDetails, 2);
-            int word1 = (Data.OAM[4 * showDetails] | (Data.OAM[4 * showDetails + 1] << 8));
-            int word2 = (Data.OAM[4 * showDetails + 2] | (Data.OAM[4 * showDetails + 3] << 8));
-            int bits = (Data.OAM[0x200 + showDetails / 4] >> ((showDetails % 4) * 2)) & 0x03;
+            int word1 = Data.GetOAMWord(2 * showDetails);
+            int word2 = Data.GetOAMWord(2 * showDetails + 1);
+            int bits = (Data.GetOAMByte(0x200 + showDetails / 4) >> ((showDetails % 4) * 2)) & 0x03;
             textBox1.Text = "$" + Util.DecToHex(word2 & 0x01FF, 3);
             textBox2.Text = "$" + Util.DecToHex((word1 & 0x00FF) | ((bits & 0x01) << 8), 3);
             textBox3.Text = "$" + Util.DecToHex((word1 & 0xFF00) >> 8, 2);
@@ -212,7 +211,7 @@ namespace SuperTileMapper
 
         private void UpdateHexEditor(int obj)
         {
-            hexBox1.ByteProvider = new DynamicByteProvider(Data.OAM);
+            hexBox1.ByteProvider = new DynamicByteProvider(Data.GetOAMArray());
             hexBox1.SelectionStart = 4 * obj;
             hexBox1.SelectionLength = 4;
         }
@@ -316,8 +315,8 @@ namespace SuperTileMapper
             {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    Data.OAM[4 * showDetails + 2] = (byte)(val & 0x00FF);
-                    Data.OAM[4 * showDetails + 3] = (byte)((Data.OAM[4 * showDetails + 3] & ~0x01) | ((val & 0x0100) >> 8));
+                    int emptyTile = Data.GetOAMWord(2 * showDetails + 1) & ~0x01FF;
+                    Data.SetOAMWord(2 * showDetails + 1, emptyTile | (val & 0x1FF));
                     UpdateDetails();
                     RedrawAll();
                     UpdateHexEditor(showDetails);
@@ -332,7 +331,7 @@ namespace SuperTileMapper
         private void textBox1_Leave(object sender, EventArgs e)
         {
             updatingDetails = true;
-            int oldVal = (Data.OAM[4 * showDetails + 2] | ((Data.OAM[4 * showDetails + 3] & 0x01) << 8));
+            int oldVal = Data.GetOAMWord(2 * showDetails + 1) & 0x1FF;
             textBox1.Text = "$" + Util.DecToHex(oldVal, 3);
             updatingDetails = false;
         }
@@ -344,8 +343,8 @@ namespace SuperTileMapper
             {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    Data.OAM[4 * showDetails] = (byte)(val & 0x00FF);
-                    Data.OAM[0x200 + showDetails / 4] = (byte)((Data.OAM[0x200 + showDetails / 4] & ~(0x01 << (2*(showDetails%4))) | ((val & 0x0100) >> 8)));
+                    Data.SetOAMByte(4 * showDetails, val & 0xFF);
+                    Data.SetOAMByte(0x200 + showDetails / 4, (Data.GetOAMByte(0x200 + showDetails / 4) & ~(0x01 << (2 * (showDetails % 4))) | ((val & 0x0100) >> 8)));
                     UpdateDetails();
                     RedrawAll();
                     UpdateHexEditor(showDetails);
@@ -360,7 +359,7 @@ namespace SuperTileMapper
         private void textBox2_Leave(object sender, EventArgs e)
         {
             updatingDetails = true;
-            int oldVal = (Data.OAM[4 * showDetails] | ((Data.OAM[0x200 + showDetails / 4] & (0x01 << (2 * (showDetails % 4)))) << 8));
+            int oldVal = (Data.GetOAMByte(4 * showDetails) | ((Data.GetOAMByte(0x200 + showDetails / 4) & (0x01 << (2 * (showDetails % 4)))) << 8));
             textBox2.Text = "$" + Util.DecToHex(oldVal, 3);
             updatingDetails = false;
         }
@@ -372,7 +371,7 @@ namespace SuperTileMapper
             {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    Data.OAM[4 * showDetails + 1] = (byte)val;
+                    Data.SetOAMByte(4 * showDetails + 1, val & 0xFF);
                     UpdateDetails();
                     RedrawAll();
                     UpdateHexEditor(showDetails);
@@ -387,7 +386,7 @@ namespace SuperTileMapper
         private void textBox3_Leave(object sender, EventArgs e)
         {
             updatingDetails = true;
-            int oldVal = Data.OAM[4 * showDetails + 1];
+            int oldVal = Data.GetOAMByte(4 * showDetails + 1);
             textBox3.Text = "$" + Util.DecToHex(oldVal, 2);
             updatingDetails = false;
         }
@@ -399,7 +398,8 @@ namespace SuperTileMapper
             {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    Data.OAM[4 * showDetails + 3] = (byte)((Data.OAM[4 * showDetails + 3] & ~0x0E) | ((val & 0x07) << 1));
+                    int emptyPalette = Data.GetOAMByte(4 * showDetails + 3) & ~0x0E;
+                    Data.SetOAMByte(4 * showDetails + 3, emptyPalette | ((val & 0x07) << 1));
                     UpdateDetails();
                     RedrawAll();
                     UpdateHexEditor(showDetails);
@@ -414,7 +414,7 @@ namespace SuperTileMapper
         private void textBox4_Leave(object sender, EventArgs e)
         {
             updatingDetails = true;
-            int oldVal = (Data.OAM[4 * showDetails + 3] & 0x0E) >> 1;
+            int oldVal = (Data.GetOAMByte(4 * showDetails + 3) & 0x0E) >> 1;
             textBox4.Text = "$" + Util.DecToHex(oldVal, 2);
             updatingDetails = false;
         }
@@ -426,7 +426,8 @@ namespace SuperTileMapper
             {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    Data.OAM[4 * showDetails + 3] = (byte)((Data.OAM[4 * showDetails + 3] & ~0x30) | ((val & 0x03) << 4));
+                    int emptyPriority = Data.GetOAMByte(4 * showDetails + 3) & ~0x30;
+                    Data.SetOAMByte(4 * showDetails + 3, emptyPriority | ((val & 0x03) << 4));
                     UpdateDetails();
                     RedrawAll();
                     UpdateHexEditor(showDetails);
@@ -441,7 +442,7 @@ namespace SuperTileMapper
         private void textBox5_Leave(object sender, EventArgs e)
         {
             updatingDetails = true;
-            int oldVal = (Data.OAM[4 * showDetails + 3] & 0x30) >> 4;
+            int oldVal = (Data.GetOAMByte(4 * showDetails + 3) & 0x30) >> 4;
             textBox5.Text = "$" + Util.DecToHex(oldVal, 2);
             updatingDetails = false;
         }
@@ -450,7 +451,8 @@ namespace SuperTileMapper
         {
             if (!updatingDetails)
             {
-                Data.OAM[4 * showDetails + 3] = (byte)((Data.OAM[4 * showDetails + 3] & ~0x40) | (checkBox1.Checked ? 0x40 : 0));
+                int emptyHFlip = Data.GetOAMByte(4 * showDetails + 3) & ~0x40;
+                Data.SetOAMByte(4 * showDetails + 3, emptyHFlip | (checkBox1.Checked ? 0x40 : 0));
                 UpdateDetails();
                 RedrawAll();
                 UpdateHexEditor(showDetails);
@@ -461,7 +463,8 @@ namespace SuperTileMapper
         {
             if (!updatingDetails)
             {
-                Data.OAM[4 * showDetails + 3] = (byte)((Data.OAM[4 * showDetails + 3] & ~0x80) | (checkBox2.Checked ? 0x80 : 0));
+                int emptyVFlip = Data.GetOAMByte(4 * showDetails + 3) & ~0x80;
+                Data.SetOAMByte(4 * showDetails + 3, emptyVFlip | (checkBox1.Checked ? 0x80 : 0));
                 UpdateDetails();
                 RedrawAll();
                 UpdateHexEditor(showDetails);
@@ -472,7 +475,7 @@ namespace SuperTileMapper
         {
             if (!updatingDetails)
             {
-                Data.OAM[0x200 + showDetails / 4] = (byte)((Data.OAM[0x200 + showDetails / 4] & ~(0x02 << (2 * (showDetails % 4)))) | ((checkBox3.Checked ? 0x02 : 0) << (2 * (showDetails % 4))));
+                Data.SetOAMByte(0x200 + showDetails / 4, (byte)((Data.GetOAMByte(0x200 + showDetails / 4) & ~(0x02 << (2 * (showDetails % 4)))) | ((checkBox3.Checked ? 0x02 : 0) << (2 * (showDetails % 4)))));
                 UpdateDetails();
                 RedrawAll();
                 UpdateHexEditor(showDetails);
@@ -481,8 +484,8 @@ namespace SuperTileMapper
 
         private void hexBox1_CurrentPositionInLineChanged(object sender, EventArgs e)
         {
-            int i = Util.clamp((int)hexBox1.SelectionStart - 1, 0, Data.OAM.Length - 1);
-            Data.OAM[i] = hexBox1.ByteProvider.ReadByte(i);
+            int i = Util.clamp((int)hexBox1.SelectionStart - 1, 0, Data.OAM_SIZE - 1);
+            Data.SetOAMByte(i, hexBox1.ByteProvider.ReadByte(i));
             if (i < 0x200)
             {
                 if (showDetails == i / 4) UpdateDetails();
