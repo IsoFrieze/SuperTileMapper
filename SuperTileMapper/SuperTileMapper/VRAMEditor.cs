@@ -14,7 +14,7 @@ namespace SuperTileMapper
     public partial class VRAMEditor : Form
     {
         bool showHexEditor = false;
-        int showDetails = -1;
+        int showDetails = 0;
         bool updatingDetails = false;
 
         int bpp = 0;
@@ -25,10 +25,10 @@ namespace SuperTileMapper
         public VRAMEditor()
         {
             InitializeComponent();
+            pictureBox2.Image = new Bitmap(64, 64);
             RedrawAll();
             ResizeMe();
             hexBox1.ByteProvider = new DynamicByteProvider(Data.GetVRAMArray());
-            pictureBox2.Image = new Bitmap(64, 64);
             UpdateScrollbars();
         }
 
@@ -56,7 +56,7 @@ namespace SuperTileMapper
             {
                 SNESGraphics.UpdateAllTiles();
                 RedrawAll();
-                if (showDetails >= 0) UpdateDetails();
+                UpdateDetails();
                 UpdateHexEditor(0);
                 RedrawOtherWindows();
             }
@@ -77,27 +77,8 @@ namespace SuperTileMapper
         public void ResizeMe()
         {
             hexEditorToolStripMenuItem.Checked = showHexEditor;
-            tileDetailsToolStripMenuItem.Checked = (showDetails >= 0);
-            if (showHexEditor && (showDetails >= 0))
-            {
-                SetSize(new Size(975, 692));
-                hexBox1.Height = 629;
-            }
-            else if (showHexEditor)
-            {
-                SetSize(new Size(975, 592));
-                hexBox1.Height = 529;
-            }
-            else if ((showDetails >= 0))
-            {
-                SetSize(new Size(545, 692));
-            }
-            else
-            {
-                SetSize(new Size(545, 592));
-            }
+            SetSize(new Size(showHexEditor ? 975 : 545, 692));
             hexBox1.Visible = showHexEditor;
-            panel2.Visible = (showDetails >= 0);
         }
 
         public void RedrawAll()
@@ -114,7 +95,7 @@ namespace SuperTileMapper
             pictureBox1.Width = img.Width;
             pictureBox1.Height = img.Height;
 
-            if (showDetails >= 0) UpdateDetails();
+            UpdateDetails();
             UpdateScrollbars();
         }
 
@@ -205,11 +186,8 @@ namespace SuperTileMapper
             tilesToolStripMenuItem1.Checked = (across == 0x20);
             tilesToolStripMenuItem2.Checked = (across == 0x10);
             RedrawAll();
-            if (showDetails >= 0)
-            {
-                showDetails = Util.clamp(showDetails, 0, SNESGraphics.totalTiles[bpp]);
-                UpdateDetails();
-            }
+            showDetails = Util.clamp(showDetails, 0, SNESGraphics.totalTiles[bpp]);
+            UpdateDetails();
         }
 
         private void bPPToolStripMenuItem_Click(object sender, EventArgs e)
@@ -495,23 +473,13 @@ namespace SuperTileMapper
             ResizeMe();
         }
 
-        private void tileDetailsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            showDetails = showDetails >= 0 ? -1 : 0;
-            if (showDetails >= 0) UpdateDetails();
-            ResizeMe();
-        }
-
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             int tx = e.X / (8 * zoom);
             int ty = e.Y / (8 * zoom);
             int tile = tx + across * ty;
-            if (showDetails >= 0)
-            {
-                showDetails = tile;
-                UpdateDetails();
-            }
+            showDetails = tile;
+            UpdateDetails();
             UpdateHexEditor(tile);
         }
 

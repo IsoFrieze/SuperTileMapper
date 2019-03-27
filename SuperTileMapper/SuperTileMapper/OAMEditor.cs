@@ -14,7 +14,7 @@ namespace SuperTileMapper
     public partial class OAMEditor : Form
     {
         bool showHexEditor = false;
-        int showDetails = -1;
+        int showDetails = 0;
         bool updatingDetails = false;
 
         int screenZoom = 1;
@@ -49,7 +49,7 @@ namespace SuperTileMapper
             if (result == DialogResult.OK)
             {
                 RedrawAll();
-                if (showDetails >= 0) UpdateDetails();
+                UpdateDetails();
                 UpdateHexEditor(0);
                 RedrawOtherWindows();
             }
@@ -67,35 +67,17 @@ namespace SuperTileMapper
             this.MinimumSize = s;
             this.Size = s;
         }
+
         public void ResizeMe()
         {
             hexEditorToolStripMenuItem.Checked = showHexEditor;
-            oBJDetailsToolStripMenuItem.Checked = (showDetails >= 0);
-            if (showHexEditor && (showDetails >= 0))
-            {
-                SetSize(new Size(975, 692));
-                hexBox1.Height = 629;
-            }
-            else if (showHexEditor)
-            {
-                SetSize(new Size(975, 592));
-                hexBox1.Height = 529;
-            }
-            else if ((showDetails >= 0))
-            {
-                SetSize(new Size(545, 692));
-            }
-            else
-            {
-                SetSize(new Size(545, 592));
-            }
+            SetSize(new Size(showHexEditor ? 975 : 545, 692));
             hexBox1.Visible = showHexEditor;
-            panel2.Visible = (showDetails >= 0);
         }
 
         public void RedrawAll()
         {
-            if (showDetails >= 0) RedrawSelectedOBJ();
+            RedrawSelectedOBJ();
             RedrawScreen();
             UpdateScrollbars();
         }
@@ -298,13 +280,6 @@ namespace SuperTileMapper
         private void hexEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             showHexEditor = !showHexEditor;
-            ResizeMe();
-        }
-
-        private void oBJDetailsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            showDetails = showDetails >= 0 ? -1 : 0;
-            if (showDetails >= 0) UpdateDetails();
             ResizeMe();
         }
 

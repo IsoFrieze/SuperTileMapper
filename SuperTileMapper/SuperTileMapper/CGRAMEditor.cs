@@ -14,7 +14,7 @@ namespace SuperTileMapper
     public partial class CGRAMEditor : Form
     {
         bool showHexEditor = false;
-        int showDetails = -1;
+        int showDetails = 0;
         bool updatingDetails = false;
 
         public CGRAMEditor()
@@ -33,7 +33,7 @@ namespace SuperTileMapper
             {
                 SNESGraphics.UpdateAllPalettes();
                 RedrawAll();
-                if (showDetails >= 0) UpdateDetails();
+                UpdateDetails();
                 UpdateHexEditor(0);
                 RedrawOtherWindows();
             }
@@ -51,33 +51,18 @@ namespace SuperTileMapper
             this.MinimumSize = s;
             this.Size = s;
         }
+
         public void ResizeMe()
         {
             hexEditorToolStripMenuItem.Checked = showHexEditor;
-            colorPropertiesToolStripMenuItem.Checked = (showDetails>=0);
-            if (showHexEditor && (showDetails >= 0))
-            {
-                SetSize(new Size(700, 419));
-                hexBox1.Height = 356;
-            } else if (showHexEditor)
-            {
-                SetSize(new Size(700, 319));
-                hexBox1.Height = 256;
-            } else if ((showDetails >= 0))
-            {
-                SetSize(new Size(272, 419));
-            } else
-            {
-                SetSize(new Size(272, 319));
-            }
+            SetSize(new Size(showHexEditor ? 700 : 272, 419));
             hexBox1.Visible = showHexEditor;
-            panel2.Visible = (showDetails >= 0);
         }
 
         public void RedrawAll()
         {
             for (int i = 0; i < 0x100; i++) Redraw(i);
-            if (showDetails >= 0) UpdateDetails();
+            UpdateDetails();
         }
 
         public void Redraw(int color)
@@ -94,12 +79,9 @@ namespace SuperTileMapper
             }
             pictureBox1.Image = img;
 
-            if (showDetails >= 0)
+            for (int bpp = 0; bpp < 4; bpp++)
             {
-                for (int bpp = 0; bpp < 4; bpp++)
-                {
-                    SNESGraphics.UpdateColor(bpp, showDetails);
-                }
+                SNESGraphics.UpdateColor(bpp, showDetails);
             }
         }
 
@@ -142,13 +124,6 @@ namespace SuperTileMapper
         private void hexEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             showHexEditor = !showHexEditor;
-            ResizeMe();
-        }
-
-        private void colorPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            showDetails = showDetails >= 0 ? -1 : 0;
-            if (showDetails >= 0) UpdateDetails();
             ResizeMe();
         }
 

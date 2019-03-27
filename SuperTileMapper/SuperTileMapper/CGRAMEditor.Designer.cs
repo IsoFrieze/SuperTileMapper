@@ -34,7 +34,6 @@
             this.exportDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hexEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.colorPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
@@ -98,8 +97,7 @@
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.hexEditorToolStripMenuItem,
-            this.colorPropertiesToolStripMenuItem});
+            this.hexEditorToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
@@ -110,13 +108,6 @@
             this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.hexEditorToolStripMenuItem.Text = "Hex Editor";
             this.hexEditorToolStripMenuItem.Click += new System.EventHandler(this.hexEditorToolStripMenuItem_Click);
-            // 
-            // colorPropertiesToolStripMenuItem
-            // 
-            this.colorPropertiesToolStripMenuItem.Name = "colorPropertiesToolStripMenuItem";
-            this.colorPropertiesToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.colorPropertiesToolStripMenuItem.Text = "Color Details";
-            this.colorPropertiesToolStripMenuItem.Click += new System.EventHandler(this.colorPropertiesToolStripMenuItem_Click);
             // 
             // pictureBox1
             // 
@@ -308,7 +299,7 @@
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(700, 419);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(272, 319);
+            this.MinimumSize = new System.Drawing.Size(272, 419);
             this.Name = "CGRAMEditor";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
@@ -333,7 +324,6 @@
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hexEditorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem colorPropertiesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportDataToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox1;

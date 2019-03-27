@@ -45,7 +45,6 @@
             this.tilesToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.hexEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tileDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.bPPFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bPPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -154,7 +153,6 @@
             this.widthToolStripMenuItem,
             this.toolStripSeparator2,
             this.hexEditorToolStripMenuItem,
-            this.tileDetailsToolStripMenuItem,
             this.toolStripSeparator1,
             this.bPPFormatToolStripMenuItem,
             this.paletteToolStripMenuItem});
@@ -170,7 +168,7 @@
             this.toolStripMenuItem3,
             this.toolStripMenuItem4});
             this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
-            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.zoomToolStripMenuItem.Text = "Zoom";
             // 
             // x1ToolStripMenuItem
@@ -210,7 +208,7 @@
             this.tilesToolStripMenuItem1,
             this.tilesToolStripMenuItem2});
             this.widthToolStripMenuItem.Name = "widthToolStripMenuItem";
-            this.widthToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.widthToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.widthToolStripMenuItem.Text = "Width";
             // 
             // tilesToolStripMenuItem
@@ -239,26 +237,19 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(133, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // hexEditorToolStripMenuItem
             // 
             this.hexEditorToolStripMenuItem.Name = "hexEditorToolStripMenuItem";
-            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hexEditorToolStripMenuItem.Text = "Hex Editor";
             this.hexEditorToolStripMenuItem.Click += new System.EventHandler(this.hexEditorToolStripMenuItem_Click);
-            // 
-            // tileDetailsToolStripMenuItem
-            // 
-            this.tileDetailsToolStripMenuItem.Name = "tileDetailsToolStripMenuItem";
-            this.tileDetailsToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-            this.tileDetailsToolStripMenuItem.Text = "Tile Details";
-            this.tileDetailsToolStripMenuItem.Click += new System.EventHandler(this.tileDetailsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(133, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // bPPFormatToolStripMenuItem
             // 
@@ -268,7 +259,7 @@
             this.bPPToolStripMenuItem2,
             this.mode78BPPToolStripMenuItem});
             this.bPPFormatToolStripMenuItem.Name = "bPPFormatToolStripMenuItem";
-            this.bPPFormatToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.bPPFormatToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bPPFormatToolStripMenuItem.Text = "BPP Format";
             // 
             // bPPToolStripMenuItem
@@ -309,7 +300,7 @@
             this.palette02ToolStripMenuItem,
             this.palette03ToolStripMenuItem});
             this.paletteToolStripMenuItem.Name = "paletteToolStripMenuItem";
-            this.paletteToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.paletteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.paletteToolStripMenuItem.Text = "Palette";
             // 
             // palette00ToolStripMenuItem
@@ -689,7 +680,6 @@
         private System.Windows.Forms.ToolStripMenuItem exportDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hexEditorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tileDetailsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem bPPFormatToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bPPToolStripMenuItem;
