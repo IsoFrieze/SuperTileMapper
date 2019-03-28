@@ -54,7 +54,12 @@ namespace SuperTileMapper
             return "00000000".Substring(0, idx < 0 ? 0 : idx) + hex;
         }
 
-        public static int clamp(int val, int min, int max)
+        public static int Clamp(int val, int min, int max)
+        {
+            return (val < min ? min : (val > max ? max : val));
+        }
+
+        public static double Clamp(double val, double min, double max)
         {
             return (val < min ? min : (val > max ? max : val));
         }

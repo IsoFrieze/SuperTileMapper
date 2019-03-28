@@ -459,7 +459,7 @@ namespace SuperTileMapper
 
         private void hexBox1_CurrentPositionInLineChanged(object sender, EventArgs e)
         {
-            int i = Util.clamp((int)hexBox1.SelectionStart - 1, 0, Data.OAM_SIZE - 1);
+            int i = Util.Clamp((int)hexBox1.SelectionStart - 1, 0, Data.OAM_SIZE - 1);
             Data.SetOAMByte(i, hexBox1.ByteProvider.ReadByte(i));
             if (i < 0x200)
             {

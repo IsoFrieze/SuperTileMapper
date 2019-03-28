@@ -38,3 +38,4 @@ C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\Super
 C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.csproj.CoreCompileInputs.cache
 C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.exe
 C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.pdb
+C:\Users\Alex\Documents\Visual Studio 2017\SuperTileMapper\SuperTileMapper\SuperTileMapper\obj\Debug\SuperTileMapper.PPURegEditor2.resources

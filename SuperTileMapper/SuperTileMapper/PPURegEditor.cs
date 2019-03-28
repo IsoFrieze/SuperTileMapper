@@ -246,7 +246,7 @@ namespace SuperTileMapper
             {
                 int sh = 0, b = bits;
                 while ((b & 1) == 0) { sh++; b >>= 1; }
-                Data.SetPPURegBits(idx, bits, Util.clamp(val, 0, bits >> sh) << sh);
+                Data.SetPPURegBits(idx, bits, Util.Clamp(val, 0, bits >> sh) << sh);
                 reg.Text = "$" + Util.DecToHex(Data.GetPPUReg(idx), digits);
             }
         }

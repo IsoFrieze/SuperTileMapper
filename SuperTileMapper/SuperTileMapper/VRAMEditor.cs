@@ -186,7 +186,7 @@ namespace SuperTileMapper
             tilesToolStripMenuItem1.Checked = (across == 0x20);
             tilesToolStripMenuItem2.Checked = (across == 0x10);
             RedrawAll();
-            showDetails = Util.clamp(showDetails, 0, SNESGraphics.totalTiles[bpp]);
+            showDetails = Util.Clamp(showDetails, 0, SNESGraphics.totalTiles[bpp]);
             UpdateDetails();
         }
 
@@ -485,7 +485,7 @@ namespace SuperTileMapper
 
         private void hexBox1_CurrentPositionInLineChanged(object sender, EventArgs e)
         {
-            int i = Util.clamp((int)hexBox1.SelectionStart - 1, 0, Data.VRAM_SIZE - 1);
+            int i = Util.Clamp((int)hexBox1.SelectionStart - 1, 0, Data.VRAM_SIZE - 1);
             Data.SetVRAMByte(i, hexBox1.ByteProvider.ReadByte(i));
             
             int b = SNESGraphics.bytesPerTile[bpp];

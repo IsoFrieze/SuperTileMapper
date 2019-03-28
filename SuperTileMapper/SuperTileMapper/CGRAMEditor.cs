@@ -293,7 +293,7 @@ namespace SuperTileMapper
 
         private void hexBox1_CurrentPositionInLineChanged(object sender, EventArgs e)
         {
-            int i = Util.clamp((int)hexBox1.SelectionStart - 1, 0, Data.CGRAM_SIZE - 1);
+            int i = Util.Clamp((int)hexBox1.SelectionStart - 1, 0, Data.CGRAM_SIZE - 1);
             Data.SetCGRAMByte(i, hexBox1.ByteProvider.ReadByte(i));
             Redraw(i / 2);
             if (showDetails == i / 2)

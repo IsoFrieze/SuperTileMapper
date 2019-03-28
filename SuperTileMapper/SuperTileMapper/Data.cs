@@ -36,6 +36,14 @@ namespace SuperTileMapper
             return OAM;
         }
 
+        public static Color GetFixedColor()
+        {
+            int r = (Data.PPURegs[0x32] & 0x001F) << 3;
+            int g = (Data.PPURegs[0x32] & 0x03E0) >> 2;
+            int b = (Data.PPURegs[0x32] & 0x7C00) >> 7;
+            return Color.FromArgb(r, g, b);
+        }
+
         public static Color GetCGRAMColor(int c)
         {
             int i = (2 * c) & 0x1FF;

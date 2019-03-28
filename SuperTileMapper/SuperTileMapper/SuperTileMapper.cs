@@ -17,7 +17,7 @@ namespace SuperTileMapper
         public static VRAMEditor vram;
         public static CGRAMEditor cgram;
         public static OAMEditor oam;
-        public static PPURegEditor ppu;
+        public static PPURegEditor2 ppu2;
         public static TilemapEditor tmap;
         public static OBJEditor obj;
 
@@ -72,8 +72,8 @@ namespace SuperTileMapper
             cgram.Close();
             oam = new OAMEditor();
             oam.Close();
-            ppu = new PPURegEditor();
-            ppu.Close();
+            ppu2 = new PPURegEditor2();
+            ppu2.Close();
 
             //Data.PPURegs[0x00] = 0x0F;
             //Data.PPURegs[0x1B] = 0x100;
@@ -110,11 +110,11 @@ namespace SuperTileMapper
 
         private void pPURegistersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (ppu.IsDisposed)
+            if (ppu2.IsDisposed)
             {
-                ppu = new PPURegEditor();
+                ppu2 = new PPURegEditor2();
             }
-            ppu.Show();
+            ppu2.Show();
         }
 
         private void tilemapEditorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -155,8 +155,8 @@ namespace SuperTileMapper
             if (!cgram.IsDisposed && !vis) cgram.Hide();
             if (!oam.IsDisposed && vis) oam.Show();
             if (!oam.IsDisposed && !vis) oam.Hide();
-            if (!ppu.IsDisposed && vis) ppu.Show();
-            if (!ppu.IsDisposed && !vis) ppu.Hide();
+            if (!ppu2.IsDisposed && vis) ppu2.Show();
+            if (!ppu2.IsDisposed && !vis) ppu2.Hide();
             if (!tmap.IsDisposed && vis) tmap.Show();
             if (!tmap.IsDisposed && !vis) tmap.Hide();
             if (!obj.IsDisposed && vis) obj.Show();
