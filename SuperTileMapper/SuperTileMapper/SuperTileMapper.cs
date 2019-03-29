@@ -13,7 +13,6 @@ namespace SuperTileMapper
 {
     public partial class SuperTileMapper : Form
     {
-        public static bool changes = false;
         public static VRAMEditor vram;
         public static CGRAMEditor cgram;
         public static OAMEditor oam;
@@ -24,33 +23,6 @@ namespace SuperTileMapper
         public SuperTileMapper()
         {
             InitializeComponent();
-            
-            try
-            {
-                string testdata = "C:\\Users\\Alex\\Documents\\Visual Studio 2017\\SuperTileMapper\\testdata\\smw\\";
-
-                byte[] cgram = File.ReadAllBytes(testdata + "cgram.bin");
-                byte[] vram = File.ReadAllBytes(testdata + "vram.bin");
-                byte[] oam = File.ReadAllBytes(testdata + "oam.bin");
-                byte[] ppu = File.ReadAllBytes(testdata + "ppuregs.bin");
-
-                for (int i = 0; i < cgram.Length; i++)
-                    Data.SetCGRAMByte(i, cgram[i]);
-                for (int i = 0; i < vram.Length; i++)
-                    Data.SetVRAMByte(i, vram[i]);
-                for (int i = 0; i < oam.Length; i++)
-                    Data.SetOAMByte(i, oam[i]);
-                for (int i = 0; i < ppu.Length; i+=2)
-                {
-                    Data.SetPPURegBits(i/2, 0xFF, ppu[i]);
-                    Data.SetPPURegBits(i/2, 0xFF00, ppu[i + 1] << 8);
-                }
-            }
-            catch (Exception)
-            {
-
-            }
-            
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -60,8 +32,6 @@ namespace SuperTileMapper
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            SNESGraphics.UpdateAll();
-
             tmap = new TilemapEditor();
             tmap.Close();
             obj = new OBJEditor();
@@ -75,10 +45,8 @@ namespace SuperTileMapper
             ppu2 = new PPURegEditor2();
             ppu2.Close();
 
-            //Data.PPURegs[0x00] = 0x0F;
-            //Data.PPURegs[0x1B] = 0x100;
-            //Data.PPURegs[0x1E] = 0x100;
-            //Data.PPURegs[0x30] = 0x30;
+            Project.NewProject();
+            RedrawAllWindows();
         }
 
         private void vRAMEditorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -137,10 +105,7 @@ namespace SuperTileMapper
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (changes)
-            {
-                // save?
-            } else
+            if (ContinueUnsavedChanges())
             {
                 Application.Exit();
             }
@@ -169,34 +134,81 @@ namespace SuperTileMapper
             about.ShowDialog();
         }
 
-        private bool continueUnsavedChanges()
+        private void RedrawAllWindows()
         {
+            SNESGraphics.UpdateAll();
+            if (vram != null && vram.Visible) vram.RedrawAll();
+            if (cgram != null && cgram.Visible) cgram.RedrawAll();
+            if (oam != null && oam.Visible) oam.RedrawAll();
+            if (ppu2 != null && ppu2.Visible) ppu2.RedrawAll();
+            if (tmap != null && tmap.Visible) tmap.RedrawAll();
+            if (obj != null && obj.Visible) obj.RedrawAll();
+        }
+
+        private bool ContinueUnsavedChanges()
+        {
+            if (Project.unsavedChanges)
+            {
+                DialogResult confirm = MessageBox.Show("You have unsaved changes. They will be lost if you continue.", "Unsaved Changes", MessageBoxButtons.OKCancel);
+                return confirm == DialogResult.OK;
+            }
             return true;
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (ContinueUnsavedChanges())
+            {
+                Project.NewProject();
+                saveProjectToolStripMenuItem.Enabled = false;
+                RedrawAllWindows();
+            }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (ContinueUnsavedChanges())
+            {
+                DialogResult result = openFileDialog1.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    if (Project.TryOpenProject(openFileDialog1.FileName))
+                    {
+                        saveProjectToolStripMenuItem.Enabled = true;
+                        RedrawAllWindows();
+                    }
+                }
+            }
         }
 
         private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            Project.SaveProject(Project.currentFile);
         }
 
         private void saveProjectAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            DialogResult result = saveFileDialog1.ShowDialog();
+            if (result == DialogResult.OK && saveFileDialog1.FileName != "")
+            {
+                Project.SaveProject(saveFileDialog1.FileName);
+                saveProjectToolStripMenuItem.Enabled = true;
+            }
         }
 
         private void revertUnsavedChangesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (ContinueUnsavedChanges())
+            {
+                if (Project.currentFile == null)
+                {
+                    Project.NewProject();
+                } else
+                {
+                    Project.TryOpenProject(Project.currentFile);
+                }
+                RedrawAllWindows();
+            }
         }
     }
 }

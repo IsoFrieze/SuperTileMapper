@@ -214,7 +214,7 @@ namespace SuperTileMapper
                     int tileOffset = tile * SNESGraphics.bytesPerTile[bpp];
 
                     int vram = nameBase + tileOffset;
-                    int cgram = (bpp > 1 ? 0 : c) * SNESGraphics.colorsPerPalette[bpp];
+                    int cgram = (bpp == 0 ? (c + 8 * bg) : (bpp == 1 ? c : 0)) * SNESGraphics.colorsPerPalette[bpp];
                     SNESGraphics.Draw8x8Tile(vram, bpp, h, v, cgram, img, x, y, zoom, t);
                 }
             }

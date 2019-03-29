@@ -207,7 +207,7 @@ namespace SuperTileMapper
         public static void Draw8x8Tile(int vram, int bpp, bool h, bool v, int cgram, Bitmap img, int x, int y, int zoom, int transparency)
         {
             int c = cgram / colorsPerPalette[bpp];
-            int tile = vram / (bpp == 0 ? 0x10 : (bpp == 1 ? 0x20 : (bpp == 2 ? 0x40 : 0x80)));
+            int tile = (vram % Data.VRAM_SIZE) / bytesPerTile[bpp];
 
             UpdateTransparency(bpp, cgram, transparency);
 

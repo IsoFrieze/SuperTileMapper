@@ -16,7 +16,7 @@ namespace SuperTileMapper
         {
             InitializeComponent();
             ResizeMe();
-            Redraw();
+            RedrawAll();
         }
 
         private void SetSize(Size s)
@@ -31,7 +31,7 @@ namespace SuperTileMapper
             SetSize(new Size(432, tabControl2.SelectedIndex == 0 ? 438 : 573));
         }
 
-        private void Redraw()
+        public void RedrawAll()
         {
             reg2100.Text = "$" + Util.DecToHex(Data.GetPPUReg(0x00), 2);
             blanking.Checked = (Data.GetPPUReg(0x00) & 0x80) != 0x00;

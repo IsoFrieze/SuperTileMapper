@@ -50,6 +50,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.hexEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.spinnerobj = new System.Windows.Forms.NumericUpDown();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -70,6 +71,7 @@
             this.hexBox1 = new Be.Windows.Forms.HexBox();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spinnerobj)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -128,7 +130,7 @@
             this.transparencyToolStripMenuItem,
             this.displayAreaToolStripMenuItem});
             this.screenToolStripMenuItem.Name = "screenToolStripMenuItem";
-            this.screenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.screenToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.screenToolStripMenuItem.Text = "Screen";
             // 
             // zoomToolStripMenuItem
@@ -139,7 +141,7 @@
             this.screenZoom300,
             this.screenZoom400});
             this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
-            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.zoomToolStripMenuItem.Text = "Zoom";
             // 
             // screenZoom100
@@ -179,7 +181,7 @@
             this.transBlack,
             this.transWhite});
             this.transparencyToolStripMenuItem.Name = "transparencyToolStripMenuItem";
-            this.transparencyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.transparencyToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.transparencyToolStripMenuItem.Text = "Transparency";
             // 
             // transColor00
@@ -212,7 +214,7 @@
             this.displayOutline,
             this.displayShaded});
             this.displayAreaToolStripMenuItem.Name = "displayAreaToolStripMenuItem";
-            this.displayAreaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.displayAreaToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.displayAreaToolStripMenuItem.Text = "Display Area";
             // 
             // displayHidden
@@ -241,17 +243,18 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(125, 6);
             // 
             // hexEditorToolStripMenuItem
             // 
             this.hexEditorToolStripMenuItem.Name = "hexEditorToolStripMenuItem";
-            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.hexEditorToolStripMenuItem.Text = "Hex Editor";
             this.hexEditorToolStripMenuItem.Click += new System.EventHandler(this.hexEditorToolStripMenuItem_Click);
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.spinnerobj);
             this.panel2.Controls.Add(this.checkBox3);
             this.panel2.Controls.Add(this.checkBox2);
             this.panel2.Controls.Add(this.checkBox1);
@@ -272,6 +275,20 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(529, 100);
             this.panel2.TabIndex = 4;
+            // 
+            // spinnerobj
+            // 
+            this.spinnerobj.Hexadecimal = true;
+            this.spinnerobj.Location = new System.Drawing.Point(55, 7);
+            this.spinnerobj.Maximum = new decimal(new int[] {
+            127,
+            0,
+            0,
+            0});
+            this.spinnerobj.Name = "spinnerobj";
+            this.spinnerobj.Size = new System.Drawing.Size(18, 20);
+            this.spinnerobj.TabIndex = 15;
+            this.spinnerobj.ValueChanged += new System.EventHandler(this.spinnerobj_ValueChanged);
             // 
             // checkBox3
             // 
@@ -409,7 +426,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 10);
+            this.label1.Location = new System.Drawing.Point(7, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(48, 13);
             this.label1.TabIndex = 1;
@@ -441,6 +458,7 @@
             this.pictureBox3.Size = new System.Drawing.Size(512, 512);
             this.pictureBox3.TabIndex = 0;
             this.pictureBox3.TabStop = false;
+            this.pictureBox3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox3_MouseDown);
             // 
             // hexBox1
             // 
@@ -481,6 +499,7 @@
             this.menuStrip1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spinnerobj)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
@@ -531,5 +550,6 @@
         private System.Windows.Forms.ToolStripMenuItem displayHidden;
         private System.Windows.Forms.ToolStripMenuItem displayOutline;
         private System.Windows.Forms.ToolStripMenuItem displayShaded;
+        private System.Windows.Forms.NumericUpDown spinnerobj;
     }
 }

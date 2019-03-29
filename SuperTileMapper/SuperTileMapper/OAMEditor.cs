@@ -102,7 +102,7 @@ namespace SuperTileMapper
                 }
             }
 
-            int rotation = Data.GetPPUReg(0x02) & 0x7F;
+            int rotation = Data.GetPPUReg(0x02) >> 1;
             for (int i = 0x7F; i >= 0; i--)
             {
                 int j = (i + rotation) & 0x7F;
@@ -185,6 +185,7 @@ namespace SuperTileMapper
             checkBox1.Checked = (word2 & 0x4000) != 0;
             checkBox2.Checked = (word2 & 0x8000) != 0;
             checkBox3.Checked = (bits & 0x02) != 0;
+            spinnerobj.Value = showDetails;
 
             RedrawSelectedOBJ();
 
@@ -439,7 +440,7 @@ namespace SuperTileMapper
             if (!updatingDetails)
             {
                 int emptyVFlip = Data.GetOAMByte(4 * showDetails + 3) & ~0x80;
-                Data.SetOAMByte(4 * showDetails + 3, emptyVFlip | (checkBox1.Checked ? 0x80 : 0));
+                Data.SetOAMByte(4 * showDetails + 3, emptyVFlip | (checkBox2.Checked ? 0x80 : 0));
                 UpdateDetails();
                 RedrawAll();
                 UpdateHexEditor(showDetails);
@@ -474,6 +475,46 @@ namespace SuperTileMapper
             }
             RedrawAll();
             RedrawOtherWindows();
+        }
+
+        private void spinnerobj_ValueChanged(object sender, EventArgs e)
+        {
+            showDetails = (int)spinnerobj.Value;
+            UpdateDetails();
+            UpdateHexEditor(showDetails);
+        }
+
+        private void pictureBox3_MouseDown(object sender, MouseEventArgs e)
+        {
+            int mx = e.X / screenZoom, my = e.Y / screenZoom;
+            int objsize = (Data.GetPPUReg(0x01) & 0xE0) >> 5;
+            int clickedOBJ = -1;
+
+            int rotation = Data.GetPPUReg(0x02) >> 1;
+            for (int i = 0; i < 0x80; i++)
+            {
+                int j = (i + rotation) & 0x7F;
+
+                int objBits = (Data.GetOAMByte(0x200 + j / 4) >> (2 * (j % 4))) & 0x3;
+                int objWord = Data.GetOAMWord(2 * j);
+                int objS = objBits >> 1;
+                int objX = ((~objBits & 0x1) << 8) | (objWord & 0x00FF);
+                int objY = objWord >> 8;
+                int objW = Util.OBJsizes[objsize, objS, 0], objH = Util.OBJsizes[objsize, objS, 1];
+
+                if (mx >= objX && mx < objX + objW && my >= objY && my < objY + objH)
+                {
+                    clickedOBJ = j;
+                    break;
+                }
+            }
+
+            if (clickedOBJ >= 0)
+            {
+                showDetails = clickedOBJ;
+                UpdateDetails();
+                UpdateHexEditor(showDetails);
+            }
         }
     }
 }

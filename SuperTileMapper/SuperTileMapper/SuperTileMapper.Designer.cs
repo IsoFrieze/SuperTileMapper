@@ -37,6 +37,7 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveProjectAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.revertUnsavedChangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +51,9 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.revertUnsavedChangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.importEmulatorStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -86,6 +89,7 @@
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
+            this.importEmulatorStateToolStripMenuItem,
             this.saveProjectToolStripMenuItem,
             this.saveProjectAsToolStripMenuItem,
             this.revertUnsavedChangesToolStripMenuItem,
@@ -114,6 +118,7 @@
             // 
             // saveProjectToolStripMenuItem
             // 
+            this.saveProjectToolStripMenuItem.Enabled = false;
             this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
             this.saveProjectToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
@@ -128,6 +133,13 @@
             this.saveProjectAsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.saveProjectAsToolStripMenuItem.Text = "Save Project As...";
             this.saveProjectAsToolStripMenuItem.Click += new System.EventHandler(this.saveProjectAsToolStripMenuItem_Click);
+            // 
+            // revertUnsavedChangesToolStripMenuItem
+            // 
+            this.revertUnsavedChangesToolStripMenuItem.Name = "revertUnsavedChangesToolStripMenuItem";
+            this.revertUnsavedChangesToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.revertUnsavedChangesToolStripMenuItem.Text = "Revert Unsaved Changes";
+            this.revertUnsavedChangesToolStripMenuItem.Click += new System.EventHandler(this.revertUnsavedChangesToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -229,12 +241,21 @@
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             // 
-            // revertUnsavedChangesToolStripMenuItem
+            // openFileDialog1
             // 
-            this.revertUnsavedChangesToolStripMenuItem.Name = "revertUnsavedChangesToolStripMenuItem";
-            this.revertUnsavedChangesToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
-            this.revertUnsavedChangesToolStripMenuItem.Text = "Revert Unsaved Changes";
-            this.revertUnsavedChangesToolStripMenuItem.Click += new System.EventHandler(this.revertUnsavedChangesToolStripMenuItem_Click);
+            this.openFileDialog1.Filter = "SuperTileMapper Projects|*.stm";
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.Filter = "SuperTileMapper Project|*.stm";
+            // 
+            // importEmulatorStateToolStripMenuItem
+            // 
+            this.importEmulatorStateToolStripMenuItem.Enabled = false;
+            this.importEmulatorStateToolStripMenuItem.Name = "importEmulatorStateToolStripMenuItem";
+            this.importEmulatorStateToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.importEmulatorStateToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
+            this.importEmulatorStateToolStripMenuItem.Text = "Import Emulator State...";
             // 
             // SuperTileMapper
             // 
@@ -284,6 +305,9 @@
         private System.Windows.Forms.ToolStripMenuItem noneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oBJEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem revertUnsavedChangesToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.ToolStripMenuItem importEmulatorStateToolStripMenuItem;
     }
 }
 

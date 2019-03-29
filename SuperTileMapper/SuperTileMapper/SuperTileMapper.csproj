@@ -95,6 +95,7 @@
     <Compile Include="PPURegEditor2.Designer.cs">
       <DependentUpon>PPURegEditor2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Project.cs" />
     <Compile Include="SNESGraphics.cs" />
     <Compile Include="ImportData.cs">
       <SubType>Form</SubType>
