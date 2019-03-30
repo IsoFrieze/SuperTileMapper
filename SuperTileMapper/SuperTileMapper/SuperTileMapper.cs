@@ -210,5 +210,21 @@ namespace SuperTileMapper
                 RedrawAllWindows();
             }
         }
+
+        private void importEmulatorStateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ContinueUnsavedChanges())
+            {
+                DialogResult result = openFileDialog2.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    if (Emulator.TryImportEmulator(openFileDialog2.FileName))
+                    {
+                        saveProjectToolStripMenuItem.Enabled = true;
+                        RedrawAllWindows();
+                    }
+                }
+            }
+        }
     }
 }

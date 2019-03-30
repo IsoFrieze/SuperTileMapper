@@ -54,6 +54,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.importEmulatorStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -251,11 +252,16 @@
             // 
             // importEmulatorStateToolStripMenuItem
             // 
-            this.importEmulatorStateToolStripMenuItem.Enabled = false;
             this.importEmulatorStateToolStripMenuItem.Name = "importEmulatorStateToolStripMenuItem";
             this.importEmulatorStateToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
             this.importEmulatorStateToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
             this.importEmulatorStateToolStripMenuItem.Text = "Import Emulator State...";
+            this.importEmulatorStateToolStripMenuItem.Click += new System.EventHandler(this.importEmulatorStateToolStripMenuItem_Click);
+            // 
+            // openFileDialog2
+            // 
+            this.openFileDialog2.Filter = "ZSNES Save States|*.z*|SNES9x Save States|*.0*|BSNES Save States|*.bst|LSNES Save" +
+    " States|*.lsmv|Bizhawk Save States|*.State";
             // 
             // SuperTileMapper
             // 
@@ -308,6 +314,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem importEmulatorStateToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFileDialog2;
     }
 }
 

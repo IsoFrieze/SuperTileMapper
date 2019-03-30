@@ -83,6 +83,7 @@
       <DependentUpon>CGRAMEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Data.cs" />
+    <Compile Include="Emulator.cs" />
     <Compile Include="ExportData.cs">
       <SubType>Form</SubType>
     </Compile>

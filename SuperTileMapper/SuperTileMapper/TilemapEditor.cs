@@ -201,7 +201,8 @@ namespace SuperTileMapper
         private void DrawTile(int tile, bool h, bool v, int c, Bitmap img, int x, int y, int zoom, int t)
         {
             int bg = bgOfInterest - 1;
-            int bpp = BGBitDepths[Data.GetPPUReg(0x05) & 0x7, bg];
+            int mode = Data.GetPPUReg(0x05) & 0x7;
+            int bpp = BGBitDepths[mode, bg];
             if (bpp >= 0)
             {
                 if (bpp == 3)
@@ -214,7 +215,7 @@ namespace SuperTileMapper
                     int tileOffset = tile * SNESGraphics.bytesPerTile[bpp];
 
                     int vram = nameBase + tileOffset;
-                    int cgram = (bpp == 0 ? (c + 8 * bg) : (bpp == 1 ? c : 0)) * SNESGraphics.colorsPerPalette[bpp];
+                    int cgram = (mode == 0 ? (c + 8 * bg) : (bpp <= 1 ? c : 0)) * SNESGraphics.colorsPerPalette[bpp];
                     SNESGraphics.Draw8x8Tile(vram, bpp, h, v, cgram, img, x, y, zoom, t);
                 }
             }
