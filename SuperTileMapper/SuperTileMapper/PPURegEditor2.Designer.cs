@@ -2993,10 +2993,10 @@
             // 
             this.colorsubswitch.FormattingEnabled = true;
             this.colorsubswitch.Items.AddRange(new object[] {
-            "Everywhere",
-            "Inside Window",
+            "Nowhere",
             "Outside Window",
-            "Nowhere"});
+            "Inside Window",
+            "Everywhere"});
             this.colorsubswitch.Location = new System.Drawing.Point(136, 45);
             this.colorsubswitch.Name = "colorsubswitch";
             this.colorsubswitch.Size = new System.Drawing.Size(145, 21);
@@ -3015,11 +3015,11 @@
             // label110
             // 
             this.label110.AutoSize = true;
-            this.label110.Location = new System.Drawing.Point(36, 48);
+            this.label110.Location = new System.Drawing.Point(29, 48);
             this.label110.Name = "label110";
-            this.label110.Size = new System.Drawing.Size(97, 13);
+            this.label110.Size = new System.Drawing.Size(104, 13);
             this.label110.TabIndex = 5;
-            this.label110.Text = "Enable Color Math:";
+            this.label110.Text = "Disable Sub Screen:";
             // 
             // addsubfixed
             // 
